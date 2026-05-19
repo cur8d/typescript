@@ -1,11 +1,11 @@
 # Tasks: Blueprint Template Implementation
 
 ## Phase 1: Environment & Initialization
-- [ ] Initialize `.mise.toml` with Node 24 and pnpm 11.
-- [ ] Create `package.json` with exact versions for Next.js 16, HeroUI v3, etc.
-- [ ] Configure `tsconfig.json` with strict mode and required path aliases.
-- [ ] Install dependencies.
-- [ ] Set up `.env.example` and `src/lib/env.ts` (Zod validation).
+- [x] Initialize `.mise.toml` with Node 24 and pnpm 11.
+- [x] Create `package.json` with exact versions for Next.js 16, HeroUI v3, etc.
+- [x] Configure `tsconfig.json` with strict mode and required path aliases.
+- [x] Install dependencies.
+- [x] Set up `.env.example` and `src/lib/env.ts` (Zod validation).
 
 ## Phase 2: Core Infrastructure
 - [ ] Configure `next.config.ts` with security headers and CSP.
