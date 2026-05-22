@@ -24,11 +24,11 @@
 - [x] Implement generic `<DataTable>` with sorting, filtering, and pagination.
 
 ## Phase 4: Data Layer
-- [ ] Create realistic mock data in `src/lib/data/mock.ts`.
-- [ ] Implement typed data access functions in `src/lib/data/index.ts`.
-- [ ] Scaffold Supabase server and client factories in `src/lib/supabase/`.
-- [ ] Implement Supabase session refresh middleware.
-- [ ] Create `src/lib/data/README.md` with integration instructions.
+- [x] Create realistic mock data in `src/lib/data/mock.ts`.
+- [x] Implement typed data access functions in `src/lib/data/index.ts`.
+- [x] Scaffold Supabase server and client factories in `src/lib/supabase/`.
+- [x] Implement Supabase session refresh middleware.
+- [x] Create `src/lib/data/README.md` with integration instructions.
 
 ## Phase 5: Pages
 - [ ] Implement Landing page (`/`) with features and JSON-LD.
