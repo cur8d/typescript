@@ -14,14 +14,14 @@
 - [x] Set up root `layout.tsx` with providers and skip-to-content link.
 
 ## Phase 3: Shared Components
-- [ ] Implement `<Navbar>` with SVG logo, nav links, and theme toggle.
-- [ ] Implement `<Footer>` with copyright and secondary links.
-- [ ] Implement `<ThemeToggle>` (sun/moon icon).
-- [ ] Implement `<ShortcutHint>` (OS-detection for ⌘/Ctrl).
-- [ ] Implement `<SearchPalette>` using `cmdk`.
-- [ ] Implement `<PageHeader>` with breadcrumb support.
-- [ ] Implement `<KpiCard>` with metric trend indicators.
-- [ ] Implement generic `<DataTable>` with sorting, filtering, and pagination.
+- [x] Implement `<Navbar>` with SVG logo, nav links, and theme toggle.
+- [x] Implement `<Footer>` with copyright and secondary links.
+- [x] Implement `<ThemeToggle>` (sun/moon icon).
+- [x] Implement `<ShortcutHint>` (OS-detection for ⌘/Ctrl).
+- [x] Implement `<SearchPalette>` using `cmdk`.
+- [x] Implement `<PageHeader>` with breadcrumb support.
+- [x] Implement `<KpiCard>` with metric trend indicators.
+- [x] Implement generic `<DataTable>` with sorting, filtering, and pagination.
 
 ## Phase 4: Data Layer
 - [ ] Create realistic mock data in `src/lib/data/mock.ts`.
