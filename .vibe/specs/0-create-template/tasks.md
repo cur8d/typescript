@@ -8,10 +8,10 @@
 - [x] Set up `.env.example` and `src/lib/env.ts` (Zod validation).
 
 ## Phase 2: Core Infrastructure
-- [ ] Configure `next.config.ts` with security headers and CSP.
-- [ ] Implement `src/app/globals.css` with Tailwind v4 `@theme`.
-- [ ] Create `src/components/Providers/index.tsx` (HeroUI, ThemeProvider).
-- [ ] Set up root `layout.tsx` with providers and skip-to-content link.
+- [x] Configure `next.config.ts` with security headers and CSP.
+- [x] Implement `src/app/globals.css` with Tailwind v4 `@theme`.
+- [x] Create `src/components/Providers/index.tsx` (HeroUI, ThemeProvider).
+- [x] Set up root `layout.tsx` with providers and skip-to-content link.
 
 ## Phase 3: Shared Components
 - [ ] Implement `<Navbar>` with SVG logo, nav links, and theme toggle.
