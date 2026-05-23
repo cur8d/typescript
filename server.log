@@ -1,0 +1,13 @@
+$ next start
+⨯ Failed to start server
+Error: listen EADDRINUSE: address already in use :::3000
+    at <unknown> (Error: listen EAKilled
+[ELIFECYCLE] Command failed with exit code 137.
+omise (<anonymous>) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '::',
+  port: 3000
+}
+[ELIFECYCLE] Command failed with exit code 1.
