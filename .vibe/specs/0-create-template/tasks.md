@@ -31,10 +31,10 @@
 - [x] Create `src/lib/data/README.md` with integration instructions.
 
 ## Phase 5: Pages
-- [ ] Implement Landing page (`/`) with features and JSON-LD.
-- [ ] Implement Dashboard page (`/dashboard`) integrating KPI cards and the Data Table.
-- [ ] Implement About page (`/about`) stub.
-- [ ] Implement custom `not-found.tsx` and `error.tsx`.
+- [x] Implement Landing page (`/`) with features and JSON-LD.
+- [x] Implement Dashboard page (`/dashboard`) integrating KPI cards and the Data Table.
+- [x] Implement About page (`/about`) stub.
+- [x] Implement custom `not-found.tsx` and `error.tsx`.
 
 ## Phase 6: Testing
 - [ ] Configure Vitest and React Testing Library.

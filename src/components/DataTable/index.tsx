@@ -2,16 +2,11 @@
 
 import {
   Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
   Input,
   Pagination,
   Button,
 } from "@heroui/react";
-import { Search, ChevronDown } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useMemo } from "react";
 
 interface Column<T> {
@@ -76,51 +71,67 @@ export function DataTable<T extends { id: string | number }>({
         </div>
       </div>
 
-      <Table aria-label="Data table">
-        <TableHeader>
-          {columns.map((column) => (
-            <TableColumn key={column.key as string}>
-              {column.label}
-            </TableColumn>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {items.length > 0 ? (
-            items.map((item) => (
-              <TableRow key={item.id}>
-                {columns.map((column) => (
-                  <TableCell key={`${item.id}-${column.key as string}`}>
-                    {item[column.key] as React.ReactNode}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))
-          ) : (
-            <TableRow id="empty">
-              {columns.map((column, idx) => (
-                <TableCell key={`empty-${idx}`}>
-                  {idx === 0 ? "No rows to display." : ""}
-                </TableCell>
+      <Table>
+        <Table.ScrollContainer>
+          <Table.Content aria-label="Data table">
+            <Table.Header>
+              {columns.map((column) => (
+                <Table.Column key={column.key as string}>
+                  {column.label}
+                </Table.Column>
               ))}
-            </TableRow>
-          )}
-        </TableBody>
+            </Table.Header>
+            <Table.Body>
+              {items.length > 0 ? (
+                items.map((item) => (
+                  <Table.Row key={item.id}>
+                    {columns.map((column) => (
+                      <Table.Cell key={`${item.id}-${column.key as string}`}>
+                        {item[column.key] as React.ReactNode}
+                      </Table.Cell>
+                    ))}
+                  </Table.Row>
+                ))
+              ) : (
+                <Table.Row>
+                  {columns.map((_, idx) => (
+                    <Table.Cell key={`empty-${idx}`}>
+                      {idx === 0 ? "No rows to display." : ""}
+                    </Table.Cell>
+                  ))}
+                </Table.Row>
+              )}
+            </Table.Body>
+          </Table.Content>
+        </Table.ScrollContainer>
       </Table>
 
       {totalPages > 1 && (
         <div className="flex w-full justify-center">
           <Pagination>
             <Pagination.Content>
-              <Pagination.Item>
-                <Pagination.Previous onClick={() => setPage(p => Math.max(1, p - 1))}>
-                  Previous
-                </Pagination.Previous>
-              </Pagination.Item>
-              <Pagination.Item>
-                <Pagination.Next onClick={() => setPage(p => Math.min(totalPages, p + 1))}>
-                  Next
-                </Pagination.Next>
-              </Pagination.Item>
+               <Pagination.Item>
+                 <Pagination.Previous onClick={() => setPage(p => Math.max(1, p - 1))}>
+                   <ChevronLeft className="h-4 w-4" />
+                   <span>Previous</span>
+                 </Pagination.Previous>
+               </Pagination.Item>
+               {[...Array(totalPages)].map((_, i) => (
+                 <Pagination.Item key={i}>
+                   <Pagination.Link
+                    isActive={page === i + 1}
+                    onClick={() => setPage(i + 1)}
+                   >
+                     {i + 1}
+                   </Pagination.Link>
+                 </Pagination.Item>
+               ))}
+               <Pagination.Item>
+                 <Pagination.Next onClick={() => setPage(p => Math.min(totalPages, p + 1))}>
+                   <span>Next</span>
+                   <ChevronRight className="h-4 w-4" />
+                 </Pagination.Next>
+               </Pagination.Item>
             </Pagination.Content>
           </Pagination>
         </div>
