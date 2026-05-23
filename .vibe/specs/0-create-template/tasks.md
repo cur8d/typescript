@@ -37,11 +37,11 @@
 - [x] Implement custom `not-found.tsx` and `error.tsx`.
 
 ## Phase 6: Testing
-- [ ] Configure Vitest and React Testing Library.
-- [ ] Write unit tests for core utilities and components (`ThemeToggle`, `env.ts`, etc.).
-- [ ] Configure Playwright.
-- [ ] Write E2E tests for navigation, dark mode, keyboard palette, and data table.
-- [ ] Integrate `@axe-core/playwright` for accessibility testing.
+- [x] Configure Vitest and React Testing Library.
+- [x] Write unit tests for core utilities and components (`ThemeToggle`, `env.ts`, etc.).
+- [x] Configure Playwright.
+- [x] Write E2E tests for navigation, dark mode, keyboard palette, and data table.
+- [x] Integrate `@axe-core/playwright` for accessibility testing.
 
 ## Phase 7: Documentation & Metadata
 - [ ] Initialize Nextra v4 site in `docs/` subfolder.

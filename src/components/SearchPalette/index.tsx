@@ -22,7 +22,7 @@ export function SearchPalette() {
 
   return (
     <Modal state={state}>
-      <ModalDialog className="p-0 overflow-hidden">
+      <ModalDialog className="p-0 overflow-hidden" aria-label="Command Menu">
         <ModalBody className="p-0">
           <Command className="flex h-full w-full flex-col overflow-hidden rounded-md bg-background">
             <div className="flex items-center border-b px-3">

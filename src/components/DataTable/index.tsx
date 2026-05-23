@@ -75,8 +75,11 @@ export function DataTable<T extends { id: string | number }>({
         <Table.ScrollContainer>
           <Table.Content aria-label="Data table">
             <Table.Header>
-              {columns.map((column) => (
-                <Table.Column key={column.key as string}>
+              {columns.map((column, index) => (
+                <Table.Column
+                  key={column.key as string}
+                  isRowHeader={index === 0}
+                >
                   {column.label}
                 </Table.Column>
               ))}

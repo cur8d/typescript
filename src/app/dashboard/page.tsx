@@ -40,7 +40,7 @@ export default async function DashboardPage() {
       </div>
 
       <div className="mt-12">
-        <h2 className="mb-6 text-xl font-semibold">User Management</h2>
+        <h2 className="mb-6 text-2xl font-semibold">User Management</h2>
         <DataTable columns={columns} data={tableData} />
       </div>
     </div>
