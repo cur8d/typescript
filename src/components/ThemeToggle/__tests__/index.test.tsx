@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { ThemeToggle } from "../index";
 import { useTheme } from "next-themes";
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, Mock } from "vitest";
 
 vi.mock("next-themes", () => ({
   useTheme: vi.fn(),
@@ -15,7 +15,7 @@ describe("ThemeToggle", () => {
   });
 
   it("renders correctly", () => {
-    (useTheme as any).mockReturnValue({
+    (useTheme as Mock).mockReturnValue({
       theme: "light",
       setTheme,
     });
@@ -27,7 +27,7 @@ describe("ThemeToggle", () => {
   });
 
   it("switches theme when clicked", () => {
-    (useTheme as any).mockReturnValue({
+    (useTheme as Mock).mockReturnValue({
       theme: "light",
       setTheme,
     });

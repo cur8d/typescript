@@ -1,0 +1,14 @@
+# ADR-003: Vitest over Jest
+Status: Accepted
+
+## Context
+We need a fast and modern unit testing framework compatible with Vite-based tooling.
+
+## Decision
+We chose Vitest 4.1.6.
+
+## Rationale
+Vitest is significantly faster than Jest, provides out-of-the-box ESM support, and shares configuration with Vite, simplifying the build pipeline.
+
+## Consequences
+Tests are colocated with source files in `__tests__` directories.

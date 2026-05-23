@@ -1,0 +1,14 @@
+# ADR-005: mise for Toolchain
+Status: Accepted
+
+## Context
+We need a way to pin development tool versions (Node.js, pnpm) across all environments.
+
+## Decision
+We chose mise.
+
+## Rationale
+mise (formerly rtx) is faster and more feature-rich than asdf/nvm. It allows pinning tool versions in `.mise.toml`, which is used both locally and in CI.
+
+## Consequences
+Developers must run `mise install` upon cloning the repository.

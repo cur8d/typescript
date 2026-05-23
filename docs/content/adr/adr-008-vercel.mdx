@@ -1,0 +1,14 @@
+# ADR-008: Vercel over Firebase Hosting
+Status: Accepted
+
+## Context
+We need a hosting provider that fully supports Next.js features.
+
+## Decision
+We chose Vercel.
+
+## Rationale
+Vercel is the creator of Next.js and provides the best support for App Router, ISR, and Middleware. Firebase Hosting currently lacks full SSR support for Next.js 16.
+
+## Consequences
+GitHub repository should be connected directly to Vercel for production deployments.

@@ -1,0 +1,14 @@
+# ADR-006: Tailwind v4 CSS-First
+Status: Accepted
+
+## Context
+We need a powerful and flexible styling solution.
+
+## Decision
+We chose Tailwind CSS v4.0.0.
+
+## Rationale
+Tailwind v4 adopts a CSS-first approach, moving configuration to `@theme` blocks in standard CSS files. This simplifies the toolchain and improves performance.
+
+## Consequences
+There is no `tailwind.config.ts`. All customizations live in `src/app/globals.css`.

@@ -44,14 +44,14 @@
 - [x] Integrate `@axe-core/playwright` for accessibility testing.
 
 ## Phase 7: Documentation & Metadata
-- [ ] Initialize Nextra v4 site in `docs/` subfolder.
-- [ ] Write guides (installation, adding pages, shortcuts).
-- [ ] Create required ADRs (Next.js, HeroUI, etc.).
-- [ ] Create `README.md`, `AGENTS.md`, and `CONTRIBUTING.md`.
-- [ ] Set up GitHub Workflows (CI, GH Pages deploy).
+- [x] Initialize Nextra v4 site in `docs/` subfolder.
+- [x] Write guides (installation, adding pages, shortcuts).
+- [x] Create required ADRs (Next.js, HeroUI, etc.).
+- [x] Create `README.md`, `AGENTS.md`, and `CONTRIBUTING.md`.
+- [x] Set up GitHub Workflows (CI, GH Pages deploy).
 
 ## Phase 8: Final Review
-- [ ] Run full typecheck and linting.
-- [ ] Execute all Vitest and Playwright tests.
-- [ ] Verify Lighthouse scores (target ≥ 95).
-- [ ] Ensure zero `any` types in the codebase.
+- [x] Run full typecheck and linting.
+- [x] Execute all Vitest and Playwright tests.
+- [x] Verify Lighthouse scores (target ≥ 95).
+- [x] Ensure zero `any` types in the codebase.
