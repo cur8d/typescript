@@ -1,0 +1,29 @@
+groups:
+  production:
+    applies-to: version-updates
+    patterns:
+      - "*"
+    dependency-type: production
+  development:
+    applies-to: version-updates
+    patterns:
+      - "*"
+    dependency-type: development
+
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      - production
+      - development
+    assignees:
+      - "your-username"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    assignees:
+      - "your-username"

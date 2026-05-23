@@ -1,0 +1,15 @@
+# Adding a Shortcut
+
+Keyboard shortcuts are centralized in `src/config/shortcuts.ts`.
+
+1.  **Register shortcut**: Add a new entry to the `shortcuts` object.
+2.  **Update UI Hint**: Use the `<ShortcutHint>` component to show the key combination to users.
+3.  **Implement Logic**: Use the `useShortcuts` hook or similar mechanism to trigger actions.
+
+```typescript
+export const shortcuts = {
+  SEARCH: { key: 'k', meta: true, label: 'Search' },
+  HELP: { key: '?', label: 'Open Help' },
+  // Add your new shortcut here
+};
+```

@@ -1,0 +1,26 @@
+# Environment Variables
+
+The project uses Zod for type-safe environment variable validation.
+
+## Required Variables
+
+- `NEXT_PUBLIC_SUPABASE_URL`: Your Supabase project URL.
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Your Supabase anonymous public key.
+
+## Optional Variables
+
+- `BLOB_READ_WRITE_TOKEN`: Token for Vercel Blob storage (required for file uploads).
+
+## Configuration
+
+Environment variables are defined and validated in `src/lib/env.ts`.
+
+```typescript
+import { z } from "zod";
+
+const envSchema = z.object({
+  NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1),
+  BLOB_READ_WRITE_TOKEN: z.string().min(1).optional(),
+});
+```

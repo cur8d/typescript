@@ -1,0 +1,14 @@
+# ADR-004: Playwright over Cypress
+Status: Accepted
+
+## Context
+We need a reliable, cross-browser end-to-end testing framework.
+
+## Decision
+We chose Playwright 1.59.1.
+
+## Rationale
+Playwright offers superior multi-tab/context support, faster execution, and built-in accessibility testing via `@axe-core/playwright`.
+
+## Consequences
+E2E tests live in the `tests/e2e/` directory.
