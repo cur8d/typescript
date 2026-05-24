@@ -1,3 +1,14 @@
 [tools]
 node = "24.0.0"
 pnpm = "11.1.2"
+
+
+[shell_alias]
+s = "pnpm run start"
+d = "pnpm run dev"
+b = "pnpm run build"
+t = "pnpm run test"
+l = "pnpm run lint"
+i = "pnpm install"
+
+
