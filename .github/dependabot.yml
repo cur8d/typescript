@@ -13,12 +13,8 @@ updates:
         patterns:
           - "*"
         dependency-type: "development"
-    assignees:
-      - "your-username"
 
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
-    assignees:
-      - "your-username"
