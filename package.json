@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@heroui/react": "3.0.5",
+    "@heroui/styles": "^3.0.5",
     "@supabase/ssr": "0.5.2",
     "@supabase/supabase-js": "2.48.1",
     "@vercel/blob": "0.27.1",
