@@ -1,23 +1,18 @@
-groups:
-  production:
-    applies-to: version-updates
-    patterns:
-      - "*"
-    dependency-type: production
-  development:
-    applies-to: version-updates
-    patterns:
-      - "*"
-    dependency-type: development
-
+version: 2
 updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "weekly"
     groups:
-      - production
-      - development
+      production:
+        patterns:
+          - "*"
+        dependency-type: "production"
+      development:
+        patterns:
+          - "*"
+        dependency-type: "development"
     assignees:
       - "your-username"
 
