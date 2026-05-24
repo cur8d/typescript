@@ -1,11 +1,6 @@
-import { importPage } from 'nextra/pages'
+import { generateStaticParamsFor, importPage } from 'nextra/pages'
 
-export async function generateStaticParams() {
-  const { entries } = await importPage()
-  return Object.keys(entries).map(mdxPath => ({
-    mdxPath: mdxPath.split('/')
-  }))
-}
+export const generateStaticParams = generateStaticParamsFor('mdxPath')
 
 interface PageProps {
   params: Promise<{
