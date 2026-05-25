@@ -10,7 +10,7 @@ interface KpiCardProps {
 
 export function KpiCard({ title, value, description, trend, trendValue }: KpiCardProps) {
   const TrendIcon = trend === "up" ? TrendingUp : trend === "down" ? TrendingDown : Minus;
-  const trendColor = trend === "up" ? "text-green-500" : trend === "down" ? "text-red-500" : "text-muted-foreground";
+  const trendColor = trend === "up" ? "text-success" : trend === "down" ? "text-danger" : "text-muted-foreground";
 
   return (
     <div className="rounded-xl border bg-card text-card-foreground shadow-sm p-6">

@@ -37,7 +37,7 @@ export default function Page() {
           </Link>
           <Link
             href="https://github.com"
-            className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-background px-8 py-3 text-sm font-medium transition-colors hover:bg-muted"
+            className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-background px-8 py-3 text-sm font-medium transition-colors hover:bg-secondary"
           >
             <Github className="h-5 w-5" />
             GitHub

@@ -29,7 +29,7 @@ export function SearchPalette() {
               <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
               <Command.Input
                 placeholder="Type a command or search..."
-                className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-hidden placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm text-foreground outline-hidden placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
               />
             </div>
             <Command.List className="max-h-[300px] overflow-y-auto overflow-x-hidden p-2">
