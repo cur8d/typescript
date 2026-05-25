@@ -1,0 +1,17 @@
+{
+  "projects": {
+    "default": "blueprint-vibe"
+  },
+  "targets": {
+    "blueprint-vibe": {
+      "hosting": {
+        "site": [
+          "blueprint-site"
+        ],
+        "docs": [
+          "blueprint-docs"
+        ]
+      }
+    }
+  }
+}
