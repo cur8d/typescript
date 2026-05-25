@@ -17,7 +17,7 @@ export function PageHeader({ title, description, breadcrumbs }: PageHeaderProps)
       {breadcrumbs && breadcrumbs.length > 0 && (
         <Breadcrumbs>
           {breadcrumbs.map((breadcrumb, index) => (
-            <BreadcrumbsItem key={index} href={breadcrumb.href}>
+            <BreadcrumbsItem key={index} href={breadcrumb.href} className="text-foreground">
               {breadcrumb.label}
             </BreadcrumbsItem>
           ))}
