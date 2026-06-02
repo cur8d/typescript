@@ -33,7 +33,7 @@ export function SearchPalette() {
               />
             </div>
             <Command.List className="max-h-[300px] overflow-y-auto overflow-x-hidden p-2">
-              <Command.Empty className="py-6 text-center text-sm">No results found.</Command.Empty>
+              <Command.Empty className="py-6 text-center text-sm text-muted-foreground">No results found.</Command.Empty>
               <Command.Group heading="Suggestions" className="px-2 py-1 text-xs font-medium text-muted-foreground">
                 <Command.Item className="flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-hidden aria-selected:bg-accent aria-selected:text-accent-foreground">
                   Dashboard
