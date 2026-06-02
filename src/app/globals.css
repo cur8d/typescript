@@ -85,4 +85,14 @@
   body {
     @apply bg-background text-foreground font-sans;
   }
+
+  .text-muted,
+  .table__column,
+  .table__header,
+  .kbd,
+  .breadcrumbs__link,
+  [cmdk-empty],
+  [cmdk-empty=""] {
+    color: hsl(var(--muted-foreground)) !important;
+  }
 }

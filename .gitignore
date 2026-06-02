@@ -1,11 +1,11 @@
 # dependencies
-/node_modules
-/.pnpm-debug.log*
-/yarn-error.log*
+node_modules
+.pnpm-debug.log*
+yarn-error.log*
 
 # next.js
-/.next/
-/out/
+.next/
+out/
 
 # production
 /build
