@@ -57,7 +57,9 @@ export default function Page() {
               <Zap className="h-6 w-6" />
             </Card.Header>
             <Card.Content className="p-0 pt-4">
-              <Card.Title className="mb-2 text-xl font-semibold">Lightning Fast</Card.Title>
+              <Card.Title className="mb-2 text-xl font-semibold">
+                <h3>Lightning Fast</h3>
+              </Card.Title>
               <p className="text-muted-foreground">
                 Optimized for performance with Next.js App Router and React Server Components.
               </p>
@@ -68,7 +70,9 @@ export default function Page() {
               <Shield className="h-6 w-6" />
             </Card.Header>
             <Card.Content className="p-0 pt-4">
-              <Card.Title className="mb-2 text-xl font-semibold">Type Safe</Card.Title>
+              <Card.Title className="mb-2 text-xl font-semibold">
+                <h3>Type Safe</h3>
+              </Card.Title>
               <p className="text-muted-foreground">
                 Built with TypeScript and Zod for robust, error-free development.
               </p>
@@ -79,7 +83,9 @@ export default function Page() {
               <Globe className="h-6 w-6" />
             </Card.Header>
             <Card.Content className="p-0 pt-4">
-              <Card.Title className="mb-2 text-xl font-semibold">Accessible</Card.Title>
+              <Card.Title className="mb-2 text-xl font-semibold">
+                <h3>Accessible</h3>
+              </Card.Title>
               <p className="text-muted-foreground">
                 WAI-ARIA compliant components ensuring your app is usable by everyone.
               </p>

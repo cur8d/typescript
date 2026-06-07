@@ -38,7 +38,9 @@ export default function AboutPage() {
 
         <Card className="p-8 bg-primary/5 border-primary/10">
           <Card.Header className="p-0 pb-4">
-             <Card.Title className="text-xl font-bold">Why Blueprint?</Card.Title>
+             <Card.Title className="text-xl font-bold">
+               <h3>Why Blueprint?</h3>
+             </Card.Title>
           </Card.Header>
           <Card.Content className="p-0 space-y-4 text-muted-foreground">
             <p>

@@ -2,11 +2,12 @@
 
 import { useEffect } from "react";
 import { Command } from "cmdk";
-import { Modal, ModalDialog, ModalBody, useOverlayState } from "@heroui/react";
+import { Modal, ModalDialog, ModalBody } from "@heroui/react";
 import { Search } from "lucide-react";
+import { useSearchState } from "@/hooks/use-search-state";
 
 export function SearchPalette() {
-  const state = useOverlayState();
+  const state = useSearchState();
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -22,8 +23,11 @@ export function SearchPalette() {
 
   return (
     <Modal state={state}>
-      <ModalDialog className="p-0 overflow-hidden" aria-label="Command Menu">
+      <ModalDialog className="p-0 overflow-hidden" aria-labelledby="search-modal-title">
         <ModalBody className="p-0">
+          <h2 id="search-modal-title" className="sr-only">
+            Command Menu
+          </h2>
           <Command className="flex h-full w-full flex-col overflow-hidden rounded-md bg-background">
             <div className="flex items-center border-b px-3">
               <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />

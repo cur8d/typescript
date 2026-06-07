@@ -6,8 +6,10 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { SearchPalette } from "@/components/SearchPalette";
 import { ShortcutHint } from "@/components/ShortcutHint";
 import { LayoutDashboard, Info, Search } from "lucide-react";
+import { useSearchState } from "@/hooks/use-search-state";
 
 export function Navbar() {
+  const { onOpen } = useSearchState();
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
@@ -52,14 +54,7 @@ export function Navbar() {
              <Button
                 variant="ghost"
                 className="flex items-center gap-4 text-muted-foreground"
-                onClick={() => {
-                   const e = new KeyboardEvent("keydown", {
-                      key: "k",
-                      metaKey: true,
-                      ctrlKey: true
-                   });
-                   document.dispatchEvent(e);
-                }}
+                onClick={onOpen}
              >
                 <div className="flex items-center gap-2">
                    <Search className="h-4 w-4" />
