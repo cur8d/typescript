@@ -34,7 +34,7 @@ jobs:
       - uses: actions/checkout@v6
       - uses: jdx/mise-action@v4
       - name: Install dependencies
-        run: pnpm install
+        run: mise run install
       - name: Install Vercel CLI
         run: pnpm add -g vercel
       - name: Pull Vercel Environment Information
@@ -53,9 +53,9 @@ jobs:
       - uses: actions/checkout@v6
       - uses: jdx/mise-action@v4
       - name: Install dependencies
-        run: pnpm install
+        run: mise run install
       - name: Build Site
-        run: pnpm build
+        run: mise run build
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
