@@ -33,16 +33,11 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: jdx/mise-action@v4
-      - name: Install dependencies
-        run: pnpm install
-      - name: Install Vercel CLI
-        run: pnpm add -g vercel
-      - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=${{ github.event.inputs.environment || 'production' }} --token=${{ secrets.VERCEL_TOKEN }}
-      - name: Build Project Artifacts
-        run: vercel build ${{ (github.event.inputs.environment == 'production' || github.event_name == 'push') && '--prod' || '' }} --token=${{ secrets.VERCEL_TOKEN }}
-      - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt ${{ (github.event.inputs.environment == 'production' || github.event_name == 'push') && '--prod' || '' }} --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy to Vercel
+        run: mise run deploy:vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ENV: ${{ github.event.inputs.environment || 'production' }}
 
   deploy-firebase:
     if: ${{ github.event_name == 'workflow_dispatch' && inputs.provider == 'firebase' }}
@@ -52,17 +47,11 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: jdx/mise-action@v4
-      - name: Install dependencies
-        run: pnpm install
-      - name: Build Site
-        run: pnpm build
+      - name: Deploy to Firebase
+        run: mise run deploy:firebase
         env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          FIREBASE_ENV: ${{ github.event.inputs.environment }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
-      - name: Deploy to Firebase
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
-          projectId: blueprint-vibe
-          channelId: ${{ github.event.inputs.environment == 'production' && 'live' || '' }}
