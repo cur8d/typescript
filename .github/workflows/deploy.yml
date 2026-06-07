@@ -33,16 +33,11 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: jdx/mise-action@v4
-      - name: Install dependencies
-        run: mise run install
-      - name: Install Vercel CLI
-        run: pnpm add -g vercel
-      - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=${{ github.event.inputs.environment || 'production' }} --token=${{ secrets.VERCEL_TOKEN }}
-      - name: Build Project Artifacts
-        run: vercel build ${{ (github.event.inputs.environment == 'production' || github.event_name == 'push') && '--prod' || '' }} --token=${{ secrets.VERCEL_TOKEN }}
-      - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt ${{ (github.event.inputs.environment == 'production' || github.event_name == 'push') && '--prod' || '' }} --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy to Vercel
+        run: mise run deploy:vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ENV: ${{ github.event.inputs.environment || 'production' }}
 
   deploy-firebase:
     if: ${{ github.event_name == 'workflow_dispatch' && inputs.provider == 'firebase' }}
