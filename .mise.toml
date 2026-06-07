@@ -75,7 +75,16 @@ run = "pnpm --filter docs build"
 
 [tasks."deploy:firebase"]
 description = "Deploy the site to Firebase"
-run = "pnpm run deploy:firebase"
+run = """
+pnpm add -g firebase-tools
+pnpm install
+pnpm run build
+if [ "$FIREBASE_ENV" = "production" ]; then
+  firebase deploy --only hosting:site --token=$FIREBASE_TOKEN
+else
+  firebase hosting:channel:deploy site --expires 7d --token=$FIREBASE_TOKEN
+fi
+"""
 
 [tasks."deploy:firebase:docs"]
 description = "Deploy the documentation to Firebase"
@@ -85,6 +94,7 @@ run = "pnpm run deploy:firebase:docs"
 description = "Deploy the site to Vercel"
 run = """
 pnpm add -g vercel
+pnpm install
 vercel pull --yes --environment=$VERCEL_ENV --token=$VERCEL_TOKEN
 vercel build $([ "$VERCEL_ENV" = "production" ] && echo "--prod") --token=$VERCEL_TOKEN
 vercel deploy --prebuilt $([ "$VERCEL_ENV" = "production" ] && echo "--prod") --token=$VERCEL_TOKEN
