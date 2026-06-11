@@ -7,6 +7,6 @@ export default withNextra({
   images: {
     unoptimized: true
   },
-  basePath: '/blueprint',
-  assetPrefix: '/blueprint/'
+  basePath: '/cur8d',
+  assetPrefix: '/cur8d/'
 })

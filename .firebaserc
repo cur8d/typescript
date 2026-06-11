@@ -1,15 +1,15 @@
 {
   "projects": {
-    "default": "blueprint-vibe"
+    "default": "cur8d-vibe"
   },
   "targets": {
-    "blueprint-vibe": {
+    "cur8d-vibe": {
       "hosting": {
         "site": [
-          "blueprint-site"
+          "cur8d-site"
         ],
         "docs": [
-          "blueprint-docs"
+          "cur8d-docs"
         ]
       }
     }

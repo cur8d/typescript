@@ -3,7 +3,7 @@ import { test, expect } from "@playwright/test";
 test.describe("Navigation", () => {
   test("should navigate between pages", async ({ page }) => {
     await page.goto("/");
-    await expect(page.locator("h1")).toContainText(/Blueprint/i);
+    await expect(page.locator("h1")).toContainText(/Cur8d/i);
 
     const dashboardLink = page.locator('a[href="/dashboard"]').first();
     await dashboardLink.click();

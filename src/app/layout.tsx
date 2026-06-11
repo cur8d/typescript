@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Blueprint",
-  description: "A modern Next.js blueprint",
+  title: "Cur8d",
+  description: "A modern Next.js starter template",
 };
 
 interface RootLayoutProps {

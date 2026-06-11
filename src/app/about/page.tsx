@@ -5,7 +5,7 @@ export default function AboutPage() {
   return (
     <div className="container mx-auto px-4 pb-12">
       <PageHeader
-        title="About Blueprint"
+        title="About Cur8d"
         description="Learn more about the philosophy and technology behind this template."
         breadcrumbs={[
           { label: "Home", href: "/" },
@@ -18,7 +18,7 @@ export default function AboutPage() {
           <section>
             <h2 className="mb-3 text-2xl font-bold">Our Mission</h2>
             <p className="text-lg text-muted-foreground">
-              Blueprint was created to solve the "blank page" problem. We provide a solid,
+              Cur8d was created to solve the "blank page" problem. We provide a solid,
               opinionated foundation that allows developers to skip the setup and jump
               straight into building unique value for their users.
             </p>
@@ -39,13 +39,13 @@ export default function AboutPage() {
         <Card className="p-8 bg-primary/5 border-primary/10">
           <Card.Header className="p-0 pb-4">
              <Card.Title className="text-xl font-bold">
-               <h3>Why Blueprint?</h3>
+               <h3>Why Cur8d?</h3>
              </Card.Title>
           </Card.Header>
           <Card.Content className="p-0 space-y-4 text-muted-foreground">
             <p>
               Traditional boilerplates often come with too much "stuff" that you end up deleting.
-              Blueprint is designed to be minimal yet complete, giving you exactly what you need
+              Cur8d is designed to be minimal yet complete, giving you exactly what you need
               and nothing you don't.
             </p>
             <p>
