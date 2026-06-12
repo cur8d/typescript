@@ -1,5 +1,5 @@
 import { Card } from "@heroui/react";
-import { ArrowRight, Shield, Zap, Globe, Github } from "lucide-react";
+import { Shield, Zap, Globe, Github } from "lucide-react";
 import Link from "next/link";
 
 export default function Page() {
@@ -28,13 +28,6 @@ export default function Page() {
           Powered by Next.js 16, HeroUI, and Tailwind CSS v4.
         </p>
         <div className="flex justify-center gap-4">
-          <Link
-            href="/dashboard"
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-8 py-3 text-sm font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
-          >
-            View Dashboard
-            <ArrowRight className="h-5 w-5" />
-          </Link>
           <Link
             href="https://github.com"
             className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-background px-8 py-3 text-sm font-medium transition-colors hover:bg-secondary"
