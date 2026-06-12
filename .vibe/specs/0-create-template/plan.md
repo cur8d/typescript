@@ -1,7 +1,7 @@
-# Design and Plan: Blueprint Template
+# Design and Plan: Cur8d Template
 
 ## Overview
-Blueprint is a production-ready Next.js 16 starter template designed for high performance, accessibility, and developer productivity. It leverages the latest web technologies and strictly enforces TypeScript for type safety.
+Cur8d is a production-ready Next.js 16 starter template designed for high performance, accessibility, and developer productivity. It leverages the latest web technologies and strictly enforces TypeScript for type safety.
 
 ## Tech Stack
 - **Next.js 16.2.6**: App Router, TypeScript strict mode, Turbopack.

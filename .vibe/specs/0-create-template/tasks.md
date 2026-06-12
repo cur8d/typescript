@@ -1,4 +1,4 @@
-# Tasks: Blueprint Template Implementation
+# Tasks: Cur8d Template Implementation
 
 ## Phase 1: Environment & Initialization
 - [x] Initialize `.mise.toml` with Node 24 and pnpm 11.

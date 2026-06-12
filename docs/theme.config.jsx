@@ -1,7 +1,7 @@
 export default {
-  logo: <span>Blueprint Documentation</span>,
+  logo: <span>Cur8d Documentation</span>,
   project: {
-    link: 'https://github.com/blueprint-vibe/blueprint'
+    link: 'https://github.com/cur8d/typescript'
   },
-  docsRepositoryBase: 'https://github.com/blueprint-vibe/blueprint/tree/main/docs',
+  docsRepositoryBase: 'https://github.com/cur8d/typescript/tree/main/docs',
 }

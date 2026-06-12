@@ -1,9 +1,9 @@
-# blueprint — a production-ready Next.js starter
+# cur8d — a production-ready Next.js starter
 
-[![CI](https://github.com/your-username/blueprint/actions/workflows/ci.yml/badge.svg)](https://github.com/your-username/blueprint/actions/workflows/ci.yml)
-[![Coverage](https://img.shields.io/badge/coverage-80%25-green.svg)](https://github.com/your-username/blueprint/actions)
+[![CI](https://github.com/cur8d/typescript/actions/workflows/ci.yml/badge.svg)](https://github.com/cur8d/typescript/actions/workflows/ci.yml)
+[![Coverage](https://img.shields.io/badge/coverage-80%25-green.svg)](https://github.com/cur8d/typescript/actions)
 
-blueprint is an extremely opinionated, production-ready Next.js template designed for speed and reliability.
+cur8d is an extremely opinionated, production-ready Next.js template designed for speed and reliability.
 
 ## Quick Start
 
@@ -35,7 +35,7 @@ blueprint is an extremely opinionated, production-ready Next.js template designe
 
 ## Documentation
 
-Full documentation is available at [https://your-username.github.io/blueprint/](https://your-username.github.io/blueprint/).
+Full documentation is available at [https://cur8d.dev/typescript](https://cur8d.dev/typescript).
 
 ## License
 

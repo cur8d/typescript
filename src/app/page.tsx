@@ -6,8 +6,8 @@ export default function Page() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "Blueprint Template",
-    "description": "A modern Next.js blueprint template with HeroUI and Tailwind CSS v4",
+    "name": "Cur8d Template",
+    "description": "A modern Next.js cur8d template with HeroUI and Tailwind CSS v4",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "All",
   };
@@ -21,7 +21,7 @@ export default function Page() {
       {/* Hero Section */}
       <section className="container mx-auto px-4 pt-20 text-center">
         <h1 className="mb-6 text-5xl font-extrabold tracking-tight lg:text-6xl">
-          Build faster with <span className="text-primary">Blueprint</span>
+          Build faster with <span className="text-primary">Cur8d</span>
         </h1>
         <p className="mx-auto mb-10 max-w-2xl text-xl text-muted-foreground">
           A high-performance, accessible, and type-safe foundation for your next big idea.

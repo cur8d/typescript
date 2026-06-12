@@ -1,4 +1,4 @@
-# Contributing to blueprint
+# Contributing to cur8d
 
 ## Setup
 1. Fork the repository.

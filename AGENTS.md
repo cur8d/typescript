@@ -1,7 +1,7 @@
 # Agents.md
 
 ## 1. Project Overview
-blueprint is a production-ready Next.js starter optimized for data integration and scalability.
+cur8d is a production-ready Next.js starter optimized for data integration and scalability.
 
 ## 2. Tech Stack
 - Next.js 16.2.6: App Router, Server Components.
