@@ -343,8 +343,7 @@ Vercel over Firebase Hosting.
   screenshots, related issues; checklist items: typecheck passes, lint passes, 
   Vitest passes, Playwright passes, coverage thresholds met, docs updated, 
   no `any` types introduced
-- `CODEOWNERS` — `* @your-username` placeholder
-- `SECURITY.md` — private vulnerability disclosure instructions
+- `CODEOWNERS`
 - `CONTRIBUTING.md` — setup, branch naming (`feat/`, `fix/`, `chore/`), 
   Conventional Commits, how to add component/page/shortcut/test, 
   how to update docs, ADR requirement for architectural changes

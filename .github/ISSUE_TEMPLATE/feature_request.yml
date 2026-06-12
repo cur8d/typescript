@@ -1,5 +1,5 @@
 name: Feature Request
-description: Suggest an idea for blueprint
+description: Suggest an idea for a new feature or an improvement to an existing one
 body:
   - type: input
     id: title
