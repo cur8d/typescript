@@ -1,0 +1,14 @@
+# ADR-001: Next.js 16
+Status: Accepted
+
+## Context
+We need a modern, performant, and developer-friendly framework for the cur8d template.
+
+## Decision
+We chose Next.js 16.2.6 (App Router).
+
+## Rationale
+Next.js provides excellent support for Server Components, SSR, and built-in optimization. Version 16 brings latest performance improvements and React 19 support.
+
+## Consequences
+All development must follow App Router conventions. Leaf nodes needing interactivity should use `"use client"`.

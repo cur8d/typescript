@@ -1,0 +1,16 @@
+# Dark Mode
+
+Cur8d supports light and dark modes out of the box using `next-themes`.
+
+## Usage
+
+- **Theme Toggle**: The `<ThemeToggle>` component in the navbar allows users to switch themes manually.
+- **System Preference**: By default, the application respects the user's system theme.
+- **Tailwind v4**: Use theme-aware colors and CSS variables defined in `src/app/globals.css`.
+
+```css
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+```

@@ -1,0 +1,33 @@
+# Installation
+
+Follow these steps to get your cur8d-based project up and running.
+
+## Prerequisites
+
+- **mise**: For managing Node.js and pnpm versions.
+- **Node.js 24**: Managed via mise.
+- **pnpm 11**: Managed via mise.
+
+## Quick Start
+
+1.  **Install toolchain**:
+    ```bash
+    mise install
+    ```
+
+2.  **Install dependencies**:
+    ```bash
+    mise run install
+    ```
+
+3.  **Set up environment variables**:
+    ```bash
+    cp .env.example .env
+    ```
+
+4.  **Start the development server**:
+    ```bash
+    mise run dev
+    ```
+
+Your application should now be running at `http://localhost:3000`.

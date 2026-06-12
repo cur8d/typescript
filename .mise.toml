@@ -1,0 +1,101 @@
+[tools]
+node = "24.0.0"
+pnpm = "11.1.2"
+
+[shell_alias]
+m = "mise run"
+i = "mise run install"
+l = "mise run lint"
+t = "mise run test"
+b = "mise run build"
+d = "mise run dev"
+s = "mise run start"
+
+[tasks.install]
+description = "Install dependencies"
+run = "pnpm install"
+alias = "i"
+
+[tasks.dev]
+description = "Start development server"
+run = "pnpm run dev"
+alias = "d"
+
+[tasks.build]
+description = "Build the project"
+run = "pnpm run build"
+alias = "b"
+
+[tasks.start]
+description = "Start production server"
+run = "pnpm run start"
+alias = "s"
+
+[tasks.lint]
+description = "Run linting"
+run = "pnpm run lint"
+alias = "l"
+
+[tasks.typecheck]
+description = "Run typechecking"
+run = "pnpm run typecheck"
+
+[tasks.test]
+description = "Run unit tests"
+run = "pnpm run test"
+alias = "t"
+
+[tasks."test:ui"]
+description = "Run unit tests with UI"
+run = "pnpm run test:ui"
+
+[tasks."test:coverage"]
+description = "Run unit tests with coverage"
+run = "pnpm run test:coverage"
+
+[tasks."test:e2e"]
+description = "Run E2E tests"
+run = "pnpm run test:e2e"
+
+[tasks."test:e2e:ui"]
+description = "Run E2E tests with UI"
+run = "pnpm run test:e2e:ui"
+
+[tasks."playwright:install"]
+description = "Install Playwright browsers"
+run = "pnpm exec playwright install --with-deps"
+
+[tasks."docs:dev"]
+description = "Start documentation development server"
+run = "pnpm --filter docs dev"
+
+[tasks."docs:build"]
+description = "Build the documentation"
+run = "pnpm --filter docs build"
+
+[tasks."deploy:firebase"]
+description = "Deploy the site to Firebase"
+run = """
+pnpm add -g firebase-tools
+pnpm install
+pnpm run build
+if [ "$FIREBASE_ENV" = "production" ]; then
+  firebase deploy --only hosting:site --token=$FIREBASE_TOKEN
+else
+  firebase hosting:channel:deploy site --expires 7d --token=$FIREBASE_TOKEN
+fi
+"""
+
+[tasks."deploy:firebase:docs"]
+description = "Deploy the documentation to Firebase"
+run = "pnpm run deploy:firebase:docs"
+
+[tasks."deploy:vercel"]
+description = "Deploy the site to Vercel"
+run = """
+pnpm add -g vercel
+pnpm install
+vercel pull --yes --environment=$VERCEL_ENV --token=$VERCEL_TOKEN
+vercel build $([ "$VERCEL_ENV" = "production" ] && echo "--prod") --token=$VERCEL_TOKEN
+vercel deploy --prebuilt $([ "$VERCEL_ENV" = "production" ] && echo "--prod") --token=$VERCEL_TOKEN
+"""

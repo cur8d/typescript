@@ -1,0 +1,17 @@
+{
+  "projects": {
+    "default": "cur8d-vibe"
+  },
+  "targets": {
+    "cur8d-vibe": {
+      "hosting": {
+        "site": [
+          "cur8d-site"
+        ],
+        "docs": [
+          "cur8d-docs"
+        ]
+      }
+    }
+  }
+}

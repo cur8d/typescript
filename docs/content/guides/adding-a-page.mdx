@@ -1,0 +1,19 @@
+# Adding a Page
+
+To add a new page to the application:
+
+1.  **Create the directory**: Create a new folder in `src/app/` (e.g., `src/app/new-page`).
+2.  **Create `page.tsx`**: Add a `page.tsx` file inside the new directory.
+3.  **Define the component**: Export a default React component from the file.
+
+```tsx
+export default function NewPage() {
+  return (
+    <div>
+      <h1>New Page</h1>
+    </div>
+  );
+}
+```
+
+By default, pages are Server Components. Use `"use client"` only if you need interactivity or hooks.

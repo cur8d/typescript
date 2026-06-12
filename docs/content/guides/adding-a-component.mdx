@@ -1,0 +1,20 @@
+# Adding a Component
+
+Reusable components live in `src/components/`.
+
+1.  **Create directory**: `src/components/NewComponent/`.
+2.  **Create implementation**: `src/components/NewComponent/index.tsx`.
+3.  **Define Props**: Use an `interface` for props.
+4.  **Export**: Export the component.
+
+```tsx
+interface NewComponentProps {
+  label: string;
+}
+
+export const NewComponent = ({ label }: NewComponentProps) => {
+  return <div>{label}</div>;
+};
+```
+
+Remember to add TSDoc comments to public exports.

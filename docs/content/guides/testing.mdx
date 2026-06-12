@@ -1,0 +1,17 @@
+# Testing
+
+We use Vitest for unit tests and Playwright for E2E tests.
+
+## Unit & Component Tests (Vitest)
+
+- Run tests: `mise run test`
+- Coverage: `mise run test:coverage`
+- Location: Colocated with source, e.g., `src/components/Navbar/__tests__/index.test.tsx`.
+
+## End-to-End Tests (Playwright)
+
+- Run tests: `mise run test:e2e`
+- Interactive mode: `mise run test:e2e:ui`
+- Location: `tests/e2e/`.
+
+Accessibility testing is integrated into E2E tests via `@axe-core/playwright`.

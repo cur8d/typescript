@@ -1,0 +1,13 @@
+# GitHub Pages Deployment
+
+You can deploy cur8d as a static site to GitHub Pages.
+
+## Limitations
+
+- **No SSR**: Server Components will be pre-rendered at build time.
+- **No Middleware**: `src/middleware.ts` is disabled.
+- **Supabase**: Use client-only patterns for Supabase as SSR middleware won't run.
+
+## Workflow
+
+The `.github/workflows/deploy-ghpages.yml` handles building with `output: 'export'` and deploying via `actions/deploy-pages`.

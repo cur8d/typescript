@@ -1,0 +1,54 @@
+name: Deploy Site
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'docs/**'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'preview'
+        type: choice
+        options:
+          - production
+          - preview
+      provider:
+        description: 'Deployment provider'
+        required: true
+        default: 'vercel'
+        type: choice
+        options:
+          - vercel
+          - firebase
+
+jobs:
+  deploy-vercel:
+    if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.provider == 'vercel') }}
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.event.inputs.environment || 'production' }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: jdx/mise-action@v4
+      - name: Deploy to Vercel
+        run: mise run deploy:vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ENV: ${{ github.event.inputs.environment || 'production' }}
+
+  deploy-firebase:
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.provider == 'firebase' }}
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.event.inputs.environment }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: jdx/mise-action@v4
+      - name: Deploy to Firebase
+        run: mise run deploy:firebase
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          FIREBASE_ENV: ${{ github.event.inputs.environment }}

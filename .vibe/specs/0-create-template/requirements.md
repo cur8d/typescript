@@ -162,8 +162,8 @@ Scaffold with realistic, domain-agnostic placeholder data (not lorem ipsum):
 
 **Reusable components (`src/components/`):**
 - `<Navbar>` — SVG logo placeholder + nav links + dark mode toggle + `⌘K` trigger with badge; 
-  logo must read "blueprint" in the SVG mark
-- `<Footer>` — links + copyright line reading "blueprint — open-source Next.js starter"
+  logo must read "cur8d" in the SVG mark
+- `<Footer>` — links + copyright line reading "cur8d — open-source Next.js starter"
 - `<SearchPalette>` — `cmdk` command palette, typed result items, keyboard navigable
 - `<DataTable<T>>` — generic HeroUI v3 Table with sorting, filtering, pagination; 
   typed via `DataTableProps<T>`
@@ -343,8 +343,7 @@ Vercel over Firebase Hosting.
   screenshots, related issues; checklist items: typecheck passes, lint passes, 
   Vitest passes, Playwright passes, coverage thresholds met, docs updated, 
   no `any` types introduced
-- `CODEOWNERS` — `* @your-username` placeholder
-- `SECURITY.md` — private vulnerability disclosure instructions
+- `CODEOWNERS`
 - `CONTRIBUTING.md` — setup, branch naming (`feat/`, `fix/`, `chore/`), 
   Conventional Commits, how to add component/page/shortcut/test, 
   how to update docs, ADR requirement for architectural changes
@@ -363,7 +362,7 @@ Vercel over Firebase Hosting.
 ### AGENTS.md (repo root)
 
 Sections:
-1. Project overview — what blueprint is, what it's optimized for
+1. Project overview — what cur8d is, what it's optimized for
 2. Tech stack (each tool, exact version, why chosen)
 3. Directory structure (annotated tree)
 4. Toolchain management (mise — upgrade by editing `.mise.toml` only)
@@ -386,7 +385,7 @@ Sections:
 
 ### OTHER ROOT FILES
 
-- `README.md` — CI badge, coverage badge, "blueprint — a production-ready Next.js starter" 
+- `README.md` — CI badge, coverage badge, "cur8d — a production-ready Next.js starter"
   tagline, quick-start (`mise install` → `pnpm install` → `pnpm dev`), stack table, 
   test commands, deployment guide, link to docs site, screenshot placeholder
 - `.mise.toml` — Node.js 24 + pnpm 11 pinned
