@@ -1,7 +1,7 @@
 # cur8d — a production-ready Next.js starter
 
-[![CI](https://github.com/cur8d/cur8d/actions/workflows/ci.yml/badge.svg)](https://github.com/cur8d/cur8d/actions/workflows/ci.yml)
-[![Coverage](https://img.shields.io/badge/coverage-80%25-green.svg)](https://github.com/cur8d/cur8d/actions)
+[![CI](https://github.com/cur8d/typescript/actions/workflows/ci.yml/badge.svg)](https://github.com/cur8d/typescript/actions/workflows/ci.yml)
+[![Coverage](https://img.shields.io/badge/coverage-80%25-green.svg)](https://github.com/cur8d/typescript/actions)
 
 cur8d is an extremely opinionated, production-ready Next.js template designed for speed and reliability.
 
