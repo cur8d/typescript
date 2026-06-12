@@ -6,8 +6,9 @@ export default function Page() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "Cur8d Template",
-    "description": "A modern Next.js cur8d template with HeroUI and Tailwind CSS v4",
+    "name": "cur8d.tsx",
+    "description": "A modern typescript Next.js starter template with HeroUI and Tailwind CSS for building high-performance, accessible, and type-safe web applications.",
+    "url": "https://github.com/cur8d/typescript",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "All",
   };
@@ -20,26 +21,29 @@ export default function Page() {
       />
       {/* Hero Section */}
       <section className="container mx-auto px-4 pt-20 text-center">
-        <h1 className="mb-6 text-5xl font-extrabold tracking-tight lg:text-6xl">
-          Build faster with <span className="text-primary">Cur8d</span>
+        <h1 className="mb-6 text-5xl font-extrabold tracking-tight lg:text-6xl text-muted-foreground">
+          Build faster with <span className="text-primary">cur8d</span>
         </h1>
-        <p className="mx-auto mb-10 max-w-2xl text-xl text-muted-foreground">
-          A high-performance, accessible, and type-safe foundation for your next big idea.
-          Powered by Next.js 16, HeroUI, and Tailwind CSS v4.
-        </p>
+        <div className="mx-auto mb-10 max-w-2xl text-xl text-muted-foreground">
+          <p>
+            High-performance, accessible, and type-safe template for your next big idea.
+          </p>
+          <p>Powered by <span className="text-primary">Typescript</span>, <span className="text-primary">Next.js</span>, <span className="text-primary">HeroUI</span>, and <span className="text-primary">Tailwind CSS</span>.</p>
+        </div>
+
         <div className="flex justify-center gap-4">
           <Link
-            href="https://github.com"
+            href="https://github.com/cur8d/typescript"
             className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-background px-8 py-3 text-sm font-medium transition-colors hover:bg-secondary"
           >
             <Github className="h-5 w-5" />
             GitHub
           </Link>
         </div>
-      </section>
+      </section >
 
       {/* Features Section */}
-      <section className="container mx-auto px-4">
+      < section className="container mx-auto px-4" >
         <div className="mb-12 text-center">
           <h2 className="mb-4 text-3xl font-bold">Everything you need</h2>
           <p className="text-muted-foreground">Stop worrying about boilerplate and start building features.</p>
@@ -85,7 +89,7 @@ export default function Page() {
             </Card.Content>
           </Card>
         </div>
-      </section>
-    </div>
+      </section >
+    </div >
   );
 }

@@ -1,5 +1,3 @@
-import { Link } from "@heroui/react";
-
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
@@ -9,7 +7,7 @@ export function Footer() {
         <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
           &copy; {currentYear} Cur8d. All rights reserved.
         </p>
-        <div className="flex items-center gap-4 text-sm font-medium text-muted-foreground">
+        {/* <div className="flex items-center gap-4 text-sm font-medium text-muted-foreground">
           <Link href="/privacy" className="hover:text-foreground">
             Privacy Policy
           </Link>
@@ -19,7 +17,7 @@ export function Footer() {
           <Link href="/contact" className="hover:text-foreground">
             Contact
           </Link>
-        </div>
+        </div> */}
       </div>
     </footer>
   );
