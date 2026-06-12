@@ -1,5 +1,6 @@
 import { Card } from "@heroui/react";
-import { Shield, Zap, Globe, Github } from "lucide-react";
+import { SiGithub } from "@icons-pack/react-simple-icons";
+import { Shield, Zap, Globe } from "lucide-react";
 import Link from "next/link";
 
 export default function Page() {
@@ -36,7 +37,7 @@ export default function Page() {
             href="https://github.com/cur8d/typescript"
             className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-background px-8 py-3 text-sm font-medium transition-colors hover:bg-secondary"
           >
-            <Github className="h-5 w-5" />
+            <SiGithub className="h-5 w-5" />
             GitHub
           </Link>
         </div>

@@ -4,10 +4,10 @@
 cur8d is a production-ready Next.js starter optimized for data integration and scalability.
 
 ## 2. Tech Stack
-- Next.js 16.2.6: App Router, Server Components.
-- HeroUI v3.0.5: Compound components with dot notation.
+- Next.js 16.2.9: App Router, Server Components.
+- HeroUI v3.1.0: Compound components with dot notation.
 - Tailwind CSS v4: CSS-first configuration.
-- Vitest 4.1.6 & Playwright 1.59.1: Testing.
+- Vitest 4.1.8 & Playwright 1.60.0: Testing.
 - Supabase & Vercel Blob: Data and storage stubs.
 
 ## 3. Directory Structure
