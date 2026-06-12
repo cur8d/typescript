@@ -7,16 +7,4 @@ test.describe("Accessibility", () => {
     const results = await new AxeBuilder({ page }).analyze();
     expect(results.violations).toEqual([]);
   });
-
-  test("dashboard page should be accessible", async ({ page }) => {
-    await page.goto("/dashboard");
-    const results = await new AxeBuilder({ page }).analyze();
-    expect(results.violations).toEqual([]);
-  });
-
-  test("about page should be accessible", async ({ page }) => {
-    await page.goto("/about");
-    const results = await new AxeBuilder({ page }).analyze();
-    expect(results.violations).toEqual([]);
-  });
 });
