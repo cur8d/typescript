@@ -1,7 +1,7 @@
 import { Card } from "@heroui/react";
-import { SiGithub } from "@icons-pack/react-simple-icons";
 import { Shield, Zap, Globe } from "lucide-react";
 import Link from "next/link";
+import { siGithub } from "simple-icons";
 
 export default function Page() {
   const jsonLd = {
@@ -37,7 +37,15 @@ export default function Page() {
             href="https://github.com/cur8d/typescript"
             className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-background px-8 py-3 text-sm font-medium transition-colors hover:bg-secondary"
           >
-            <SiGithub className="h-5 w-5" />
+            <svg
+              role="img"
+              viewBox="0 0 24 24"
+              className="h-5 w-5 fill-current"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <title>{siGithub.title}</title>
+              <path d={siGithub.path} />
+            </svg>
             GitHub
           </Link>
         </div>
