@@ -1,4 +1,4 @@
-name: CI
+name: Test and Lint Code
 
 on:
   push:
@@ -24,14 +24,8 @@ jobs:
         run: mise run playwright:install
       - name: Build
         run: mise run build
-        env:
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
       - name: Run E2E tests
         run: mise run test:e2e
-        env:
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
       - name: Upload coverage
         uses: actions/upload-artifact@v7
         with:
