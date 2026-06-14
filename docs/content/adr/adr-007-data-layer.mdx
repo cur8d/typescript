@@ -1,0 +1,14 @@
+# ADR-007: Data Layer Strategy
+Status: Accepted
+
+## Context
+The application needs a consistent way to handle data fetching and mutation.
+
+## Decision
+We utilize a service-based architecture in `src/lib/data/` for data access.
+
+## Rationale
+Decoupling data access from UI components improves testability and makes it easier to switch between mock data and real backend services like Supabase.
+
+## Consequences
+Direct database or API calls should not be made from React components. Always use the provided data services.
