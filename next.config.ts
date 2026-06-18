@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: "/(.*)",
+        source: "/((?!typescript/).*)",
         headers: [
           {
             key: "Content-Security-Policy",
