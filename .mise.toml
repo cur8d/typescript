@@ -73,6 +73,11 @@ run = "pnpm --filter docs dev"
 description = "Build the documentation"
 run = "pnpm --filter docs build"
 
+[tasks.docs]
+description = "Serve the documentation"
+depends = ["docs:build"]
+run = "pnpm --filter docs start"
+
 [tasks."deploy:firebase"]
 description = "Deploy the site to Firebase"
 run = """
@@ -85,10 +90,6 @@ else
   firebase hosting:channel:deploy site --expires 7d --token=$FIREBASE_TOKEN
 fi
 """
-
-[tasks."deploy:firebase:docs"]
-description = "Deploy the documentation to Firebase"
-run = "pnpm run deploy:firebase:docs"
 
 [tasks."deploy:vercel"]
 description = "Deploy the site to Vercel"

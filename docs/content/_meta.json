@@ -4,5 +4,5 @@
   "guides": "Guides",
   "reference": "Reference",
   "deployment": "Deployment",
-  "adr": "ADRs"
+  "ADRs": "ADRs"
 }
