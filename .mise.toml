@@ -10,6 +10,7 @@ t = "mise run test"
 b = "mise run build"
 d = "mise run dev"
 s = "mise run start"
+v = "mise run verify"
 
 [tasks.install]
 description = "Install dependencies"
@@ -60,6 +61,11 @@ run = "pnpm run test:e2e"
 [tasks."test:e2e:ui"]
 description = "Run E2E tests with UI"
 run = "pnpm run test:e2e:ui"
+
+[tasks.verify]
+description = "Run all verification tasks"
+depends = ["lint", "typecheck", "test:coverage"]
+alias = "v"
 
 [tasks."playwright:install"]
 description = "Install Playwright browsers"
