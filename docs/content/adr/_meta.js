@@ -1,4 +1,4 @@
-{
+export default {
   "index": "Overview",
   "adr-001-nextjs-16": "ADR 001: Next.js 16",
   "adr-002-heroui-v3": "ADR 002: HeroUI v3",

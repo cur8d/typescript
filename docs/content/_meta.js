@@ -1,8 +1,8 @@
-{
+export default {
   "index": "Introduction",
   "getting-started": "Getting Started",
   "guides": "Guides",
   "reference": "Reference",
   "deployment": "Deployment",
-  "ADRs": "ADRs"
+  "adr": "ADRs"
 }
