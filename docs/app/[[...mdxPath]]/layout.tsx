@@ -25,7 +25,12 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   const pageMap = await getPageMap()
   return (
     <html lang="en" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable}`}>
-      <Head />
+      <Head>
+        <meta
+          httpEquiv="Content-Security-Policy"
+          content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self';"
+        />
+      </Head>
       <body className="font-sans antialiased">
         <Layout
           navbar={<Navbar logo={
