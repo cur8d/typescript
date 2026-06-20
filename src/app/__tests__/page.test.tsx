@@ -1,31 +1,48 @@
-import { render } from "@testing-library/react";
-import { expect, test, vi } from "vitest";
+import { render, screen } from "@testing-library/react";
 import Page from "../page";
+import { describe, it, expect, vi } from "vitest";
 import React from "react";
 
-// Mock the components used in the Page to simplify the test
+// Mock CodeSnippet because it might use navigator.clipboard which is not available in jsdom or needs mocking
 vi.mock("@/components/CodeSnippet", () => ({
   CodeSnippet: ({ code }: { code: string }) => <div data-testid="code-snippet">{code}</div>,
 }));
 
-vi.mock("@heroui/react", () => ({
-  Card: Object.assign(({ children }: { children: React.ReactNode }) => <div>{children}</div>, {
-    Header: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-    Content: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-    Title: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-  }),
-}));
+describe("Landing Page", () => {
+  it("renders the hero section with the main heading", () => {
+    render(<Page />);
+    const heading = screen.getByRole("heading", { level: 1, name: /build faster with cur8d/i });
+    expect(heading).toBeInTheDocument();
+  });
 
-test("Page renders JSON-LD correctly", () => {
-  const { container } = render(<Page />);
+  it("renders the features section heading", () => {
+    render(<Page />);
+    const featuresHeading = screen.getByRole("heading", { level: 2, name: /everything you need/i });
+    expect(featuresHeading).toBeInTheDocument();
+  });
 
-  const script = container.querySelector("script[type='application/ld+json']");
-  expect(script).not.toBeNull();
+  it("renders all feature cards", () => {
+    render(<Page />);
+    expect(screen.getByText("Lightning Fast")).toBeInTheDocument();
+    expect(screen.getByText("Type Safe")).toBeInTheDocument();
+    expect(screen.getByText("Accessible")).toBeInTheDocument();
+  });
 
-  const content = script?.textContent;
-  expect(content).not.toBeNull();
+  it("renders the GitHub link with correct href", () => {
+    render(<Page />);
+    const githubLink = screen.getByRole("link", { name: /github/i });
+    expect(githubLink).toHaveAttribute("href", "https://github.com/cur8d/typescript");
+  });
 
-  const jsonLd = JSON.parse(content!);
-  expect(jsonLd["@context"]).toBe("https://schema.org");
-  expect(jsonLd["name"]).toBe("cur8d.tsx");
+  it("contains the JSON-LD script with correct content", () => {
+    const { container } = render(<Page />);
+    const script = container.querySelector('script[type="application/ld+json"]');
+    expect(script).toBeInTheDocument();
+    if (script) {
+      const json = JSON.parse(script.textContent || script.innerHTML);
+      expect(json["@context"]).toBe("https://schema.org");
+      expect(json.name).toBe("cur8d.tsx");
+      expect(json.url).toBe("https://github.com/cur8d/typescript");
+    }
+  });
 });
