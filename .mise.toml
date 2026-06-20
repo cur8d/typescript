@@ -15,10 +15,15 @@ v = "mise run verify"
 g = "git"
 ga = "git add ."
 gb = "git branch"
+gco = "git checkout"
 gs = "git status"
 gc = "git commit -m"
 gp = "git push"
 gr = "git rebase --merge"
+
+[tasks.init]
+description = "Initialize the project template"
+run = "pnpm run init && mise install"
 
 [tasks.install]
 description = "Install dependencies"

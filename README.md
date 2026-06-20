@@ -3,11 +3,16 @@
 [![CI](https://github.com/cur8d/typescript/actions/workflows/ci.yml/badge.svg)](https://github.com/cur8d/typescript/actions/workflows/ci.yml)
 [![Coverage](https://img.shields.io/badge/coverage-80%25-green.svg)](https://github.com/cur8d/typescript/actions)
 
-cur8d is an extremely opinionated, production-ready Next.js template designed for speed and reliability.
+cur8d is a production-ready Next.js starter
 
 ## Quick Start
 
-1.  **Install toolchain**:
+1.  **Customize the template**:
+    ```bash
+    pnpm init
+    ```
+
+2.  **Install toolchain**:
     ```bash
     mise install
     ```
