@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import readline from 'node:readline';
+import { execSync } from 'node:child_process';
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -10,14 +11,52 @@ const rl = readline.createInterface({
 const question = (query: string): Promise<string> =>
   new Promise((resolve) => rl.question(query, resolve));
 
+function getGitConfig(key: string): string {
+  try {
+    return execSync(`git config --get ${key}`, { stdio: ['ignore', 'pipe', 'ignore'] })
+      .toString()
+      .trim();
+  } catch {
+    return '';
+  }
+}
+
 async function main() {
   console.log('🚀 cur8d Template Initialization');
   console.log('This script will customize the template for your new project.\n');
 
   try {
-    const name = await question('Project Name (e.g., My Awesome App): ');
+    const defaultName = path.basename(process.cwd())
+      .replace(/[^a-zA-Z0-9\s-_]/g, '')
+      .trim();
+
+    let defaultGithubUser = getGitConfig('github.user');
+    if (!defaultGithubUser) {
+      const nameConfig = getGitConfig('user.name');
+      if (nameConfig) {
+        defaultGithubUser = nameConfig
+          .toLowerCase()
+          .replace(/[^a-z0-9-]/g, '-')
+          .replace(/-+/g, '-')
+          .replace(/(^-|-$)/g, '');
+      }
+    }
+
+    const defaultRepoName = defaultName
+      .toLowerCase()
+      .replace(/[^a-z0-9-]/g, '-')
+      .replace(/-+/g, '-')
+      .replace(/(^-|-$)/g, '');
+
+    const defaultRepo = defaultGithubUser ? `${defaultGithubUser}/${defaultRepoName}` : `username/${defaultRepoName}`;
+
+    const nameInput = await question(`Project Name (e.g., My Awesome App) [${defaultName}]: `);
+    const name = nameInput.trim() || defaultName;
+
     const description = await question('Project Description: ');
-    const repo = await question('GitHub Repository (e.g., username/repo): ');
+
+    const repoInput = await question(`GitHub Repository (e.g., username/repo) [${defaultRepo}]: `);
+    const repo = repoInput.trim() || defaultRepo;
 
     if (!name || !repo) {
       console.error('❌ Project name and repository are required.');
@@ -30,6 +69,10 @@ async function main() {
       .replace(/(^-|-$)+/g, '');
 
     const [githubUser, githubRepo] = repo.split('/');
+    if (!githubUser || !githubRepo) {
+      console.error('❌ Repository must be in the format username/repo');
+      process.exit(1);
+    }
 
     console.log('\nProcessing files...');
 
