@@ -34,6 +34,13 @@ export default function Page() {
           <p>Powered by <span className="text-primary">Typescript</span>, <span className="text-primary">Next.js</span>, <span className="text-primary">HeroUI</span>, and <span className="text-primary">Tailwind CSS</span>.</p>
         </div>
 
+        <div className="mx-auto mb-10 max-w-fit">
+          <div className="flex items-center gap-3 rounded-xl border border-border bg-secondary/50 px-6 py-4 font-mono text-sm md:text-base shadow-sm">
+            <span className="text-primary select-none">$</span>
+            <code className="text-foreground">npx create-cur8d awesome-app --template tsx</code>
+          </div>
+        </div>
+
         <div className="flex justify-center gap-4">
           <Link
             href="https://github.com/cur8d/typescript"
