@@ -2,6 +2,7 @@ import { Card } from "@heroui/react";
 import { SiGithub } from "@icons-pack/react-simple-icons";
 import { Shield, Zap, Globe } from "lucide-react";
 import Link from "next/link";
+import { CodeSnippet } from "@/components/CodeSnippet";
 
 const JSON_LD = {
   "@context": "https://schema.org",
@@ -32,6 +33,10 @@ export default function Page() {
             High-performance, accessible, and type-safe template for your next big idea.
           </p>
           <p>Powered by <span className="text-primary">Typescript</span>, <span className="text-primary">Next.js</span>, <span className="text-primary">HeroUI</span>, and <span className="text-primary">Tailwind CSS</span>.</p>
+        </div>
+
+        <div className="mx-auto mb-10 max-w-fit">
+          <CodeSnippet code="npx create-cur8d awesome-app --template tsx" />
         </div>
 
         <div className="flex justify-center gap-4">
