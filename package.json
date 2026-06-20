@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "packageManager": "pnpm@11.8.0",
   "scripts": {
+    "init-project": "node scripts/init.js",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",

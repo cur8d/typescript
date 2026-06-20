@@ -1,0 +1,137 @@
+const fs = require('fs');
+const path = require('path');
+const readline = require('readline');
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const question = (query) => new Promise((resolve) => rl.question(query, resolve));
+
+async function main() {
+  console.log('🚀 cur8d Template Initialization');
+  console.log('This script will customize the template for your new project.\n');
+
+  try {
+    const name = await question('Project Name (e.g., My Awesome App): ');
+    const description = await question('Project Description: ');
+    const repo = await question('GitHub Repository (e.g., username/repo): ');
+
+    if (!name || !repo) {
+      console.error('❌ Project name and repository are required.');
+      process.exit(1);
+    }
+
+    const slug = name
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)+/g, '');
+
+    const [githubUser, githubRepo] = repo.split('/');
+
+    console.log('\nProcessing files...');
+
+    const filesToProcess = [
+      'package.json',
+      'docs/package.json',
+      'README.md',
+      'LICENSE',
+      'CHANGELOG.md',
+      'src/components/Navbar/index.tsx',
+      'src/app/page.tsx',
+      '.firebaserc',
+      'docs/app/[[...mdxPath]]/layout.tsx',
+      'docs/theme.config.jsx',
+      'docs/next.config.mjs',
+      'AGENTS.md',
+      'CONTRIBUTING.md',
+      'tests/e2e/navbar.spec.ts',
+    ];
+
+    const getAllMdxFiles = (dir) => {
+      let results = [];
+      if (!fs.existsSync(dir)) return results;
+      const list = fs.readdirSync(dir);
+      list.forEach((file) => {
+        const filePath = path.join(dir, file);
+        const stat = fs.statSync(filePath);
+        if (stat && stat.isDirectory()) {
+          results = results.concat(getAllMdxFiles(filePath));
+        } else if (file.endsWith('.mdx')) {
+          results.push(filePath);
+        }
+      });
+      return results;
+    };
+
+    filesToProcess.push(...getAllMdxFiles('docs/content'));
+
+    for (const file of filesToProcess) {
+      const filePath = path.join(process.cwd(), file);
+      if (fs.existsSync(filePath)) {
+        let content = fs.readFileSync(filePath, 'utf8');
+
+        // Order matters for replacements
+        // 1. GitHub full URLs
+        content = content.replace(/https:\/\/github\.com\/cur8d\/typescript/g, `https://github.com/${repo}`);
+
+        // 2. Documentation URLs
+        content = content.replace(/https:\/\/cur8d\.dev\/typescript/g, `https://${githubUser}.github.io/${githubRepo}`);
+
+        // 3. Package name in JSON
+        if (file.endsWith('package.json')) {
+          content = content.replace(/"name": "cur8d"/, `"name": "${slug}"`);
+          content = content.replace(/"name": "docs"/, `"name": "${slug}-docs"`);
+        }
+
+        // 4. Firebase project IDs
+        if (file === '.firebaserc') {
+            content = content.replace(/cur8d-vibe/g, `${slug}`);
+            content = content.replace(/cur8d-site/g, `${slug}-site`);
+            content = content.replace(/cur8d-docs/g, `${slug}-docs`);
+        }
+
+        // 5. Descriptions (must happen before general cur8d replacement)
+        if (description) {
+           content = content.replace(/a production-ready Next\.js starter/g, description);
+           content = content.replace(/an extremely opinionated, production-ready Next\.js template designed for speed and reliability\./g, description);
+        }
+
+        // 6. General "cur8d" replacement (Brand name)
+        // We use a regex that avoids replacing parts of URLs already handled
+        content = content.replace(/cur8d/g, name);
+
+        fs.writeFileSync(filePath, content, 'utf8');
+        console.log(`✅ Updated ${file}`);
+      }
+    }
+
+    const deleteScript = await question('\nDo you want to delete this initialization script? (y/N): ');
+    if (deleteScript.toLowerCase() === 'y') {
+      fs.unlinkSync(__filename);
+      console.log('✅ Deleted initialization script.');
+
+      // Also remove from package.json
+      const pkgPath = path.join(process.cwd(), 'package.json');
+      const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+      if (pkg.scripts && pkg.scripts['init-project']) {
+        delete pkg.scripts['init-project'];
+        fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n', 'utf8');
+        console.log('✅ Removed init-project script from package.json.');
+      }
+    }
+
+    console.log('\n✨ Project initialized successfully!');
+    console.log(`Next steps:
+  1. pnpm install
+  2. pnpm dev`);
+
+  } catch (error) {
+    console.error('❌ An error occurred:', error.message);
+  } finally {
+    rl.close();
+  }
+}
+
+main();
