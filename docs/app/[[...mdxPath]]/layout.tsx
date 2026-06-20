@@ -1,4 +1,5 @@
 import { Footer, Layout, Navbar } from 'nextra-theme-docs'
+import { Analytics } from '@vercel/analytics/next'
 import { Head } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
 import { Geist, Geist_Mono } from 'next/font/google'
@@ -28,7 +29,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
       <Head>
         <meta
           httpEquiv="Content-Security-Policy"
-          content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self';"
+          content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' va.vercel-scripts.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self';"
         />
       </Head>
       <body className="font-sans antialiased">
@@ -54,6 +55,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         >
           {children}
         </Layout>
+        <Analytics />
       </body>
     </html>
   )
