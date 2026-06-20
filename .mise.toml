@@ -97,16 +97,16 @@ description = "Deploy the site to Firebase"
 run = """
 pnpm add -g firebase-tools
 if [ "$FIREBASE_ENV" = "production" ]; then
-  firebase deploy --only hosting:site --token=$FIREBASE_TOKEN
+  pnpm exec firebase deploy --only hosting:site --token=$FIREBASE_TOKEN
 else
-  firebase hosting:channel:deploy site --expires 7d --token=$FIREBASE_TOKEN
+  pnpm exec firebase hosting:channel:deploy site --expires 7d --token=$FIREBASE_TOKEN
 fi
 """
 
 [tasks."deploy:vercel"]
 description = "Deploy the site to Vercel"
 run = """
-vercel pull --yes --environment=$VERCEL_ENV --token=$VERCEL_TOKEN
-vercel build $([ "$VERCEL_ENV" = "production" ] && echo "--prod") --token=$VERCEL_TOKEN
-vercel deploy --prebuilt $([ "$VERCEL_ENV" = "production" ] && echo "--prod") --token=$VERCEL_TOKEN
+pnpm exec vercel pull --yes --environment=$VERCEL_ENV --token=$VERCEL_TOKEN
+pnpm exec vercel build $([ "$VERCEL_ENV" = "production" ] && echo "--prod") --token=$VERCEL_TOKEN
+pnpm exec vercel deploy --prebuilt $([ "$VERCEL_ENV" = "production" ] && echo "--prod") --token=$VERCEL_TOKEN
 """
