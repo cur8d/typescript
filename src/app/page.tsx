@@ -19,10 +19,9 @@ const JSON_LD_STRING = JSON.stringify(JSON_LD);
 export default function Page() {
   return (
     <div className="flex flex-col gap-20 pb-20">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON_LD_STRING }}
-      />
+      <script type="application/ld+json">
+        {JSON_LD_STRING}
+      </script>
       {/* Hero Section */}
       <section className="container mx-auto px-4 pt-20 text-center">
         <h1 className="mb-6 text-5xl font-extrabold tracking-tight lg:text-6xl text-muted-foreground">
