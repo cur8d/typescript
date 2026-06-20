@@ -1,6 +1,6 @@
 [tools]
-node = "24.0.0"
-pnpm = "11.1.2"
+node = "latest"
+pnpm = "latest"
 
 [shell_alias]
 m = "mise run"
@@ -11,6 +11,14 @@ b = "mise run build"
 d = "mise run dev"
 s = "mise run start"
 v = "mise run verify"
+
+g = "git"
+ga = "git add ."
+gb = "git branch"
+gs = "git status"
+gc = "git commit -m"
+gp = "git push"
+gr = "git rebase --merge"
 
 [tasks.install]
 description = "Install dependencies"
@@ -88,8 +96,6 @@ run = "pnpm --filter docs start"
 description = "Deploy the site to Firebase"
 run = """
 pnpm add -g firebase-tools
-pnpm install
-pnpm run build
 if [ "$FIREBASE_ENV" = "production" ]; then
   firebase deploy --only hosting:site --token=$FIREBASE_TOKEN
 else
@@ -100,8 +106,6 @@ fi
 [tasks."deploy:vercel"]
 description = "Deploy the site to Vercel"
 run = """
-pnpm add -g vercel
-pnpm install
 vercel pull --yes --environment=$VERCEL_ENV --token=$VERCEL_TOKEN
 vercel build $([ "$VERCEL_ENV" = "production" ] && echo "--prod") --token=$VERCEL_TOKEN
 vercel deploy --prebuilt $([ "$VERCEL_ENV" = "production" ] && echo "--prod") --token=$VERCEL_TOKEN
