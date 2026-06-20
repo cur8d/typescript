@@ -14,6 +14,14 @@ export function Navbar() {
         </div>
 
         <div className="flex items-center gap-4">
+          <nav className="flex items-center space-x-6 text-sm font-medium">
+            <Link
+              href="https://cur8d.dev/typescript"
+              className="transition-colors hover:text-foreground/80 text-foreground/60"
+            >
+              Docs
+            </Link>
+          </nav>
           <ThemeToggle />
         </div>
       </div>
