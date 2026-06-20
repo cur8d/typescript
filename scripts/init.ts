@@ -50,12 +50,12 @@ async function main() {
 
     const defaultRepo = defaultGithubUser ? `${defaultGithubUser}/${defaultRepoName}` : `username/${defaultRepoName}`;
 
-    const nameInput = await question(`Project Name (e.g., My Awesome App) [${defaultName}]: `);
+    const nameInput = await question(`Project Name [${defaultName}]: `);
     const name = nameInput.trim() || defaultName;
 
-    const description = await question('Project Description: ');
+    const description = await question('Project Description (e.g., My Awesome App): ');
 
-    const repoInput = await question(`GitHub Repository (e.g., username/repo) [${defaultRepo}]: `);
+    const repoInput = await question(`GitHub Repository [${defaultRepo}]: `);
     const repo = repoInput.trim() || defaultRepo;
 
     if (!name || !repo) {
@@ -131,15 +131,15 @@ async function main() {
 
         // 4. Firebase project IDs
         if (file === '.firebaserc') {
-            content = content.replace(/cur8d-vibe/g, `${slug}`);
-            content = content.replace(/cur8d-site/g, `${slug}-site`);
-            content = content.replace(/cur8d-docs/g, `${slug}-docs`);
+          content = content.replace(/cur8d-vibe/g, `${slug}`);
+          content = content.replace(/cur8d-site/g, `${slug}-site`);
+          content = content.replace(/cur8d-docs/g, `${slug}-docs`);
         }
 
         // 5. Descriptions (must happen before general cur8d replacement)
         if (description) {
-           content = content.replace(/a production-ready Next\.js starter/g, description);
-           content = content.replace(/an extremely opinionated, production-ready Next\.js template designed for speed and reliability\./g, description);
+          content = content.replace(/a production-ready Next\.js starter/g, description);
+          content = content.replace(/an extremely opinionated, production-ready Next\.js template designed for speed and reliability\./g, description);
         }
 
         // 6. General "cur8d" replacement (Brand name)
