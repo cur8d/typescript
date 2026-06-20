@@ -1,6 +1,8 @@
 [tools]
-node = "24.0.0"
-pnpm = "11.1.2"
+node = "latest"
+
+[hooks]
+postinstall = 'npx corepack enable'
 
 [shell_alias]
 m = "mise run"

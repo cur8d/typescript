@@ -2,7 +2,7 @@
   "name": "cur8d",
   "version": "0.1.0",
   "private": true,
-  "packageManager": "pnpm@11.1.2",
+  "packageManager": "pnpm@11.8.0",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
@@ -63,14 +63,5 @@
     "typescript": "6.0.3",
     "vercel": "^41.0.0",
     "vitest": "4.1.8"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "protobufjs",
-      "re2",
-      "sharp",
-      "unrs-resolver"
-    ]
   }
 }
