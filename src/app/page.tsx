@@ -2,6 +2,7 @@ import { Card } from "@heroui/react";
 import { SiGithub } from "@icons-pack/react-simple-icons";
 import { Shield, Zap, Globe } from "lucide-react";
 import Link from "next/link";
+import { CodeSnippet } from "@/components/CodeSnippet";
 
 const JSON_LD = {
   "@context": "https://schema.org",
@@ -35,10 +36,7 @@ export default function Page() {
         </div>
 
         <div className="mx-auto mb-10 max-w-fit">
-          <div className="flex items-center gap-3 rounded-xl border border-border bg-secondary/50 px-6 py-4 font-mono text-sm md:text-base shadow-sm">
-            <span className="text-primary select-none">$</span>
-            <code className="text-foreground">npx create-cur8d awesome-app --template tsx</code>
-          </div>
+          <CodeSnippet code="npx create-cur8d awesome-app --template tsx" />
         </div>
 
         <div className="flex justify-center gap-4">

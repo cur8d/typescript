@@ -95,4 +95,8 @@
   [cmdk-empty=""] {
     color: hsl(var(--muted-foreground)) !important;
   }
+
+  .code-block {
+    @apply flex items-center justify-between gap-4 rounded-xl border border-border bg-secondary/30 px-6 py-4 font-mono text-sm shadow-sm transition-colors hover:bg-secondary/50 md:text-base;
+  }
 }
