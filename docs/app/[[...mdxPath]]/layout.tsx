@@ -21,6 +21,8 @@ export const metadata = {
   description: 'Production-ready Next.js starter documentation'
 }
 
+const CURRENT_YEAR = new Date().getFullYear()
+
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const pageMap = await getPageMap()
   return (
@@ -41,7 +43,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           } />}
           footer={<Footer>
             <div className="flex flex-col gap-2">
-              <p>© {new Date().getFullYear()} Cur8d. Built with Nextra.</p>
+              <p>© {CURRENT_YEAR} Cur8d. Built with Nextra.</p>
             </div>
           </Footer>}
           pageMap={pageMap}
