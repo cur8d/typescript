@@ -3,22 +3,24 @@ import { SiGithub } from "@icons-pack/react-simple-icons";
 import { Shield, Zap, Globe } from "lucide-react";
 import Link from "next/link";
 
-export default function Page() {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "cur8d.tsx",
-    "description": "A modern typescript Next.js starter template with HeroUI and Tailwind CSS for building high-performance, accessible, and type-safe web applications.",
-    "url": "https://github.com/cur8d/typescript",
-    "applicationCategory": "DeveloperApplication",
-    "operatingSystem": "All",
-  };
+const JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "cur8d.tsx",
+  "description": "A modern typescript Next.js starter template with HeroUI and Tailwind CSS for building high-performance, accessible, and type-safe web applications.",
+  "url": "https://github.com/cur8d/typescript",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "All",
+};
 
+const JSON_LD_STRING = JSON.stringify(JSON_LD);
+
+export default function Page() {
   return (
     <div className="flex flex-col gap-20 pb-20">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON_LD_STRING }}
       />
       {/* Hero Section */}
       <section className="container mx-auto px-4 pt-20 text-center">
