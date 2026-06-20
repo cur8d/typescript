@@ -9,7 +9,7 @@ cur8d is a production-ready Next.js starter
 
 1.  **Customize the template**:
     ```bash
-    pnpm init-project
+    pnpm init
     ```
 
 2.  **Install toolchain**:

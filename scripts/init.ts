@@ -1,13 +1,14 @@
-const fs = require('fs');
-const path = require('path');
-const readline = require('readline');
+import fs from 'node:fs';
+import path from 'node:path';
+import readline from 'node:readline';
 
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
 
-const question = (query) => new Promise((resolve) => rl.question(query, resolve));
+const question = (query: string): Promise<string> =>
+  new Promise((resolve) => rl.question(query, resolve));
 
 async function main() {
   console.log('🚀 cur8d Template Initialization');
@@ -49,8 +50,8 @@ async function main() {
       'tests/e2e/navbar.spec.ts',
     ];
 
-    const getAllMdxFiles = (dir) => {
-      let results = [];
+    const getAllMdxFiles = (dir: string): string[] => {
+      let results: string[] = [];
       if (!fs.existsSync(dir)) return results;
       const list = fs.readdirSync(dir);
       list.forEach((file) => {
@@ -99,7 +100,6 @@ async function main() {
         }
 
         // 6. General "cur8d" replacement (Brand name)
-        // We use a regex that avoids replacing parts of URLs already handled
         content = content.replace(/cur8d/g, name);
 
         fs.writeFileSync(filePath, content, 'utf8');
@@ -115,19 +115,20 @@ async function main() {
       // Also remove from package.json
       const pkgPath = path.join(process.cwd(), 'package.json');
       const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
-      if (pkg.scripts && pkg.scripts['init-project']) {
-        delete pkg.scripts['init-project'];
+      if (pkg.scripts && pkg.scripts['init']) {
+        delete pkg.scripts['init'];
         fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n', 'utf8');
-        console.log('✅ Removed init-project script from package.json.');
+        console.log('✅ Removed init script from package.json.');
       }
     }
 
     console.log('\n✨ Project initialized successfully!');
     console.log(`Next steps:
-  1. pnpm install
-  2. pnpm dev`);
+  1. mise install
+  2. pnpm install
+  3. pnpm dev`);
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('❌ An error occurred:', error.message);
   } finally {
     rl.close();

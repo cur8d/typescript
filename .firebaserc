@@ -3,7 +3,7 @@
     "default": "cur8d-vibe"
   },
   "targets": {
-    "cur8d-vibe": {
+    "test-project-ts": {
       "hosting": {
         "site": [
           "cur8d-site"
