@@ -7,17 +7,6 @@ export function Footer() {
         <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
           &copy; {currentYear} Cur8d. All rights reserved.
         </p>
-        {/* <div className="flex items-center gap-4 text-sm font-medium text-muted-foreground">
-          <Link href="/privacy" className="hover:text-foreground">
-            Privacy Policy
-          </Link>
-          <Link href="/terms" className="hover:text-foreground">
-            Terms of Service
-          </Link>
-          <Link href="/contact" className="hover:text-foreground">
-            Contact
-          </Link>
-        </div> */}
       </div>
     </footer>
   );
