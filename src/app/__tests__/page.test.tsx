@@ -38,7 +38,8 @@ describe("Landing Page", () => {
     const script = container.querySelector('script[type="application/ld+json"]');
     expect(script).toBeInTheDocument();
     if (script) {
-      const json = JSON.parse(script.innerHTML);
+      const json = JSON.parse(script.textContent || script.innerHTML);
+      expect(json["@context"]).toBe("https://schema.org");
       expect(json.name).toBe("cur8d.tsx");
       expect(json.url).toBe("https://github.com/cur8d/typescript");
     }
