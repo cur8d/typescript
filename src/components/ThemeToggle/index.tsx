@@ -13,11 +13,6 @@ export function ThemeToggle() {
     setMounted(true);
   }, []);
 
-  /**
-   * Performance & UX Optimization:
-   * 1. Explicit dimensions (size-10 md:size-9) prevent Cumulative Layout Shift (CLS) during hydration.
-   * 2. useTheme's resolvedTheme correctly handles "system" theme resolution.
-   */
   if (!mounted) {
     return (
       <Button
