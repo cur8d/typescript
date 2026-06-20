@@ -52,14 +52,14 @@
     "@vitest/coverage-v8": "4.1.8",
     "eslint": "10.5.0",
     "eslint-config-next": "16.2.9",
-    "firebase-tools": "^15.20.0",
+    "firebase-tools": "^15.22.0",
     "globals": "^17.6.0",
     "jsdom": "29.1.1",
     "playwright": "1.60.0",
     "prettier": "3.8.4",
     "tailwindcss": "4.3.1",
     "typescript": "6.0.3",
-    "vercel": "^41.0.0",
+    "vercel": "^41.7.8",
     "vitest": "4.1.8"
   }
 }
