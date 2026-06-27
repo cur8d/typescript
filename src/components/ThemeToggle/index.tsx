@@ -23,21 +23,27 @@ export function ThemeToggle() {
 
   return (
     <Tooltip delay={300} closeDelay={0}>
-      <Tooltip.Trigger>
-        <Button
-          isIconOnly
-          variant="ghost"
-          aria-label={label}
-          className="size-10 md:size-9"
-          onClick={() => mounted && setTheme(targetTheme)}
-        >
-          {!mounted ? null : resolvedTheme === "dark" ? (
-            <Sun className="h-5 w-5" />
-          ) : (
-            <Moon className="h-5 w-5" />
-          )}
-        </Button>
-      </Tooltip.Trigger>
+      <Tooltip.Trigger
+        render={(props: any) => (
+          <Button
+            {...props}
+            isIconOnly
+            variant="ghost"
+            aria-label={label}
+            className="size-10 md:size-9"
+            onClick={(e: any) => {
+              props.onClick?.(e);
+              if (mounted) setTheme(targetTheme);
+            }}
+          >
+            {!mounted ? null : resolvedTheme === "dark" ? (
+              <Sun className="h-5 w-5" />
+            ) : (
+              <Moon className="h-5 w-5" />
+            )}
+          </Button>
+        )}
+      />
       <Tooltip.Content>{label}</Tooltip.Content>
     </Tooltip>
   );

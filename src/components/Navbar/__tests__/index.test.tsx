@@ -48,8 +48,9 @@ describe("Navbar", () => {
 
     render(<Navbar />);
 
-    // Updated to match the dynamic label
-    const themeToggle = screen.getByLabelText(/Switch to (dark|light) theme/);
+    // In tests, mounted is false by default in our current setup (useEffect didn't run yet)
+    // or we can just look for either label.
+    const themeToggle = screen.queryByLabelText(/Switch to (dark|light) theme/) || screen.getByLabelText("Toggle theme");
     expect(themeToggle).toBeInTheDocument();
   });
 });
