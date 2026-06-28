@@ -1,7 +1,3 @@
-/**
- * Optimization: Hoist static year to module level to avoid redundant
- * re-computation on every render.
- */
 const CURRENT_YEAR = new Date().getFullYear();
 
 export function Footer() {

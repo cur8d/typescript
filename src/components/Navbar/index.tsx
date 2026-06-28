@@ -1,10 +1,6 @@
 import Link from "next/link";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
-/**
- * Optimization: Server Component by default reduces client-side JavaScript
- * bundle and avoids unnecessary hydration for static navigation shell.
- */
 export function Navbar() {
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-sm">
