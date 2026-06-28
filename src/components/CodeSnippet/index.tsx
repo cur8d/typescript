@@ -32,9 +32,9 @@ export const CodeSnippet = ({ code }: CodeSnippetProps) => {
         aria-label="Copy to clipboard"
       >
         {copied ? (
-          <Check className="h-4 w-4 text-success" />
+          <Check className="h-4 w-4 text-success" data-testid="check-icon" />
         ) : (
-          <Copy className="h-4 w-4" />
+          <Copy className="h-4 w-4" data-testid="copy-icon" />
         )}
       </button>
     </div>
