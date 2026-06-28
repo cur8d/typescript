@@ -42,13 +42,13 @@ describe("Navbar", () => {
 
   it("renders the theme toggle", () => {
     (useTheme as Mock).mockReturnValue({
-      theme: "light",
+      resolvedTheme: "light",
       setTheme,
     });
 
     render(<Navbar />);
 
-    const themeToggle = screen.getByLabelText("Toggle theme");
+    const themeToggle = screen.queryByLabelText(/Switch to (dark|light) theme/) || screen.getByLabelText("Toggle theme");
     expect(themeToggle).toBeInTheDocument();
   });
 });

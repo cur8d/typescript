@@ -1,8 +1,8 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
-import { Button } from "@heroui/react";
+import { useEffect, useState, useMemo } from "react";
+import { Button, Tooltip } from "@heroui/react";
 import { Sun, Moon } from "lucide-react";
 
 export function ThemeToggle() {
@@ -13,30 +13,38 @@ export function ThemeToggle() {
     setMounted(true);
   }, []);
 
-  if (!mounted) {
-    return (
-      <Button
-        isIconOnly
-        variant="ghost"
-        aria-label="Toggle theme"
-        className="size-10 md:size-9"
-      />
-    );
-  }
+  const targetTheme = useMemo(() =>
+    resolvedTheme === "dark" ? "light" : "dark"
+  , [resolvedTheme]);
+
+  const label = useMemo(() =>
+    mounted ? `Switch to ${targetTheme} theme` : "Toggle theme"
+  , [mounted, targetTheme]);
 
   return (
-    <Button
-      isIconOnly
-      variant="ghost"
-      aria-label="Toggle theme"
-      className="size-10 md:size-9"
-      onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-    >
-      {resolvedTheme === "dark" ? (
-        <Sun className="h-5 w-5" />
-      ) : (
-        <Moon className="h-5 w-5" />
-      )}
-    </Button>
+    <Tooltip delay={300} closeDelay={0}>
+      <Tooltip.Trigger
+        render={(props: any) => (
+          <Button
+            {...props}
+            isIconOnly
+            variant="ghost"
+            aria-label={label}
+            className="size-10 md:size-9"
+            onClick={(e: any) => {
+              props.onClick?.(e);
+              if (mounted) setTheme(targetTheme);
+            }}
+          >
+            {!mounted ? null : resolvedTheme === "dark" ? (
+              <Sun className="h-5 w-5" />
+            ) : (
+              <Moon className="h-5 w-5" />
+            )}
+          </Button>
+        )}
+      />
+      <Tooltip.Content>{label}</Tooltip.Content>
+    </Tooltip>
   );
 }
