@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import readline from 'node:readline';
-import { execSync } from 'node:child_process';
+import { spawnSync } from 'node:child_process';
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -13,9 +13,16 @@ const question = (query: string): Promise<string> =>
 
 function getGitConfig(key: string): string {
   try {
-    return execSync(`git config --get ${key}`, { stdio: ['ignore', 'pipe', 'ignore'] })
-      .toString()
-      .trim();
+    const result = spawnSync('git', ['config', '--get', key], {
+      stdio: ['ignore', 'pipe', 'ignore'],
+      encoding: 'utf-8',
+    });
+
+    if (result.status !== 0) {
+      return '';
+    }
+
+    return result.stdout.trim();
   } catch {
     return '';
   }
