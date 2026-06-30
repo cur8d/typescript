@@ -40,3 +40,7 @@ next-env.d.ts
 # misc
 .DS_Store
 *.pem
+
+# local sandbox & cache
+.pnpm/
+.xdg/

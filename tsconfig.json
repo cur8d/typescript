@@ -24,22 +24,22 @@
     ],
     "paths": {
       "@/*": [
-        "./src/*"
+        "./app/*"
       ],
       "@/components/*": [
-        "./src/components/*"
+        "./app/components/*"
       ],
       "@/lib/*": [
-        "./src/lib/*"
+        "./app/lib/*"
       ],
       "@/types/*": [
-        "./src/types/*"
+        "./app/types/*"
       ],
       "@/hooks/*": [
-        "./src/hooks/*"
+        "./app/hooks/*"
       ],
       "@/config/*": [
-        "./src/config/*"
+        "./app/config/*"
       ]
     }
   },
