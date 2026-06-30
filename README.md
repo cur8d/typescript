@@ -3,40 +3,102 @@
 [![CI](https://github.com/cur8d/typescript/actions/workflows/ci.yml/badge.svg)](https://github.com/cur8d/typescript/actions/workflows/ci.yml)
 [![Coverage](https://img.shields.io/badge/coverage-80%25-green.svg)](https://github.com/cur8d/typescript/actions)
 
-cur8d is a production-ready Next.js starter
+cur8d is an opinionated, production-ready Next.js starter template optimized for data integration, accessibility, and high performance. It comes with built-in support for toolchain management, automated testing, static documentation, and streamlined deployments.
 
-## Quick Start
+## Capabilities
 
-1.  **Customize the template**:
-    ```bash
-    pnpm init
-    ```
+- **Interactive Initialization**: A custom template setup script that configures your project's metadata, repository links, hosting options, and cleans up after itself.
+- **Strict Type-Safety**: Built with TypeScript in strict mode, including runtime verification of environment variables using Zod schemas.
+- **Modern Styling & UI Foundation**: Implemented with Tailwind CSS (using CSS-first configuration and variables) and HeroUI compound components, pre-configured with a system-aware light/dark mode (`next-themes`).
+- **Comprehensive Testing Rigor**: Robust test coverage enforcement (80%+ target) with Vitest for unit/component tests and Playwright for E2E, visual, and accessibility (Axe) audits.
+- **Static Documentation Project**: An integrated documentation workspace powered by Nextra, generating a static site ready for GitHub Pages or Firebase hosting.
+- **Zero-Friction Dev Environment**: Fully managed local development tasks and toolchains via `mise`, including custom alias shortcuts for common git and npm tasks.
+- **Flexible Deployment Targets**: Configured for Serverless deployments on Vercel (ideal for Next.js App Router and Server Components) and static site deployment on Firebase Hosting.
 
-2.  **Install toolchain**:
-    ```bash
-    mise install
-    ```
+## Project Structure
 
-2.  **Install dependencies**:
-    ```bash
-    pnpm install
-    ```
+This project is organized as a monorepo workspace managed by `pnpm`:
 
-3.  **Start development**:
-    ```bash
-    pnpm dev
-    ```
+```text
+├── app/                  # Main Next.js App Router application
+│   ├── components/       # Reusable React components (with barrel exports)
+│   ├── hooks/            # Custom React hooks (e.g., keyboard shortcuts)
+│   ├── lib/              # Logic layer, Zod environment schema, SEO JSON-LD helpers
+│   ├── layout.tsx        # Root layout with providers configured
+│   └── globals.css       # Tailwind CSS v4 directives and variables
+├── docs/                 # Nextra v4 documentation site (pnpm workspace package)
+├── scripts/              # Template setup and utility scripts
+├── tests/                # Verification suites
+│   ├── unit/             # Component and utility tests (Vitest)
+│   └── e2e/              # E2E and accessibility audits (Playwright)
+├── .mise.toml            # Toolchain, task definitions, and run shortcuts
+└── pnpm-workspace.yaml   # Monorepo workspaces definition
+```
 
 ## Tech Stack
 
-| Tool | Version | Purpose |
+The core framework and library stack includes (without version locks):
+
+- **Framework**: Next.js (App Router, Server Components)
+- **UI Library**: React & Framer Motion
+- **Component Library**: HeroUI (using the compound component dot-notation pattern)
+- **Styling**: Tailwind CSS & PostCSS
+- **Validation**: Zod (environment configuration and schemas)
+- **Icons**: Lucide React
+- **Unit Testing**: Vitest with React Testing Library & jsdom
+- **E2E & A11y Testing**: Playwright & `@axe-core/playwright`
+- **Documentation**: Nextra & Markdown (MDX)
+- **Deployments**: Vercel CLI & Firebase CLI
+
+## Quick Start
+
+### Prerequisites
+
+Ensure you have [mise](https://mise.jdx.dev/) installed on your system.
+
+### Installation & Setup
+
+1. **Customize the template**:
+   Run the interactive setup script to configure project names, repositories, and hosting configurations:
+   ```bash
+   pnpm run init
+   ```
+
+2. **Install the toolchain**:
+   Let `mise` automatically download and configure Node.js and `pnpm`:
+   ```bash
+   mise install
+   ```
+
+3. **Install dependencies**:
+   ```bash
+   pnpm install
+   ```
+
+4. **Install Playwright browsers** (for E2E/A11y testing):
+   ```bash
+   pnpm exec playwright install --with-deps
+   ```
+
+5. **Start development**:
+   ```bash
+   pnpm dev
+   ```
+
+## Development Commands
+
+All development tasks are defined in `.mise.toml` and can be run using the `mise` CLI or package manager scripts:
+
+| Command | Alias / Task | Description |
 | :--- | :--- | :--- |
-| Next.js | 16.2.6 | Framework |
-| React | 19.0.0 | UI Library |
-| HeroUI | 3.0.5 | Component Library |
-| Tailwind CSS | 4.0.0 | Styling |
-| Vitest | 4.1.6 | Unit Testing |
-| Playwright | 1.59.1 | E2E Testing |
+| `pnpm dev` | `mise run dev` (or `d`) | Starts the local dev server with Turbopack |
+| `pnpm build` | `mise run build` (or `b`) | Builds the main application for production |
+| `pnpm lint` | `mise run lint` (or `l`) | Runs ESLint over the codebase |
+| `pnpm test` | `mise run test` (or `t`) | Runs Vitest unit tests |
+| `pnpm run test:coverage` | `mise run test:coverage` | Runs unit tests and reports coverage |
+| `pnpm run test:e2e` | `mise run test:e2e` | Runs E2E and visual tests with Playwright |
+| `pnpm run verify` | `mise run verify` (or `v`) | Runs linting, typechecking, and unit tests with coverage |
+| `pnpm run docs:dev` | `mise run docs:dev` | Starts the local documentation server |
 
 ## Documentation
 
@@ -45,3 +107,4 @@ Full documentation is available at [https://cur8d.dev/typescript](https://cur8d.
 ## License
 
 MIT
+
