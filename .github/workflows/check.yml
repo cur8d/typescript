@@ -10,10 +10,10 @@ jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # Shallow clones is disabled for a better relevancy of SonarCloud analysis
-      - uses: jdx/mise-action@v4
+      - uses: jdx/mise-action@v2
       - name: Install dependencies
         run: mise run install
       - name: Typecheck
@@ -29,13 +29,13 @@ jobs:
       - name: Run E2E tests
         run: mise run test:e2e
       - name: Upload coverage
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: coverage/
       - name: Upload Playwright report
         if: failure()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
           name: playwright-report
           path: playwright-report/
