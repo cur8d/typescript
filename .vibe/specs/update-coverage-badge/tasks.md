@@ -1,0 +1,7 @@
+- [x] Configure `vitest.config.ts` to output `lcov` coverage and exclude `**/.xdg/**`
+- [x] Create `sonar-project.properties` configuration file
+- [x] Update `.github/workflows/check.yml` to include the SonarCloud scan step
+- [x] Update `scripts/init.ts` to rename Sonar parameters on setup
+- [x] Update `README.md` to reference the dynamic SonarCloud coverage badge
+- [x] Revert `package.json` changes and delete old local badge scripts
+- [x] Verify local coverage outputs (`coverage/lcov.info`)

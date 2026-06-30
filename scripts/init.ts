@@ -98,6 +98,7 @@ async function main() {
       'AGENTS.md',
       'CONTRIBUTING.md',
       'tests/e2e/navbar.spec.ts',
+      'sonar-project.properties',
     ];
 
     const getAllMdxFiles = async (dir: string): Promise<string[]> => {

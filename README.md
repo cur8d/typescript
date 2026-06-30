@@ -1,7 +1,8 @@
 # cur8d — a production-ready Next.js starter
 
-[![CI](https://github.com/cur8d/typescript/actions/workflows/ci.yml/badge.svg)](https://github.com/cur8d/typescript/actions/workflows/ci.yml)
-[![Coverage](https://img.shields.io/badge/coverage-80%25-green.svg)](https://github.com/cur8d/typescript/actions)
+[![CI](https://github.com/cur8d/typescript/actions/workflows/check.yml/badge.svg)](https://github.com/cur8d/typescript/actions/workflows/check.yml)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=cur8d.tsx&metric=coverage)](https://sonarcloud.io/summary/new_code?id=cur8d.tsx)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=cur8d.tsx&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=cur8d.tsx)
 
 cur8d is an opinionated, production-ready Next.js starter template optimized for data integration, accessibility, and high performance. It comes with built-in support for toolchain management, automated testing, static documentation, and streamlined deployments.
 
@@ -99,6 +100,14 @@ All development tasks are defined in `.mise.toml` and can be run using the `mise
 | `pnpm run test:e2e` | `mise run test:e2e` | Runs E2E and visual tests with Playwright |
 | `pnpm run verify` | `mise run verify` (or `v`) | Runs linting, typechecking, and unit tests with coverage |
 | `pnpm run docs:dev` | `mise run docs:dev` | Starts the local documentation server |
+
+## CI & Code Quality
+
+This template includes a pre-configured GitHub Actions workflow in `.github/workflows/check.yml` that runs linting, typechecking, unit tests (with LCOV coverage), and E2E tests.
+
+It also integrates with **SonarCloud** for static code analysis, quality gate status, and test coverage reporting. To activate this integration in your repository:
+1. Set up your repository on [SonarCloud](https://sonarcloud.io/).
+2. Add your SonarCloud token as a repository secret named `SONAR_TOKEN` under your repository settings (`Settings > Secrets and variables > Actions`).
 
 ## Documentation
 
