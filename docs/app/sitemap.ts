@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import fs from "node:fs";
 import path from "node:path";
 
-const BASE_URL = "https://typescript.cur8d.dev/typescript";
+const BASE_URL = "https://cur8d.dev/typescript";
 // Next.js runs from the project root during build
 const CONTENT_DIR = path.join(process.cwd(), "content");
 
