@@ -1,5 +1,6 @@
 import { Hero } from "@/components/Hero";
 import { Features } from "@/components/Features";
+import { safeJsonLdStringify } from "@/lib/json-ld";
 
 const JSON_LD = {
   "@context": "https://schema.org",
@@ -11,7 +12,7 @@ const JSON_LD = {
   "operatingSystem": "All",
 };
 
-const JSON_LD_STRING = JSON.stringify(JSON_LD);
+const JSON_LD_STRING = safeJsonLdStringify(JSON_LD);
 
 export default function Page() {
   return (
