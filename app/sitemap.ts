@@ -3,7 +3,7 @@ import type { MetadataRoute } from "next";
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: "https://cur8d.dev",
+      url: "https://typescript.cur8d.dev",
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 1,

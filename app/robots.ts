@@ -6,6 +6,9 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://cur8d.dev/sitemap.xml",
+    sitemap: [
+      "https://typescript.cur8d.dev/sitemap.xml",
+      "https://typescript.cur8d.dev/typescript/sitemap.xml",
+    ],
   };
 }
