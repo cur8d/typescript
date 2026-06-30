@@ -1,0 +1,31 @@
+# Tasks Checklist
+
+- [x] Reorganize Directory Structure
+  - [x] Move `src/app` to `app` at root
+  - [x] Move `src/components` to `app/components`
+  - [x] Move `src/lib` to `app/lib`
+  - [x] Move `src/hooks` to `app/hooks`
+  - [x] Move `src/test/setup.ts` to `tests/unit/setup.ts`
+  - [x] Remove empty `src/` directory
+- [x] Relocate Test Files
+  - [x] Move `src/app/__tests__/not-found.test.tsx` to `tests/unit/app/not-found.test.tsx` and update imports
+  - [x] Move `src/app/__tests__/page.test.tsx` to `tests/unit/app/page.test.tsx` and update imports
+  - [x] Move `src/components/CodeSnippet/__tests__/index.test.tsx` to `tests/unit/components/CodeSnippet/index.test.tsx` and update imports
+  - [x] Move `src/components/Features/__tests__/index.test.tsx` to `tests/unit/components/Features/index.test.tsx` and update imports
+  - [x] Move `src/components/Footer/__tests__/index.test.tsx` to `tests/unit/components/Footer/index.test.tsx` and update imports
+  - [x] Move `src/components/Hero/__tests__/index.test.tsx` to `tests/unit/components/Hero/index.test.tsx` and update imports
+  - [x] Move `src/components/Navbar/__tests__/index.test.tsx` to `tests/unit/components/Navbar/index.test.tsx` and update imports
+  - [x] Move `src/components/ThemeToggle/__tests__/index.test.tsx` to `tests/unit/components/ThemeToggle/index.test.tsx` and update imports
+  - [x] Move `src/hooks/__tests__/use-search-state.test.tsx` to `tests/unit/hooks/use-search-state.test.tsx` and update imports
+  - [x] Move `src/lib/__tests__/env.test.ts` to `tests/unit/lib/env.test.ts` and update imports
+  - [x] Remove empty `__tests__` directories under the source folders
+- [x] Update Path Alias Configuration
+  - [x] Update `tsconfig.json` mappings to resolve `@/*` from `app/*`
+  - [x] Update `vitest.config.ts` setupFiles and resolve.alias paths
+- [x] Update Miscellaneous Files and Documentation
+  - [x] Update target paths in `scripts/init.ts`
+  - [x] Update paths in `AGENTS.md`
+  - [x] Update `src/` references in `docs/content/` files
+- [x] Verify
+  - [x] Run `mise run verify` equivalent (test, check types, and lint all succeeded)
+  - [x] Run production build (local verification note added in walkthrough due to Google Fonts download block in sandbox)

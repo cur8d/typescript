@@ -4,17 +4,17 @@ The project follows a standard Next.js App Router structure with some enhancemen
 
 ## Root Directory
 
-- `src/`: Application source code.
+- `app/`: Application source code (pages, components, lib, etc.).
 - `docs/`: Nextra documentation site.
-- `tests/`: E2E tests using Playwright.
+- `tests/`: Unit and E2E tests.
 - `.vibe/`: Project specifications and tasks.
 - `.mise.toml`: Toolchain version pinning.
 
-## Source Directory (`src/`)
+## Application Directory (`app/`)
 
-- `app/`: Next.js App Router pages and layouts.
 - `components/`: Reusable React components.
 - `lib/`: Utility functions and shared logic.
 - `types/`: Shared TypeScript interfaces and types.
 - `config/`: Application configuration (e.g., shortcuts).
 - `hooks/`: Custom React hooks.
+- *(Note: Page/Route components are directly at the root of `app/`)*

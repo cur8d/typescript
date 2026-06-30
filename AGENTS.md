@@ -11,9 +11,7 @@ cur8d is a production-ready Next.js starter optimized for data integration and s
 - Supabase & Vercel Blob: Data and storage stubs.
 
 ## 3. Directory Structure
-- `src/app`: Routes and layouts.
-- `src/components`: Reusable components.
-- `src/lib`: Logic and data layer.
+- `app`: Routes, layouts, components, hooks, and logic/data layer.
 - `docs`: Nextra v4 documentation.
 
 ## 4. Toolchain Management
@@ -30,13 +28,13 @@ Managed via `mise`. Update `.mise.toml` to change Node.js or pnpm versions.
 - Server Components by default.
 
 ## 7. How to add a new page
-Add directory to `src/app/` with `page.tsx`.
+Add directory to `app/` with `page.tsx`.
 
 ## 8. How to add a new component
-Create folder in `src/components/` with `index.tsx`, types, and tests.
+Create folder in `app/components/` with `index.tsx`, types, and tests.
 
 ## 9. How to add a keyboard shortcut
-Register in `src/config/shortcuts.ts`, use `useShortcuts` hook, add UI hint.
+Register in `app/config/shortcuts.ts`, use `useShortcuts` hook, add UI hint.
 
 ## 10. Testing Guide
 - Unit: `pnpm test`
@@ -44,7 +42,7 @@ Register in `src/config/shortcuts.ts`, use `useShortcuts` hook, add UI hint.
 - 80% coverage required.
 
 ## 11. Environment Variables
-Validated via Zod in `src/lib/env.ts`.
+Validated via Zod in `app/lib/env.ts`.
 
 ## 12. Local Development Commands
 - `pnpm dev`: Start dev server.
@@ -64,4 +62,4 @@ Wiring via `next-themes` and Tailwind v4 variables.
 `lucide-react` named imports with Tailwind `size-*` utilities.
 
 ## 17. Data layer
-Mock data in `src/lib/data/mock.ts`, migration path to Supabase documented in `src/lib/data/README.md`.
+Mock data in `app/lib/data/mock.ts`, migration path to Supabase documented in `app/lib/data/README.md`.

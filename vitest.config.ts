@@ -6,13 +6,13 @@ export default defineConfig({
   plugins: [react()],
   test: {
     environment: "jsdom",
-    setupFiles: ["./src/test/setup.ts"],
+    setupFiles: ["./tests/unit/setup.ts"],
     globals: true,
     exclude: ["**/node_modules/**", "**/dist/**", "**/tests/e2e/**"],
   },
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      "@": path.resolve(__dirname, "./app"),
     },
   },
 });

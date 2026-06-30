@@ -89,8 +89,8 @@ async function main() {
       'README.md',
       'LICENSE',
       'CHANGELOG.md',
-      'src/components/Navbar/index.tsx',
-      'src/app/page.tsx',
+      'app/components/Navbar/index.tsx',
+      'app/page.tsx',
       '.firebaserc',
       'docs/app/[[...mdxPath]]/layout.tsx',
       'docs/theme.config.jsx',
@@ -188,8 +188,9 @@ async function main() {
   2. pnpm install
   3. pnpm dev`);
 
-  } catch (error: any) {
-    console.error('❌ An error occurred:', error.message);
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error('❌ An error occurred:', errorMessage);
   } finally {
     rl.close();
   }
