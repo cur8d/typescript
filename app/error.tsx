@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { Button } from "@heroui/react";
 import { AlertCircle, RefreshCcw } from "lucide-react";
+import { reportError } from "@/lib/error-reporting";
 
 export default function Error({
   error,
@@ -13,7 +14,7 @@ export default function Error({
 }) {
   useEffect(() => {
     // Log the error to an error reporting service
-    console.error(error);
+    reportError(error);
   }, [error]);
 
   return (
