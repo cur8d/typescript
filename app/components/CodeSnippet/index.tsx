@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Copy } from "lucide-react";
+import { Check, Copy, AlertCircle } from "lucide-react";
 import { useState } from "react";
 import { Button, Tooltip } from "@heroui/react";
 
@@ -10,18 +10,27 @@ interface CodeSnippetProps {
 
 export const CodeSnippet = ({ code }: CodeSnippetProps) => {
   const [copied, setCopied] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(code);
+      setHasError(false);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       console.error("Failed to copy!", err);
+      setCopied(false);
+      setHasError(true);
+      setTimeout(() => setHasError(false), 2000);
     }
   };
 
-  const label = copied ? "Copied!" : "Copy to clipboard";
+  const label = hasError
+    ? "Failed to copy"
+    : copied
+      ? "Copied!"
+      : "Copy to clipboard";
 
   return (
     <div className="code-block">
@@ -44,7 +53,12 @@ export const CodeSnippet = ({ code }: CodeSnippetProps) => {
               className="code-block__button"
               aria-label={label}
             >
-              {copied ? (
+              {hasError ? (
+                <AlertCircle
+                  className="h-4 w-4 text-danger"
+                  data-testid="error-icon"
+                />
+              ) : copied ? (
                 <Check className="h-4 w-4 text-success" data-testid="check-icon" />
               ) : (
                 <Copy className="h-4 w-4" data-testid="copy-icon" />

@@ -44,11 +44,6 @@ describe("CodeSnippet", () => {
     render(<CodeSnippet code={mockCode} />);
     const button = screen.getByLabelText("Copy to clipboard");
 
-    // Initially shows Copy icon (we can't easily check for the component itself,
-    // but we can check if the Check icon is NOT there or the Copy icon is there if it had a label.
-    // Given the implementation, we can check for the presence of the lucide-check class if it had one,
-    // or just rely on the state change effect)
-
     await act(async () => {
       fireEvent.click(button);
     });
@@ -69,7 +64,8 @@ describe("CodeSnippet", () => {
     vi.useRealTimers();
   });
 
-  it("logs error to console when clipboard write fails", async () => {
+  it("shows error state when clipboard write fails", async () => {
+    vi.useFakeTimers();
     const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const error = new Error("Clipboard fail");
     vi.mocked(navigator.clipboard.writeText).mockRejectedValueOnce(error);
@@ -81,7 +77,21 @@ describe("CodeSnippet", () => {
       fireEvent.click(button);
     });
 
+    // Should show error icon
+    expect(screen.getByTestId("error-icon")).toBeInTheDocument();
+    expect(screen.getByLabelText("Failed to copy")).toBeInTheDocument();
     expect(consoleSpy).toHaveBeenCalledWith("Failed to copy!", error);
+
+    act(() => {
+      vi.advanceTimersByTime(2000);
+    });
+
+    // Should revert back to initial state
+    expect(screen.queryByTestId("error-icon")).not.toBeInTheDocument();
+    expect(screen.getByTestId("copy-icon")).toBeInTheDocument();
+    expect(screen.getByLabelText("Copy to clipboard")).toBeInTheDocument();
+
     consoleSpy.mockRestore();
+    vi.useRealTimers();
   });
 });
