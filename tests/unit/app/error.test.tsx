@@ -41,20 +41,22 @@ describe("Error component", () => {
   });
 
   it("reloads the page when 'Reload Page' button is clicked", () => {
-    // Mock window.location.reload
-    const originalLocation = window.location;
-    // @ts-expect-error - mocking window.location
-    delete window.location;
-    window.location = { ...originalLocation, reload: vi.fn() };
+    const reloadMock = vi.fn();
+
+    // Mock window.location using vi.stubGlobal
+    vi.stubGlobal("location", {
+      ...window.location,
+      reload: reloadMock,
+    });
 
     render(<ErrorComponent error={mockError} reset={mockReset} />);
 
     const reloadButton = screen.getByRole("button", { name: /reload page/i });
     fireEvent.click(reloadButton);
 
-    expect(window.location.reload).toHaveBeenCalledTimes(1);
+    expect(reloadMock).toHaveBeenCalledTimes(1);
 
-    // Restore window.location
-    window.location = originalLocation;
+    // Cleanup
+    vi.unstubAllGlobals();
   });
 });
