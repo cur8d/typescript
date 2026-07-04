@@ -40,11 +40,13 @@ export function useSearchState() {
     throw new Error("useSearchState must be used within a SearchProvider");
   }
 
-  return {
-    ...context,
-    // Compatibility with HeroUI useOverlayState if needed
-    open: context.onOpen,
-    close: context.onClose,
-    setOpen: context.onOpenChange
-  };
+  return useMemo(
+    () => ({
+      ...context,
+      open: context.onOpen,
+      close: context.onClose,
+      setOpen: context.onOpenChange,
+    }),
+    [context]
+  );
 }
