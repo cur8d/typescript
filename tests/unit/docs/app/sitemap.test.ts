@@ -28,22 +28,21 @@ describe("Docs Sitemap", () => {
   });
 
   it("returns correct sitemap based on MDX files", async () => {
-    vi.mocked(fs.existsSync).mockReturnValue(true);
-    vi.mocked(fs.promises.readdir).mockImplementation(async (dir: string | Buffer | URL) => {
-      const dirStr = dir.toString();
-      if (dirStr === CONTENT_DIR) {
-        return [
+    (fs.existsSync as any).mockReturnValue(true);
+    (fs.promises.readdir as any).mockImplementation((dir: string) => {
+      if (dir === CONTENT_DIR) {
+        return Promise.resolve([
           { name: "index.mdx", isDirectory: () => false, isFile: () => true },
           { name: "about.md", isDirectory: () => false, isFile: () => true },
           { name: "nested", isDirectory: () => true, isFile: () => false },
-        ] as any;
+        ]);
       }
-      if (dirStr === path.join(CONTENT_DIR, "nested")) {
-        return [
+      if (dir === path.join(CONTENT_DIR, "nested")) {
+        return Promise.resolve([
           { name: "page.mdx", isDirectory: () => false, isFile: () => true },
-        ] as any;
+        ]);
       }
-      return [];
+      return Promise.resolve([]);
     });
 
     const result = await sitemap();
@@ -73,7 +72,7 @@ describe("Docs Sitemap", () => {
   });
 
   it("returns empty array if content directory does not exist", async () => {
-    vi.mocked(fs.existsSync).mockReturnValue(false);
+    (fs.existsSync as any).mockReturnValue(false);
     const result = await sitemap();
     expect(result).toEqual([]);
   });
