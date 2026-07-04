@@ -42,6 +42,10 @@ async function getMdxFiles(dir: string, baseDir: string): Promise<string[]> {
 export const dynamic = "force-static";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  if (!fs.existsSync(CONTENT_DIR)) {
+    return [];
+  }
+
   const paths = await getMdxFiles(CONTENT_DIR, CONTENT_DIR);
 
   return paths.map((p) => ({
