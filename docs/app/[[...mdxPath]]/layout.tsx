@@ -28,11 +28,6 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable}`}>
       <Head>
-        {/*
-          CSP Note: 'unsafe-inline' is required for Next.js hydration in static exports.
-          'unsafe-eval' has been removed for better security.
-          'base-uri' and 'object-src' are set to 'none' to harden the policy.
-        */}
         <meta
           httpEquiv="Content-Security-Policy"
           content="default-src 'self'; script-src 'self' 'unsafe-inline' va.vercel-scripts.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' vitals.vercel-insights.com; object-src 'none'; base-uri 'none'; form-action 'self'; upgrade-insecure-requests;"
