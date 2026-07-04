@@ -40,11 +40,17 @@ export function useSearchState() {
     throw new Error("useSearchState must be used within a SearchProvider");
   }
 
-  return {
-    ...context,
-    // Compatibility with HeroUI useOverlayState if needed
-    open: context.onOpen,
-    close: context.onClose,
-    setOpen: context.onOpenChange
-  };
+  // Memoize the return value to ensure a stable object reference
+  // as long as the underlying context value remains the same.
+  // This prevents unnecessary re-renders in components consuming this hook.
+  return useMemo(
+    () => ({
+      ...context,
+      // Compatibility with HeroUI useOverlayState if needed
+      open: context.onOpen,
+      close: context.onClose,
+      setOpen: context.onOpenChange,
+    }),
+    [context]
+  );
 }
