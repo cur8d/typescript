@@ -7,8 +7,9 @@ import path from "node:path";
 vi.mock("node:fs", () => ({
   default: {
     existsSync: vi.fn(),
-    readdirSync: vi.fn(),
-    statSync: vi.fn(),
+    promises: {
+      readdir: vi.fn(),
+    },
   },
 }));
 
@@ -26,23 +27,25 @@ describe("Docs Sitemap", () => {
     vi.useRealTimers();
   });
 
-  it("returns correct sitemap based on MDX files", () => {
+  it("returns correct sitemap based on MDX files", async () => {
     (fs.existsSync as any).mockReturnValue(true);
-    (fs.readdirSync as any).mockImplementation((dir: string) => {
+    (fs.promises.readdir as any).mockImplementation((dir: string) => {
       if (dir === CONTENT_DIR) {
-        return ["index.mdx", "about.md", "nested"];
+        return Promise.resolve([
+          { name: "index.mdx", isDirectory: () => false, isFile: () => true },
+          { name: "about.md", isDirectory: () => false, isFile: () => true },
+          { name: "nested", isDirectory: () => true, isFile: () => false },
+        ]);
       }
       if (dir === path.join(CONTENT_DIR, "nested")) {
-        return ["page.mdx"];
+        return Promise.resolve([
+          { name: "page.mdx", isDirectory: () => false, isFile: () => true },
+        ]);
       }
-      return [];
+      return Promise.resolve([]);
     });
 
-    (fs.statSync as any).mockImplementation((filePath: string) => ({
-      isDirectory: () => !filePath.endsWith(".mdx") && !filePath.endsWith(".md"),
-    }));
-
-    const result = sitemap();
+    const result = await sitemap();
 
     expect(result).toHaveLength(3);
 
@@ -51,10 +54,15 @@ describe("Docs Sitemap", () => {
     expect(urls).toContain("https://cur8d.dev/typescript/about/");
     expect(urls).toContain("https://cur8d.dev/typescript/nested/page/");
 
-    const rootEntry = result.find((entry: MetadataRoute.Sitemap[number]) => entry.url === "https://cur8d.dev/typescript/");
+    const rootEntry = result.find(
+      (entry: MetadataRoute.Sitemap[number]) => entry.url === "https://cur8d.dev/typescript/",
+    );
     expect(rootEntry?.priority).toBe(1);
 
-    const aboutEntry = result.find((entry: MetadataRoute.Sitemap[number]) => entry.url === "https://cur8d.dev/typescript/about/");
+    const aboutEntry = result.find(
+      (entry: MetadataRoute.Sitemap[number]) =>
+        entry.url === "https://cur8d.dev/typescript/about/",
+    );
     expect(aboutEntry?.priority).toBe(0.8);
 
     result.forEach((entry: MetadataRoute.Sitemap[number]) => {
@@ -63,9 +71,9 @@ describe("Docs Sitemap", () => {
     });
   });
 
-  it("returns empty array if content directory does not exist", () => {
+  it("returns empty array if content directory does not exist", async () => {
     (fs.existsSync as any).mockReturnValue(false);
-    const result = sitemap();
+    const result = await sitemap();
     expect(result).toEqual([]);
   });
 });
