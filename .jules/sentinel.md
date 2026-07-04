@@ -1,6 +1,9 @@
-# Sentinel Journal
+## 2025-05-22 - CSP Hardening for Vercel Insights
+**Vulnerability:** Default CSP often lacks restrictive directives like `base-uri`, `form-action`, and `upgrade-insecure-requests`, leaving the app open to certain injection and MITM attacks.
+**Learning:** Adding a strict CSP can break Vercel Speed Insights. Specifically, the Speed Insights script requires connection to `vitals.vercel-insights.com`.
+**Prevention:** Always include `vitals.vercel-insights.com` in `connect-src` when using Vercel Speed Insights with a CSP. Ensure `upgrade-insecure-requests` is used to force HTTPS in modern browsers.
 
-## 2025-05-14 - Content Security Policy Meta Tag Limitations
-**Vulnerability:** Attempted to add `frame-ancestors 'none'` to a CSP `<meta>` tag in the documentation site.
-**Learning:** The `frame-ancestors` directive is ignored by browsers when delivered via a CSP `<meta>` tag. It must be delivered as an HTTP header to prevent clickjacking effectively. Additionally, removing `'unsafe-eval'` from a Next.js/Nextra project without exhaustive component verification can lead to functional regressions.
-**Prevention:** Always deliver clickjacking protection (`frame-ancestors`, `X-Frame-Options`) via HTTP headers. Centralize CSP configuration where possible, but be mindful of delivery mechanism limitations (Headers vs. Meta tags) in static exports.
+## 2025-05-22 - Strict Environment Variable Validation
+**Vulnerability:** Weak validation of sensitive environment variables (like API tokens) can lead to using malformed or incorrect credentials, potentially causing runtime failures or security misconfigurations.
+**Learning:** Vercel Blob tokens follow a predictable pattern (`vercel_blob_rw_...`). Enforcing this at the schema level (Zod) provides early detection of configuration errors.
+**Prevention:** Use Zod's `.startsWith()` or `.regex()` to enforce known formats for external API keys and tokens in `env.ts`.
