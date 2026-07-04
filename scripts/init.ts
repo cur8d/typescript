@@ -102,21 +102,31 @@ async function main() {
     ];
 
     const getAllMdxFiles = async (dir: string): Promise<string[]> => {
-      try {
-        const list = await fs.promises.readdir(dir, { withFileTypes: true });
-        const results = await Promise.all(
-          list.map(async (dirent) => {
-            const filePath = path.join(dir, dirent.name);
+      const results: string[] = [];
+      const walk = async (currentDir: string): Promise<void> => {
+        try {
+          const list = await fs.promises.readdir(currentDir, { withFileTypes: true });
+          const tasks: Promise<void>[] = [];
+
+          for (const dirent of list) {
+            const filePath = path.join(currentDir, dirent.name);
             if (dirent.isDirectory()) {
-              return getAllMdxFiles(filePath);
+              tasks.push(walk(filePath));
+            } else if (dirent.name.endsWith('.mdx')) {
+              results.push(filePath);
             }
-            return dirent.name.endsWith('.mdx') ? [filePath] : [];
-          })
-        );
-        return results.flat();
-      } catch {
-        return [];
-      }
+          }
+
+          if (tasks.length > 0) {
+            await Promise.all(tasks);
+          }
+        } catch {
+          // Ignore errors as per original implementation
+        }
+      };
+
+      await walk(dir);
+      return results;
     };
 
     filesToProcess.push(...(await getAllMdxFiles('docs/content')));
