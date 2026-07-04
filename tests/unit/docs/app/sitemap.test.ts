@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import sitemap from "../../../../docs/app/sitemap";
+import sitemap from "@docs/app/sitemap";
 import fs from "node:fs";
 import path from "node:path";
 
