@@ -55,6 +55,7 @@ describe("CodeSnippet", () => {
 
     // Should show Check icon
     expect(screen.getByTestId("check-icon")).toBeInTheDocument();
+    expect(screen.getByLabelText("Copied!")).toBeInTheDocument();
 
     act(() => {
       vi.advanceTimersByTime(2000);
@@ -63,6 +64,7 @@ describe("CodeSnippet", () => {
     // Should show Copy icon again
     expect(screen.queryByTestId("check-icon")).not.toBeInTheDocument();
     expect(screen.getByTestId("copy-icon")).toBeInTheDocument();
+    expect(screen.getByLabelText("Copy to clipboard")).toBeInTheDocument();
 
     vi.useRealTimers();
   });
