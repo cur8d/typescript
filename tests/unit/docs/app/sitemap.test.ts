@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import sitemap from "@docs/app/sitemap";
+import type { MetadataRoute } from "next";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -45,18 +46,18 @@ describe("Docs Sitemap", () => {
 
     expect(result).toHaveLength(3);
 
-    const urls = result.map((entry) => entry.url);
+    const urls = result.map((entry: MetadataRoute.Sitemap[number]) => entry.url);
     expect(urls).toContain("https://cur8d.dev/typescript/");
     expect(urls).toContain("https://cur8d.dev/typescript/about/");
     expect(urls).toContain("https://cur8d.dev/typescript/nested/page/");
 
-    const rootEntry = result.find((entry) => entry.url === "https://cur8d.dev/typescript/");
+    const rootEntry = result.find((entry: MetadataRoute.Sitemap[number]) => entry.url === "https://cur8d.dev/typescript/");
     expect(rootEntry?.priority).toBe(1);
 
-    const aboutEntry = result.find((entry) => entry.url === "https://cur8d.dev/typescript/about/");
+    const aboutEntry = result.find((entry: MetadataRoute.Sitemap[number]) => entry.url === "https://cur8d.dev/typescript/about/");
     expect(aboutEntry?.priority).toBe(0.8);
 
-    result.forEach((entry) => {
+    result.forEach((entry: MetadataRoute.Sitemap[number]) => {
       expect(entry.lastModified).toEqual(mockDate);
       expect(entry.changeFrequency).toBe("monthly");
     });
