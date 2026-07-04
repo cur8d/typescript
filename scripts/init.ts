@@ -120,8 +120,8 @@ async function main() {
           if (tasks.length > 0) {
             await Promise.all(tasks);
           }
-        } catch {
-          // Ignore errors as per original implementation
+        } catch (error) {
+          console.error(`Error walking directory ${currentDir}:`, error);
         }
       };
 
