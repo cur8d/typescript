@@ -2,7 +2,7 @@
 
 import { Check, Copy } from "lucide-react";
 import { useState } from "react";
-import { Tooltip } from "@heroui/react";
+import { Button, Tooltip } from "@heroui/react";
 
 interface CodeSnippetProps {
   code: string;
@@ -32,13 +32,16 @@ export const CodeSnippet = ({ code }: CodeSnippetProps) => {
       <Tooltip delay={300} closeDelay={0}>
         <Tooltip.Trigger
           render={(props: React.HTMLAttributes<Element>) => (
-            <button
+            <Button
               {...props}
+              isIconOnly
+              variant="ghost"
+              size="sm"
               onClick={(e: React.MouseEvent<Element>) => {
                 props.onClick?.(e);
                 copyToClipboard();
               }}
-              className="text-muted-foreground hover:text-foreground transition-colors p-1 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none rounded-md"
+              className="code-block__button"
               aria-label={label}
             >
               {copied ? (
@@ -46,7 +49,7 @@ export const CodeSnippet = ({ code }: CodeSnippetProps) => {
               ) : (
                 <Copy className="h-4 w-4" data-testid="copy-icon" />
               )}
-            </button>
+            </Button>
           )}
         />
         <Tooltip.Content>{label}</Tooltip.Content>
