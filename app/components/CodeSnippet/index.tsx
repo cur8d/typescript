@@ -26,11 +26,25 @@ export const CodeSnippet = ({ code }: CodeSnippetProps) => {
     }
   };
 
-  const label = hasError
-    ? "Failed to copy"
-    : copied
-      ? "Copied!"
-      : "Copy to clipboard";
+  const getLabel = () => {
+    if (hasError) return "Failed to copy";
+    if (copied) return "Copied!";
+    return "Copy to clipboard";
+  };
+
+  const label = getLabel();
+
+  const getIcon = () => {
+    if (hasError) {
+      return (
+        <AlertCircle className="h-4 w-4 text-danger" data-testid="error-icon" />
+      );
+    }
+    if (copied) {
+      return <Check className="h-4 w-4 text-success" data-testid="check-icon" />;
+    }
+    return <Copy className="h-4 w-4" data-testid="copy-icon" />;
+  };
 
   return (
     <div className="code-block">
@@ -53,16 +67,7 @@ export const CodeSnippet = ({ code }: CodeSnippetProps) => {
               className="code-block__button"
               aria-label={label}
             >
-              {hasError ? (
-                <AlertCircle
-                  className="h-4 w-4 text-danger"
-                  data-testid="error-icon"
-                />
-              ) : copied ? (
-                <Check className="h-4 w-4 text-success" data-testid="check-icon" />
-              ) : (
-                <Copy className="h-4 w-4" data-testid="copy-icon" />
-              )}
+              {getIcon()}
             </Button>
           )}
         />
