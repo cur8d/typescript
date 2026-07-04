@@ -6,43 +6,43 @@ const BASE_URL = "https://cur8d.dev/typescript";
 // Next.js runs from the project root during build
 const CONTENT_DIR = path.join(process.cwd(), "content");
 
-function getMdxFiles(dir: string, baseDir: string): string[] {
-  if (!fs.existsSync(dir)) {
-    return [];
-  }
+async function getMdxFiles(dir: string, baseDir: string): Promise<string[]> {
+  const entries = await fs.promises.readdir(dir, { withFileTypes: true });
 
-  const files = fs.readdirSync(dir);
-  let paths: string[] = [];
+  const pathsArray = await Promise.all(
+    entries.map(async (entry) => {
+      const fullPath = path.join(dir, entry.name);
 
-  for (const file of files) {
-    const fullPath = path.join(dir, file);
-    const stat = fs.statSync(fullPath);
-
-    if (stat.isDirectory()) {
-      paths = paths.concat(getMdxFiles(fullPath, baseDir));
-    } else if (file.endsWith(".mdx") || file.endsWith(".md")) {
-      let relativePath = path.relative(baseDir, fullPath);
-      // Normalize path separators for URLs (handle Windows)
-      relativePath = relativePath.split(path.sep).join("/");
-      // Remove extension
-      relativePath = relativePath.replace(/\.mdx?$/, "");
-      // Handle index files
-      if (relativePath.endsWith("/index")) {
-        relativePath = relativePath.slice(0, -6);
-      } else if (relativePath === "index") {
-        relativePath = "";
+      if (entry.isDirectory()) {
+        return getMdxFiles(fullPath, baseDir);
+      } else if (
+        entry.isFile() &&
+        (entry.name.endsWith(".mdx") || entry.name.endsWith(".md"))
+      ) {
+        let relativePath = path.relative(baseDir, fullPath);
+        // Normalize path separators for URLs (handle Windows)
+        relativePath = relativePath.split(path.sep).join("/");
+        // Remove extension
+        relativePath = relativePath.replace(/\.mdx?$/, "");
+        // Handle index files
+        if (relativePath.endsWith("/index")) {
+          relativePath = relativePath.slice(0, -6);
+        } else if (relativePath === "index") {
+          relativePath = "";
+        }
+        return [relativePath];
       }
-      paths.push(relativePath);
-    }
-  }
+      return [];
+    }),
+  );
 
-  return paths;
+  return pathsArray.flat();
 }
 
 export const dynamic = "force-static";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const paths = getMdxFiles(CONTENT_DIR, CONTENT_DIR);
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const paths = await getMdxFiles(CONTENT_DIR, CONTENT_DIR);
 
   return paths.map((p) => ({
     url: `${BASE_URL}/${p}${p ? "/" : ""}`,
