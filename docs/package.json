@@ -8,16 +8,16 @@
     "start": "npx serve@latest out"
   },
   "dependencies": {
-    "@tailwindcss/postcss": "^4.3.1",
-    "framer-motion": "12.42.0",
-    "next": "16.2.9",
+    "@tailwindcss/postcss": "^4.3.2",
+    "framer-motion": "12.42.2",
+    "next": "16.2.10",
     "next-themes": "0.4.6",
     "nextra": "4.6.1",
     "nextra-theme-docs": "4.6.1",
     "postcss": "^8.5.16",
     "react": "19.2.7",
     "react-dom": "19.2.7",
-    "tailwindcss": "4.3.1"
+    "tailwindcss": "4.3.2"
   },
   "devDependencies": {
     "@types/node": "26.0.1",
