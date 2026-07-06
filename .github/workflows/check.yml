@@ -22,6 +22,12 @@ jobs:
         run: mise run lint
       - name: Test
         run: mise run test:coverage
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarqube-scan-action@v7
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        continue-on-error: true
       - name: Install Playwright Browsers
         run: mise run playwright:install
       - name: Build
@@ -39,9 +45,3 @@ jobs:
         with:
           name: playwright-report
           path: playwright-report/
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@v7
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        continue-on-error: true
