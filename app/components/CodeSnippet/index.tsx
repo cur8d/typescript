@@ -52,7 +52,7 @@ export const CodeSnippet = ({ code }: CodeSnippetProps) => {
         <span className="text-primary select-none">$</span>
         <code className="text-foreground">{code}</code>
       </div>
-      <Tooltip delay={300} closeDelay={0}>
+      <Tooltip delay={200} closeDelay={0}>
         <Tooltip.Trigger
           render={(props: React.HTMLAttributes<Element>) => (
             <Button
@@ -64,7 +64,7 @@ export const CodeSnippet = ({ code }: CodeSnippetProps) => {
                 props.onClick?.(e);
                 copyToClipboard();
               }}
-              className="code-block__button"
+              className="code-block__button focus-visible:ring-2 focus-visible:ring-primary"
               aria-label={label}
             >
               {getIcon()}
