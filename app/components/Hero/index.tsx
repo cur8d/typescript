@@ -27,7 +27,9 @@ export function Hero() {
       <div className="flex justify-center gap-4">
         <Link
           href="https://github.com/cur8d/typescript"
-          className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-background px-8 py-3 text-sm font-medium transition-colors hover:bg-secondary"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-background px-8 py-3 text-sm font-medium transition-colors hover:bg-secondary focus-visible:ring-2 focus-visible:ring-primary"
         >
           <SiGithub className="h-5 w-5" />
           GitHub
