@@ -14,7 +14,7 @@ const CONTENT_DIR = path.join(process.cwd(), "content");
 async function getMdxFiles(
   dir: string,
   baseDir: string,
-  results: string[] = []
+  results: string[] = [],
 ): Promise<string[]> {
   const entries = await fs.promises.readdir(dir, { withFileTypes: true });
 
@@ -41,7 +41,7 @@ async function getMdxFiles(
         }
         results.push(relativePath);
       }
-    })
+    }),
   );
 
   return results;
@@ -55,6 +55,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   const paths = await getMdxFiles(CONTENT_DIR, CONTENT_DIR);
+  const now = new Date();
 
   // Performance optimization: hoist the Date instantiation outside of the loop
   // to avoid redundant Date allocations on every mapped entry.
@@ -63,7 +64,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return paths.map((p) => ({
     url: `${BASE_URL}/${p}${p ? "/" : ""}`,
     lastModified,
-    changeFrequency: "monthly",
+    changeFrequency: "monthly" as const,
     priority: p === "" ? 1 : 0.8,
   }));
 }
