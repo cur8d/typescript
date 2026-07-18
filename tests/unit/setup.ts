@@ -28,4 +28,4 @@ class IntersectionObserver {
   unobserve() {}
   disconnect() {}
 }
-window.IntersectionObserver = IntersectionObserver;
+window.IntersectionObserver = IntersectionObserver as any;
