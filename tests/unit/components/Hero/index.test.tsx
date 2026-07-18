@@ -4,20 +4,30 @@ import { describe, it, expect, vi } from "vitest";
 
 // Mock CodeSnippet because it might use navigator.clipboard which is not available in jsdom or needs mocking
 vi.mock("@/components/CodeSnippet", () => ({
-  CodeSnippet: ({ code }: { code: string }) => <div data-testid="code-snippet">{code}</div>,
+  CodeSnippet: ({ code }: { code: string }) => (
+    <div data-testid="code-snippet">{code}</div>
+  ),
 }));
 
 describe("Hero Component", () => {
   it("renders the hero section with the main heading", () => {
     render(<Hero />);
-    const heading = screen.getByRole("heading", { level: 1, name: /build faster with cur8d/i });
+    const heading = screen.getByRole("heading", {
+      level: 1,
+      name: /build faster with cur8d/i,
+    });
     expect(heading).toBeInTheDocument();
   });
 
-  it("renders the GitHub link with correct href", () => {
+  it("renders the GitHub link with correct href, target, and rel attributes", () => {
     render(<Hero />);
     const githubLink = screen.getByRole("link", { name: /github/i });
-    expect(githubLink).toHaveAttribute("href", "https://github.com/cur8d/typescript");
+    expect(githubLink).toHaveAttribute(
+      "href",
+      "https://github.com/cur8d/typescript",
+    );
+    expect(githubLink).toHaveAttribute("target", "_blank");
+    expect(githubLink).toHaveAttribute("rel", "noopener noreferrer");
   });
 
   it("renders the code snippet", () => {

@@ -27,7 +27,7 @@ describe("Navbar", () => {
     expect(brandLink).toHaveAttribute("href", "/");
   });
 
-  it("renders the documentation link", () => {
+  it("renders the documentation link with correct attributes", () => {
     (useTheme as Mock).mockReturnValue({
       theme: "light",
       setTheme,
@@ -38,6 +38,8 @@ describe("Navbar", () => {
     const docsLink = screen.getByRole("link", { name: /docs/i });
     expect(docsLink).toBeInTheDocument();
     expect(docsLink).toHaveAttribute("href", "https://cur8d.dev/typescript");
+    expect(docsLink).toHaveAttribute("target", "_blank");
+    expect(docsLink).toHaveAttribute("rel", "noopener noreferrer");
   });
 
   it("renders the theme toggle", () => {
@@ -48,7 +50,9 @@ describe("Navbar", () => {
 
     render(<Navbar />);
 
-    const themeToggle = screen.queryByLabelText(/Switch to (dark|light) theme/) || screen.getByLabelText("Toggle theme");
+    const themeToggle =
+      screen.queryByLabelText(/Switch to (dark|light) theme/) ||
+      screen.getByLabelText("Toggle theme");
     expect(themeToggle).toBeInTheDocument();
   });
 });
