@@ -6,9 +6,10 @@
  * @param context - Additional context information for the error
  */
 export function reportError(error: unknown, context?: Record<string, unknown>): void {
+  const errorMessage = error instanceof Error ? error.message : String(error);
   if (context) {
-    console.error(error, context);
+    console.error(errorMessage, context);
   } else {
-    console.error(error);
+    console.error(errorMessage);
   }
 }
