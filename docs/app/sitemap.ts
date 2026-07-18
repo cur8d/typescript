@@ -6,15 +6,24 @@ const BASE_URL = "https://cur8d.dev/typescript";
 // Next.js runs from the project root during build
 const CONTENT_DIR = path.join(process.cwd(), "content");
 
-async function getMdxFiles(dir: string, baseDir: string): Promise<string[]> {
+/**
+ * Recursively retrieves MDX and MD file paths relative to baseDir.
+ * Optimized using parallel directory traversal with a shared results accumulator
+ * to avoid nested Promise.all().flat() arrays and minimize memory allocations.
+ */
+async function getMdxFiles(
+  dir: string,
+  baseDir: string,
+  results: string[] = []
+): Promise<string[]> {
   const entries = await fs.promises.readdir(dir, { withFileTypes: true });
 
-  const pathsArray = await Promise.all(
+  await Promise.all(
     entries.map(async (entry) => {
       const fullPath = path.join(dir, entry.name);
 
       if (entry.isDirectory()) {
-        return getMdxFiles(fullPath, baseDir);
+        await getMdxFiles(fullPath, baseDir, results);
       } else if (
         entry.isFile() &&
         (entry.name.endsWith(".mdx") || entry.name.endsWith(".md"))
@@ -30,13 +39,12 @@ async function getMdxFiles(dir: string, baseDir: string): Promise<string[]> {
         } else if (relativePath === "index") {
           relativePath = "";
         }
-        return [relativePath];
+        results.push(relativePath);
       }
-      return [];
-    }),
+    })
   );
 
-  return pathsArray.flat();
+  return results;
 }
 
 export const dynamic = "force-static";
@@ -48,9 +56,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const paths = await getMdxFiles(CONTENT_DIR, CONTENT_DIR);
 
+  // Performance optimization: hoist the Date instantiation outside of the loop
+  // to avoid redundant Date allocations on every mapped entry.
+  const lastModified = new Date();
+
   return paths.map((p) => ({
     url: `${BASE_URL}/${p}${p ? "/" : ""}`,
-    lastModified: new Date(),
+    lastModified,
     changeFrequency: "monthly",
     priority: p === "" ? 1 : 0.8,
   }));
