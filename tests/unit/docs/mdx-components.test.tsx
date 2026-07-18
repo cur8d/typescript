@@ -7,7 +7,7 @@ describe("useMDXComponents", () => {
     const customComponents = {
       h2: () => "h2-custom",
       p: () => "p-custom",
-    } as any;
+    } as Record<string, () => string>;
 
     const result = useMDXComponents(customComponents);
 

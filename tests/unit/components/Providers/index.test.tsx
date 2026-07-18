@@ -13,7 +13,7 @@ vi.mock("next/navigation", () => ({
 
 // We mock RouterProvider to verify it receives the navigate prop
 vi.mock("@heroui/react", async () => {
-  const actual = (await vi.importActual("@heroui/react")) as any;
+  const actual = (await vi.importActual("@heroui/react")) as Record<string, unknown>;
   return {
     ...actual,
     RouterProvider: vi.fn(({ children }) => <div data-testid="hero-ui-router-provider">{children}</div>),
