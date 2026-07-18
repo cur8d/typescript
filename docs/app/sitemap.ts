@@ -55,7 +55,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   const paths = await getMdxFiles(CONTENT_DIR, CONTENT_DIR);
-  const now = new Date();
+
 
   // Performance optimization: hoist the Date instantiation outside of the loop
   // to avoid redundant Date allocations on every mapped entry.
