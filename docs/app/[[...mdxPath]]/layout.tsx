@@ -30,7 +30,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
       <Head>
         <meta
           httpEquiv="Content-Security-Policy"
-          content="default-src 'self'; script-src 'self' 'unsafe-inline' va.vercel-scripts.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self' vitals.vercel-insights.com; base-uri 'none'; form-action 'self'; upgrade-insecure-requests;"
+          content="default-src 'self'; script-src 'self' va.vercel-scripts.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self' vitals.vercel-insights.com; base-uri 'none'; form-action 'self'; upgrade-insecure-requests;"
         />
         <meta name="referrer" content="strict-origin-when-cross-origin" />
       </Head>
