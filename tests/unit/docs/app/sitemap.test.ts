@@ -6,9 +6,9 @@ import path from "node:path";
 
 vi.mock("node:fs", () => ({
   default: {
-    existsSync: vi.fn(),
     promises: {
       readdir: vi.fn(),
+      access: vi.fn(),
     },
   },
 }));
@@ -28,7 +28,7 @@ describe("Docs Sitemap", () => {
   });
 
   it("returns correct sitemap based on MDX files", async () => {
-    (fs.existsSync as any).mockReturnValue(true);
+    (fs.promises.access as any).mockResolvedValue(undefined);
     (fs.promises.readdir as any).mockImplementation((dir: string) => {
       if (dir === CONTENT_DIR) {
         return Promise.resolve([
@@ -72,7 +72,7 @@ describe("Docs Sitemap", () => {
   });
 
   it("returns empty array if content directory does not exist", async () => {
-    (fs.existsSync as any).mockReturnValue(false);
+    (fs.promises.access as any).mockRejectedValue(new Error("ENOENT"));
     const result = await sitemap();
     expect(result).toEqual([]);
   });
