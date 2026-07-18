@@ -22,7 +22,7 @@ export function ThemeToggle() {
   , [mounted, targetTheme]);
 
   return (
-    <Tooltip delay={300} closeDelay={0}>
+    <Tooltip delay={200} closeDelay={0}>
       <Tooltip.Trigger
         render={(props: React.HTMLAttributes<Element>) => (
           <Button
@@ -30,7 +30,7 @@ export function ThemeToggle() {
             isIconOnly
             variant="ghost"
             aria-label={label}
-            className="size-10 md:size-9"
+            className="size-10 md:size-9 focus-visible:ring-2 focus-visible:ring-primary"
             onClick={(e: React.MouseEvent<Element>) => {
               props.onClick?.(e);
               if (mounted) setTheme(targetTheme);

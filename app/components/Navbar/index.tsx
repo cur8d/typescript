@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { ExternalLink } from "lucide-react";
 
 export function Navbar() {
   return (
@@ -15,9 +16,13 @@ export function Navbar() {
           <nav className="flex items-center space-x-6 text-sm font-medium">
             <Link
               href="https://cur8d.dev/typescript"
-              className="transition-colors hover:text-foreground/80 text-foreground/60"
+              className="inline-flex items-center gap-1 transition-colors hover:text-foreground/80 text-foreground/60"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               Docs
+              <ExternalLink className="h-3 w-3" aria-hidden="true" />
+              <span className="sr-only"> (opens in a new window)</span>
             </Link>
           </nav>
           <ThemeToggle />

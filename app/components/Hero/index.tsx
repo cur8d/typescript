@@ -10,7 +10,8 @@ export function Hero() {
       </h1>
       <div className="mx-auto mb-10 max-w-2xl text-xl text-muted-foreground">
         <p>
-          High-performance, accessible, and type-safe template for your next big idea.
+          High-performance, accessible, and type-safe template for your next big
+          idea.
         </p>
         <p>
           Powered by <span className="text-primary">Typescript</span>,{" "}
@@ -27,10 +28,13 @@ export function Hero() {
       <div className="flex justify-center gap-4">
         <Link
           href="https://github.com/cur8d/typescript"
-          className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-background px-8 py-3 text-sm font-medium transition-colors hover:bg-secondary"
+          className="inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-background px-8 py-3 text-sm font-medium transition-colors hover:bg-secondary focus-visible:ring-2 focus-visible:ring-primary"
+          target="_blank"
+          rel="noopener noreferrer"
         >
           <SiGithub className="h-5 w-5" />
           GitHub
+          <span className="sr-only"> (opens in a new window)</span>
         </Link>
       </div>
     </section>
