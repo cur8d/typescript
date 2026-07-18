@@ -13,13 +13,13 @@ describe("error-reporting utility", () => {
   it("logs error to console", () => {
     const error = new Error("Test error");
     reportError(error);
-    expect(console.error).toHaveBeenCalledWith(error);
+    expect(console.error).toHaveBeenCalledWith(error.message);
   });
 
   it("logs error with context to console", () => {
     const error = new Error("Test error");
     const context = { foo: "bar" };
     reportError(error, context);
-    expect(console.error).toHaveBeenCalledWith(error, context);
+    expect(console.error).toHaveBeenCalledWith(error.message, context);
   });
 });
