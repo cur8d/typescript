@@ -1,5 +1,4 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import sitemap from "@/sitemap";
 
 describe("Sitemap", () => {
   const mockDate = new Date("2024-01-01T00:00:00Z");
@@ -13,7 +12,8 @@ describe("Sitemap", () => {
     vi.useRealTimers();
   });
 
-  it("returns the correct sitemap structure", () => {
+  it("returns the correct sitemap structure", async () => {
+    const { default: sitemap } = await import("@/sitemap");
     const result = sitemap();
 
     expect(Array.isArray(result)).toBe(true);
