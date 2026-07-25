@@ -3,6 +3,7 @@
 import { Check, Copy, AlertCircle } from "lucide-react";
 import { useState } from "react";
 import { Button, Tooltip } from "@heroui/react";
+import { reportError } from "@/lib/error-reporting";
 
 interface CodeSnippetProps {
   code: string;
@@ -19,7 +20,7 @@ export const CodeSnippet = ({ code }: CodeSnippetProps) => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      console.error("Failed to copy!", err);
+      reportError(err, { component: "CodeSnippet", action: "copy" });
       setCopied(false);
       setHasError(true);
       setTimeout(() => setHasError(false), 2000);
