@@ -20,7 +20,7 @@ export default function Error({
   return (
     <div className="container flex min-h-[calc(100vh-16rem)] flex-col items-center justify-center gap-6 text-center">
       <div className="flex h-20 w-20 items-center justify-center rounded-full bg-danger/10">
-        <AlertCircle className="h-10 w-10 text-danger" />
+        <AlertCircle className="h-10 w-10 text-danger" aria-hidden="true" />
       </div>
       <div className="space-y-2">
         <h1 className="text-4xl font-bold">Something went wrong!</h1>
@@ -32,16 +32,16 @@ export default function Error({
         <Button
           variant="outline"
           onClick={() => window.location.reload()}
-          className="rounded-xl px-8"
+          className="focus-ring rounded-xl px-8"
         >
           Reload Page
         </Button>
         <Button
           variant="primary"
           onClick={() => reset()}
-          className="rounded-xl px-8"
+          className="focus-ring rounded-xl px-8"
         >
-          <RefreshCcw className="h-4 w-4 mr-2" />
+          <RefreshCcw className="h-4 w-4 mr-2" aria-hidden="true" />
           Try Again
         </Button>
       </div>
