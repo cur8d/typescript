@@ -19,8 +19,8 @@ export const CodeSnippet = ({ code }: CodeSnippetProps) => {
       setHasError(false);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      reportError(err, { component: "CodeSnippet", action: "copy" });
+    } catch (error) {
+      reportError(error, { component: "CodeSnippet", action: "copy" });
       setCopied(false);
       setHasError(true);
       setTimeout(() => setHasError(false), 2000);
