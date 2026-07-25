@@ -103,4 +103,8 @@
   .code-block__button {
     @apply text-muted-foreground hover:text-foreground;
   }
+
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2;
+  }
 }
