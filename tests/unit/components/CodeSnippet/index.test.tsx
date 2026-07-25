@@ -1,6 +1,7 @@
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import { CodeSnippet } from "@/components/CodeSnippet";
 import { describe, it, expect, vi, beforeEach } from "vitest";
+import * as errorReporting from "@/lib/error-reporting";
 
 describe("CodeSnippet", () => {
   const mockCode = "pnpm install";
@@ -66,7 +67,7 @@ describe("CodeSnippet", () => {
 
   it("shows error state when clipboard write fails", async () => {
     vi.useFakeTimers();
-    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const reportErrorSpy = vi.spyOn(errorReporting, "reportError").mockImplementation(() => {});
     const error = new Error("Clipboard fail");
     vi.mocked(navigator.clipboard.writeText).mockRejectedValueOnce(error);
 
@@ -80,7 +81,7 @@ describe("CodeSnippet", () => {
     // Should show error icon
     expect(screen.getByTestId("error-icon")).toBeInTheDocument();
     expect(screen.getByLabelText("Failed to copy")).toBeInTheDocument();
-    expect(consoleSpy).toHaveBeenCalledWith("Failed to copy!", error);
+    expect(reportErrorSpy).toHaveBeenCalledWith(error, { component: "CodeSnippet", action: "copy" });
 
     act(() => {
       vi.advanceTimersByTime(2000);
@@ -91,7 +92,7 @@ describe("CodeSnippet", () => {
     expect(screen.getByTestId("copy-icon")).toBeInTheDocument();
     expect(screen.getByLabelText("Copy to clipboard")).toBeInTheDocument();
 
-    consoleSpy.mockRestore();
+    reportErrorSpy.mockRestore();
     vi.useRealTimers();
   });
 });
