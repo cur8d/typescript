@@ -13,10 +13,6 @@ describe("Sitemap", () => {
   });
 
   it("returns the correct sitemap structure", async () => {
-    // Import sitemap dynamically within the test run after the fake system time has been set,
-    // or test against LAST_MODIFIED by mocking/reimporting. Since app/sitemap.ts instantiates
-    // LAST_MODIFIED during module load time, the module-level constant is created when the module
-    // is imported. We dynamically import it here under the fake timer context.
     const { default: sitemap } = await import("@/sitemap");
     const result = sitemap();
 
