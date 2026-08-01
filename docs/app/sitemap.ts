@@ -18,8 +18,6 @@ async function getMdxFiles(
 ): Promise<string[]> {
   const entries = await fs.promises.readdir(dir, { withFileTypes: true });
 
-  const promises: Promise<void>[] = [];
-
   for (const entry of entries) {
     promises.push(
       (async () => {
@@ -32,10 +30,13 @@ async function getMdxFiles(
           (entry.name.endsWith(".mdx") || entry.name.endsWith(".md"))
         ) {
           let relativePath = path.relative(baseDir, fullPath);
-          // Normalize path separators for URLs (handle Windows)
-          relativePath = relativePath.split(path.sep).join("/");
-          // Remove extension
-          relativePath = relativePath.replace(/\.mdx?$/, "");
+          // Normalize path separators for URLs (handle Windows) - skip POSIX split/join allocation
+          if (path.sep !== "/") {
+            relativePath = relativePath.split(path.sep).join("/");
+          }
+          // Remove extension using direct slice to avoid regex overhead/allocation
+          const extLength = entry.name.endsWith(".mdx") ? 4 : 3;
+          relativePath = relativePath.slice(0, -extLength);
           // Handle index files
           if (relativePath.endsWith("/index")) {
             relativePath = relativePath.slice(0, -6);
