@@ -18,6 +18,8 @@ async function getMdxFiles(
 ): Promise<string[]> {
   const entries = await fs.promises.readdir(dir, { withFileTypes: true });
 
+  const promises: Promise<void>[] = [];
+
   for (const entry of entries) {
     promises.push(
       (async () => {
