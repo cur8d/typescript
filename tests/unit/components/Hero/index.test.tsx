@@ -19,7 +19,7 @@ describe("Hero Component", () => {
     expect(heading).toBeInTheDocument();
   });
 
-  it("renders the GitHub link with correct href, target, and rel attributes", () => {
+  it("renders the GitHub link with correct href, target, rel attributes, and external link icon", () => {
     render(<Hero />);
     const githubLink = screen.getByRole("link", { name: /github/i });
     expect(githubLink).toHaveAttribute(
@@ -28,6 +28,12 @@ describe("Hero Component", () => {
     );
     expect(githubLink).toHaveAttribute("target", "_blank");
     expect(githubLink).toHaveAttribute("rel", "noopener noreferrer");
+
+    const externalLinkIcon = githubLink.querySelector(
+      "svg.lucide-external-link",
+    );
+    expect(externalLinkIcon).toBeInTheDocument();
+    expect(externalLinkIcon).toHaveAttribute("aria-hidden", "true");
   });
 
   it("renders the code snippet", () => {
