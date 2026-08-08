@@ -53,4 +53,22 @@ describe("ThemeToggle", () => {
     const button = screen.getByLabelText("Switch to light theme");
     expect(button).toBeInTheDocument();
   });
+
+  it("switches theme when Alt+T shortcut is pressed", () => {
+    (useTheme as Mock).mockReturnValue({
+      resolvedTheme: "light",
+      setTheme,
+    });
+
+    render(<ThemeToggle />);
+
+    const event = new KeyboardEvent("keydown", {
+      key: "t",
+      altKey: true,
+      bubbles: true,
+    });
+    window.dispatchEvent(event);
+
+    expect(setTheme).toHaveBeenCalledWith("dark");
+  });
 });
