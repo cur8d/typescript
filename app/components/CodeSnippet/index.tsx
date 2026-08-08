@@ -54,24 +54,18 @@ export const CodeSnippet = ({ code }: CodeSnippetProps) => {
         <code className="text-foreground">{code}</code>
       </div>
       <Tooltip delay={200} closeDelay={0}>
-        <Tooltip.Trigger
-          render={(props: React.HTMLAttributes<Element>) => (
-            <Button
-              {...props}
-              isIconOnly
-              variant="ghost"
-              size="sm"
-              onClick={(e: React.MouseEvent<Element>) => {
-                props.onClick?.(e);
-                copyToClipboard();
-              }}
-              className="code-block__button focus-visible:ring-2 focus-visible:ring-primary"
-              aria-label={label}
-            >
-              {getIcon()}
-            </Button>
-          )}
-        />
+        <Tooltip.Trigger>
+          <Button
+            isIconOnly
+            variant="ghost"
+            size="sm"
+            onPress={copyToClipboard}
+            className="code-block__button focus-visible:ring-2 focus-visible:ring-primary"
+            aria-label={label}
+          >
+            {getIcon()}
+          </Button>
+        </Tooltip.Trigger>
         <Tooltip.Content>{label}</Tooltip.Content>
       </Tooltip>
     </div>
