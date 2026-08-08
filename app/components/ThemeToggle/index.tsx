@@ -22,9 +22,13 @@ export function ThemeToggle() {
     mounted ? `Switch to ${targetTheme} theme` : "Toggle theme"
   , [mounted, targetTheme]);
 
-  useShortcuts("TOGGLE_THEME", () => {
-    if (mounted) setTheme(targetTheme);
-  });
+  const handleToggle = () => {
+    if (mounted) {
+      setTheme(targetTheme);
+    }
+  };
+
+  useShortcuts("TOGGLE_THEME", handleToggle);
 
   return (
     <Tooltip delay={200} closeDelay={0}>
@@ -36,9 +40,10 @@ export function ThemeToggle() {
             variant="ghost"
             aria-label={label}
             className="size-10 md:size-9 focus-visible:ring-2 focus-visible:ring-primary"
+            onPress={handleToggle}
             onClick={(e: React.MouseEvent<Element>) => {
               props.onClick?.(e);
-              if (mounted) setTheme(targetTheme);
+              handleToggle();
             }}
           >
             {!mounted ? null : resolvedTheme === "dark" ? (
