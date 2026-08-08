@@ -23,7 +23,7 @@ describe("ThemeToggle", () => {
     render(<ThemeToggle />);
 
     // When light, it should suggest switching to dark
-    const button = screen.getByLabelText("Switch to dark theme");
+    const button = screen.getByLabelText(/Switch to dark theme/i);
     expect(button).toBeInTheDocument();
   });
 
@@ -35,7 +35,7 @@ describe("ThemeToggle", () => {
 
     render(<ThemeToggle />);
 
-    const button = screen.getByLabelText("Switch to dark theme");
+    const button = screen.getByLabelText(/Switch to dark theme/i);
     fireEvent.click(button);
 
     expect(setTheme).toHaveBeenCalledWith("dark");
@@ -49,8 +49,26 @@ describe("ThemeToggle", () => {
 
     render(<ThemeToggle />);
 
-    // When dark, it should suggest switching to light
-    const button = screen.getByLabelText("Switch to light theme");
-    expect(button).toBeInTheDocument();
+    // When dark, it should suggest switching to light (with macOS ⌥T fallback or Alt+T hint)
+    const button = screen.getByRole("button");
+    expect(button.getAttribute("aria-label")).toContain("Switch to light theme");
+  });
+
+  it("toggles theme when Alt+T keyboard shortcut is pressed", () => {
+    (useTheme as Mock).mockReturnValue({
+      resolvedTheme: "light",
+      setTheme,
+    });
+
+    render(<ThemeToggle />);
+
+    const event = new KeyboardEvent("keydown", {
+      key: "t",
+      altKey: true,
+      bubbles: true,
+    });
+    window.dispatchEvent(event);
+
+    expect(setTheme).toHaveBeenCalledWith("dark");
   });
 });

@@ -11,3 +11,7 @@
 ## 2025-05-15 - Micro-UX Polish: Focus and Snappiness
 **Learning:** High-contrast focus rings (`focus-visible:ring-primary`) significantly improve navigation for keyboard-only users. Additionally, reducing Tooltip delay from 300ms to 200ms makes the interface feel noticeably more responsive and "snappy" without becoming distracting.
 **Action:** Apply consistent `focus-visible` styles to all interactive elements and standardize Tooltip delays to 200ms across the application.
+
+## 2026-08-01 - Global Accessible Keyboard Shortcuts and Platform-Specific Visual Hints
+**Learning:** Adding keyboard shortcuts (e.g., Alt+T for theme toggling) greatly enhances usability for power users. However, we must ensure these shortcuts are fully bypassed when typing in interactive elements like input fields, textareas, selects, or contenteditables to avoid broken text entry. Displaying dynamic platform-specific hints (e.g. `⌥T` on macOS, `Alt+T` on Windows/Linux) in tooltips/ARIA labels bridges the gap between keyboard power-user discoverability and visual accessibility.
+**Action:** Use a centralized configuration for shortcuts combined with a robust hook (`useShortcuts`) that filters out input focuses, and provide adaptive platform-specific hints in interactive tooltips.
