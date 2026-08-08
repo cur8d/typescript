@@ -1,7 +1,7 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { Button, Tooltip } from "@heroui/react";
 import { Sun, Moon } from "lucide-react";
 
@@ -13,13 +13,12 @@ export function ThemeToggle() {
     setMounted(true);
   }, []);
 
-  const targetTheme = useMemo(() =>
-    resolvedTheme === "dark" ? "light" : "dark"
-  , [resolvedTheme]);
+  // Performance Optimization: Hoist simple calculations out of useMemo.
+  // Avoid using useMemo for lightweight, non-expensive computations like simple
+  // ternary checks and template literal interpolations, which saves hook overhead.
+  const targetTheme = resolvedTheme === "dark" ? "light" : "dark";
 
-  const label = useMemo(() =>
-    mounted ? `Switch to ${targetTheme} theme` : "Toggle theme"
-  , [mounted, targetTheme]);
+  const label = mounted ? `Switch to ${targetTheme} theme` : "Toggle theme";
 
   return (
     <Tooltip delay={200} closeDelay={0}>
