@@ -37,17 +37,20 @@ Create folder in `app/components/` with `index.tsx`, types, and tests.
 Register in `app/config/shortcuts.ts`, use `useShortcuts` hook, add UI hint.
 
 ## 10. Testing Guide
-- Unit: `pnpm test`
-- E2E: `pnpm test:e2e`
+- Unit: `mise run test`
+- E2E: `mise run test:e2e`
 - 80% coverage required.
 
 ## 11. Environment Variables
 Validated via Zod in `app/lib/env.ts`.
 
 ## 12. Local Development Commands
-- `pnpm dev`: Start dev server.
-- `pnpm build`: Production build.
-- `pnpm lint`: Run linting.
+Always use `mise` tasks (`mise run <task>`) for executing scripts and management commands:
+- `mise run install`: Install dependencies.
+- `mise run dev`: Start dev server.
+- `mise run build`: Production build.
+- `mise run lint`: Run linting.
+- `mise run verify`: Run all verification tasks (lint, typecheck, coverage).
 
 ## 13. Deployment
 Vercel for SSR, GitHub Pages for static export.

@@ -92,6 +92,5 @@ describe("error-reporting utility", () => {
       expect(sanitized.timestamp).toBe(date);
       expect(sanitized.pattern).toBe(regex);
     });
->>>>>>> origin/sentinel/error-sanitization-12971813671919977372
   });
 });

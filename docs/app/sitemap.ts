@@ -50,10 +50,6 @@ async function getMdxFiles(
       })()
     );
   }
-        }
-      })()
-    );
-  }
 
   await Promise.all(promises);
 
