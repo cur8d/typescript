@@ -1,6 +1,5 @@
 import { SiGithub } from "@icons-pack/react-simple-icons";
 import Link from "next/link";
-import { ExternalLink } from "lucide-react";
 import { CodeSnippet } from "@/components/CodeSnippet";
 
 export function Hero() {
@@ -35,10 +34,6 @@ export function Hero() {
         >
           <SiGithub className="h-5 w-5" />
           GitHub
-          <ExternalLink
-            className="size-4 text-muted-foreground/80"
-            aria-hidden="true"
-          />
           <span className="sr-only"> (opens in a new window)</span>
         </Link>
       </div>

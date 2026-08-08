@@ -1,10 +1,9 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { Button, Tooltip } from "@heroui/react";
 import { Sun, Moon } from "lucide-react";
-import { useShortcuts } from "@/hooks/use-shortcuts";
 
 export function ThemeToggle() {
   const { setTheme, resolvedTheme } = useTheme();
@@ -14,13 +13,13 @@ export function ThemeToggle() {
     setMounted(true);
   }, []);
 
-  const targetTheme = resolvedTheme === "dark" ? "light" : "dark";
-  const os = typeof navigator !== "undefined" && /Mac/i.test(navigator.userAgent) ? "⌥T" : "Alt+T";
-  const label = mounted ? `Switch to ${targetTheme} theme (${os})` : "Toggle theme";
+  const targetTheme = useMemo(() =>
+    resolvedTheme === "dark" ? "light" : "dark"
+  , [resolvedTheme]);
 
-  useShortcuts("TOGGLE_THEME", () => {
-    if (mounted) setTheme(targetTheme);
-  });
+  const label = useMemo(() =>
+    mounted ? `Switch to ${targetTheme} theme` : "Toggle theme"
+  , [mounted, targetTheme]);
 
   return (
     <Tooltip delay={200} closeDelay={0}>
