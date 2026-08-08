@@ -32,21 +32,27 @@ export function ThemeToggle() {
 
   return (
     <Tooltip delay={200} closeDelay={0}>
-      <Tooltip.Trigger>
-        <Button
-          isIconOnly
-          variant="ghost"
-          aria-label={label}
-          className="size-10 md:size-9 focus-visible:ring-2 focus-visible:ring-primary"
-          onPress={handleToggle}
-        >
-          {!mounted ? null : resolvedTheme === "dark" ? (
-            <Sun className="h-5 w-5" />
-          ) : (
-            <Moon className="h-5 w-5" />
-          )}
-        </Button>
-      </Tooltip.Trigger>
+      <Tooltip.Trigger
+        render={(props: React.HTMLAttributes<Element>) => (
+          <Button
+            {...props}
+            isIconOnly
+            variant="ghost"
+            aria-label={label}
+            className="size-10 md:size-9 focus-visible:ring-2 focus-visible:ring-primary"
+            onPress={handleToggle}
+            onClick={(e: React.MouseEvent<Element>) => {
+              props.onClick?.(e);
+            }}
+          >
+            {!mounted ? null : resolvedTheme === "dark" ? (
+              <Sun className="h-5 w-5" />
+            ) : (
+              <Moon className="h-5 w-5" />
+            )}
+          </Button>
+        )}
+      />
       <Tooltip.Content>{label}</Tooltip.Content>
     </Tooltip>
   );
