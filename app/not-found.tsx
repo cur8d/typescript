@@ -5,7 +5,7 @@ export default function NotFound() {
   return (
     <div className="container flex min-h-[calc(100vh-16rem)] flex-col items-center justify-center gap-6 text-center">
       <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
-        <FileQuestion className="h-10 w-10 text-muted-foreground" />
+        <FileQuestion className="h-10 w-10 text-muted-foreground" aria-hidden="true" />
       </div>
       <div className="space-y-2">
         <h1 className="text-4xl font-bold">404 - Page Not Found</h1>

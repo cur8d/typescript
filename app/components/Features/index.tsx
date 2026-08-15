@@ -13,7 +13,7 @@ export function Features() {
       <div className="grid gap-8 md:grid-cols-3">
         <Card className="p-8">
           <Card.Header className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 p-0 text-primary">
-            <Zap className="h-6 w-6" />
+            <Zap className="h-6 w-6" aria-hidden="true" />
           </Card.Header>
           <Card.Content className="p-0 pt-4">
             <Card.Title className="mb-2 text-xl font-semibold">
@@ -27,7 +27,7 @@ export function Features() {
         </Card>
         <Card className="p-8">
           <Card.Header className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 p-0 text-primary">
-            <Shield className="h-6 w-6" />
+            <Shield className="h-6 w-6" aria-hidden="true" />
           </Card.Header>
           <Card.Content className="p-0 pt-4">
             <Card.Title className="mb-2 text-xl font-semibold">
@@ -40,7 +40,7 @@ export function Features() {
         </Card>
         <Card className="p-8">
           <Card.Header className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 p-0 text-primary">
-            <Globe className="h-6 w-6" />
+            <Globe className="h-6 w-6" aria-hidden="true" />
           </Card.Header>
           <Card.Content className="p-0 pt-4">
             <Card.Title className="mb-2 text-xl font-semibold">
