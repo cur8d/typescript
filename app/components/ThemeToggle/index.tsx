@@ -37,9 +37,9 @@ export function ThemeToggle() {
             }}
           >
             {!mounted ? null : resolvedTheme === "dark" ? (
-              <Sun className="h-5 w-5" />
+              <Sun className="h-5 w-5" aria-hidden="true" />
             ) : (
-              <Moon className="h-5 w-5" />
+              <Moon className="h-5 w-5" aria-hidden="true" />
             )}
           </Button>
         )}
