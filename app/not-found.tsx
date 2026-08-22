@@ -1,11 +1,14 @@
 import Link from "next/link";
-import { FileQuestion } from "lucide-react";
+import { FileQuestion, ArrowLeft } from "lucide-react";
 
 export default function NotFound() {
   return (
     <div className="container flex min-h-[calc(100vh-16rem)] flex-col items-center justify-center gap-6 text-center">
       <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
-        <FileQuestion className="h-10 w-10 text-muted-foreground" />
+        <FileQuestion
+          className="h-10 w-10 text-muted-foreground"
+          aria-hidden="true"
+        />
       </div>
       <div className="space-y-2">
         <h1 className="text-4xl font-bold">404 - Page Not Found</h1>
@@ -15,8 +18,9 @@ export default function NotFound() {
       </div>
       <Link
         href="/"
-        className="focus-ring inline-flex items-center justify-center rounded-xl bg-primary px-8 py-3 text-sm font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
+        className="focus-ring inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-8 py-3 text-sm font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90"
       >
+        <ArrowLeft className="h-4 w-4" aria-hidden="true" />
         Return Home
       </Link>
     </div>
