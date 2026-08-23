@@ -1,7 +1,0 @@
-## 2025-05-15 - [CLS and Static Optimization]
-**Learning:** Preventing Cumulative Layout Shift (CLS) in hydration-sensitive components (like theme toggles) can be achieved by explicitly mirroring the framework's (HeroUI) internal dimensions in the component's CSS. Additionally, moving static metadata like JSON-LD outside the render loop and pre-stringifying it avoids redundant computations on every server-side render.
-**Action:** Always check the library's base CSS for default dimensions of "icon-only" buttons and apply them to placeholders. Pre-compute static data that doesn't depend on props or state outside the component scope.
-
-## 2025-08-01 - [Sitemap Directory Traversal and useMemo Overhead]
-**Learning:** When generating a sitemap recursively traversing file structures, replacing regular expressions (e.g., stripping `.md` or `.mdx` extensions) with direct string `.slice` operations significantly cuts down compilation and instantiation overhead. Furthermore, path normalization splitting and joining on path separators can be completely bypassed on POSIX (Linux/macOS) systems where the path separator is already a forward slash `/`. Lastly, using `useMemo` for lightweight, non-expensive computations like simple ternary checks and template literal interpolations in client components adds more hook registration and comparison overhead than direct inline rendering.
-**Action:** Replace known-suffix regex replacement with fast direct slice operations, guard OS-specific path manipulation, and avoid `useMemo` for lightweight variables.
