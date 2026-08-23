@@ -2,13 +2,14 @@
 Status: Accepted
 
 ## Context
-We need a robust, accessible, and themeable UI component library.
+We need a robust, accessible, and themeable UI component library that integrates cleanly with Tailwind CSS.
 
 ## Decision
-We chose HeroUI v3.0.5.
+We chose HeroUI v3.
 
 ## Rationale
-HeroUI v3 offers a wide range of compound components with dot notation, built-in accessibility, and seamless integration with Tailwind CSS.
+HeroUI v3 offers accessible compound components with dot notation, built-in ARIA support, keyboard navigation, and seamless styling compatibility with Tailwind CSS.
 
 ## Consequences
-Component usage must strictly follow v3 APIs (e.g., `<Table.Header>` instead of legacy v2 structures).
+Component usage follows v3 compound component APIs (e.g., `<Card.Header>`, `<Tooltip.Trigger>` instead of legacy monolithic component wrappers).
+

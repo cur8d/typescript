@@ -1,13 +1,27 @@
 # GitHub Pages Deployment
 
-You can deploy cur8d as a static site to GitHub Pages.
+Cur8d uses GitHub Pages to host the static Nextra documentation website.
 
-## Limitations
+## Automated Documentation Deployment
 
-- **No SSR**: Server Components will be pre-rendered at build time.
-- **No Middleware**: `src/middleware.ts` is disabled.
-- **Supabase**: Use client-only patterns for Supabase as SSR middleware won't run.
+The `.github/workflows/docs.yml` workflow automatically builds and publishes the documentation site to GitHub Pages whenever changes are pushed to `docs/**` on the `main` branch or when triggered via `workflow_dispatch`.
 
-## Workflow
+### How It Works
 
-The `.github/workflows/deploy-ghpages.yml` handles building with `output: 'export'` and deploying via `actions/deploy-pages`.
+1. **Static Export**: Runs `mise run docs:build` (which executes `pnpm --filter docs build`), generating a static HTML bundle in `docs/out`.
+2. **Pages Configuration**: Configures GitHub Pages settings with `actions/configure-pages@v6`.
+3. **Artifact Upload**: Packages `docs/out` using `actions/upload-pages-artifact@v5`.
+4. **Deployment**: Deploys the static bundle to your repository's GitHub Pages domain with `actions/deploy-pages@v5`.
+
+## Local Build & Verification
+
+To build and preview the static documentation locally:
+
+```bash
+# Build the static export
+mise run docs:build
+
+# Serve the exported documentation
+mise run docs
+```
+

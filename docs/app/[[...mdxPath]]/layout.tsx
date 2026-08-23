@@ -5,6 +5,7 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import 'nextra-theme-docs/style.css'
 import './globals.css'
 import { ReactNode } from 'react'
+import Link from 'next/link'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -34,12 +35,23 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         />
         <meta name="referrer" content="strict-origin-when-cross-origin" />
       </Head>
-      <body className="font-sans antialiased">
+      <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
         <Layout
-          navbar={<Navbar logo={
+          navbar={<Navbar logoLink={false} logo={
             <div className="flex items-center gap-2">
-              <span className="font-bold text-xl tracking-tight">Cur8d</span>
-              <span className="text-muted-foreground text-sm font-medium uppercase tracking-wider">Docs</span>
+              <Link
+                href="https://tsx.cur8d.dev"
+                className="font-bold text-xl tracking-tight hover:opacity-75 transition-opacity"
+              >
+                cur8d
+              </Link>
+              <span className="text-muted-foreground select-none">/</span>
+              <Link
+                href="/"
+                className="text-muted-foreground hover:text-foreground text-sm font-medium tracking-wider transition-colors"
+              >
+                docs
+              </Link>
             </div>
           } />}
           footer={<Footer>

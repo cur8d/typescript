@@ -1,20 +1,33 @@
 # Project Structure
 
-The project follows a standard Next.js App Router structure with some enhancements for scale and maintainability.
+The project follows a modern Next.js App Router workspace structure optimized for scalability, clean separation of concerns, and automated testing.
 
-## Root Directory
+## Workspace Layout
 
-- `app/`: Application source code (pages, components, lib, etc.).
-- `docs/`: Nextra documentation site.
-- `tests/`: Unit and E2E tests.
-- `.vibe/`: Project specifications and tasks.
-- `.mise.toml`: Toolchain version pinning.
+- `app/`: Main Next.js App Router application.
+- `docs/`: Nextra documentation site (separate workspace package).
+- `scripts/`: Template initialization and setup utility scripts (`init.ts`).
+- `tests/`: Unit and End-to-End verification suites.
+  - `tests/unit/`: Vitest unit and component tests.
+  - `tests/e2e/`: Playwright E2E and accessibility (Axe) tests.
+- `.mise.toml`: Toolchain management and task definitions.
+- `pnpm-workspace.yaml`: Monorepo workspaces definition.
+- `firebase.json` & `.firebaserc`: Firebase Hosting configuration for app and docs.
+- `vercel.json`: Vercel deployment configuration.
 
 ## Application Directory (`app/`)
 
-- `components/`: Reusable React components.
-- `lib/`: Utility functions and shared logic.
-- `types/`: Shared TypeScript interfaces and types.
-- `config/`: Application configuration (e.g., shortcuts).
-- `hooks/`: Custom React hooks.
-- *(Note: Page/Route components are directly at the root of `app/`)*
+- `components/`: Reusable React components (e.g., `CodeSnippet`, `Features`, `Footer`, `Hero`, `Navbar`, `Providers`, `ThemeToggle`).
+- `hooks/`: Custom React hooks and context providers (`use-search-state.tsx`).
+- `lib/`: Shared utilities and logic layer:
+  - `env.ts`: Zod environment variable validation schema.
+  - `error-reporting.ts`: Centralized error reporting abstraction.
+  - `json-ld.ts`: Safe JSON-LD schema serialization for SEO.
+- `layout.tsx`: Root application layout with fonts, providers, skip-to-content link, and Vercel analytics.
+- `page.tsx`: Landing page with Hero, Features, and structured metadata.
+- `globals.css`: Tailwind CSS v4 `@theme` configuration and CSS variables.
+- `error.tsx`: Root error boundary for runtime exceptions.
+- `not-found.tsx`: Custom 404 page.
+- `robots.ts` & `sitemap.ts`: Dynamic SEO routes.
+- `icon.png`: Application favicon and app icon.
+

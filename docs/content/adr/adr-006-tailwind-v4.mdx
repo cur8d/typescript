@@ -1,14 +1,15 @@
-# ADR-006: Tailwind v4 CSS-First
+# ADR-006: Tailwind CSS v4 CSS-First
 Status: Accepted
 
 ## Context
-We need a powerful and flexible styling solution.
+We need a performant, maintainable, and modern styling solution.
 
 ## Decision
-We chose Tailwind CSS v4.0.0.
+We chose Tailwind CSS v4.
 
 ## Rationale
-Tailwind v4 adopts a CSS-first approach, moving configuration to `@theme` blocks in standard CSS files. This simplifies the toolchain and improves performance.
+Tailwind v4 adopts a modern CSS-first configuration model, removing the JavaScript config file in favor of `@theme` directives in standard CSS. This speeds up build times, simplifies dark mode variables, and eliminates build-time plugin overhead.
 
 ## Consequences
-There is no `tailwind.config.ts`. All customizations live in `app/globals.css`.
+There is no `tailwind.config.ts`. All design system customizations and CSS variable bindings are defined in `app/globals.css`.
+

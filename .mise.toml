@@ -17,8 +17,9 @@ ga = "git add ."
 gb = "git branch"
 gco = "git checkout"
 gs = "git status"
-gc = "git commit -m"
+gc = "git commit"
 gp = "git push"
+gpl = "git pull"
 gr = "git rebase --merge"
 
 [tasks.init]

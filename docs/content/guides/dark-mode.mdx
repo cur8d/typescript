@@ -1,16 +1,47 @@
 # Dark Mode
 
-Cur8d supports light and dark modes out of the box using `next-themes`.
+Cur8d provides system-aware light and dark mode out of the box using `next-themes` and Tailwind CSS v4 variables.
 
-## Usage
+## Architecture
 
-- **Theme Toggle**: The `<ThemeToggle>` component in the navbar allows users to switch themes manually.
-- **System Preference**: By default, the application respects the user's system theme.
-- **Tailwind v4**: Use theme-aware colors and CSS variables defined in `app/globals.css`.
+1. **Provider Setup**: `app/components/Providers/index.tsx` wraps the application tree in `NextThemesProvider` with `attribute="class"` and `defaultTheme="system"`.
+2. **Interactive Switcher**: The `<ThemeToggle />` component in the navbar gives users a one-click button with tooltips and accessible ARIA attributes to toggle between light and dark modes.
+3. **Tailwind CSS v4 `@theme`**: Color tokens are mapped to standard CSS variables in `app/globals.css`, dynamically adjusting with `.dark` class changes.
+
+## CSS Variable Configuration
+
+Defined in `app/globals.css`:
 
 ```css
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --background: #ffffff;
+    --foreground: #09090b;
+    --muted: #f4f4f5;
+    --muted-foreground: #71717a;
+    --border: #e4e4e7;
+    --primary: #006fee;
+  }
+
+  .dark {
+    --background: #09090b;
+    --foreground: #ededed;
+    --muted: #27272a;
+    --muted-foreground: #a1a1aa;
+    --border: #27272a;
+    --primary: #006fee;
+  }
+}
+
 @theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
 }
 ```
+

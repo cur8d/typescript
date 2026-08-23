@@ -1,0 +1,44 @@
+# Error Handling & Reporting
+
+Cur8d includes a centralized error reporting layer and custom error boundaries for resilient user experiences.
+
+## Error Reporting Service
+
+Error tracking and diagnostics are abstracted in `app/lib/error-reporting.ts`. This provides a consistent interface whether running in development (console logging) or production (integrating with third-party observability platforms like Sentry or Datadog).
+
+### `reportError`
+
+Report runtime errors and unexpected exceptions alongside contextual metadata:
+
+```typescript
+import { reportError } from "@/lib/error-reporting";
+
+try {
+  await performCriticalAction();
+} catch (error) {
+  reportError(error, {
+    component: "ActionComponent",
+    action: "performCriticalAction",
+    userId: "user_123",
+  });
+}
+```
+
+### `addBreadcrumb`
+
+Track user actions or lifecycle events leading up to potential failures:
+
+```typescript
+import { addBreadcrumb } from "@/lib/error-reporting";
+
+addBreadcrumb({
+  category: "navigation",
+  message: "Navigated to settings",
+  level: "info",
+});
+```
+
+## Next.js Error Boundaries
+
+- **`app/error.tsx`**: Client component acting as the root error boundary. Provides an accessible UI to notify users when a runtime rendering error occurs with a "Try again" action.
+- **`app/not-found.tsx`**: Custom 404 page rendered when a requested resource or route does not exist.

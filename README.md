@@ -23,8 +23,8 @@ This project is organized as a monorepo workspace managed by `pnpm`:
 ```text
 ├── app/                  # Main Next.js App Router application
 │   ├── components/       # Reusable React components (with barrel exports)
-│   ├── hooks/            # Custom React hooks (e.g., keyboard shortcuts)
-│   ├── lib/              # Logic layer, Zod environment schema, SEO JSON-LD helpers
+│   ├── hooks/            # Custom React hooks (e.g., search state)
+│   ├── lib/              # Logic layer, Zod environment schema, SEO JSON-LD helpers, error reporting
 │   ├── layout.tsx        # Root layout with providers configured
 │   └── globals.css       # Tailwind CSS v4 directives and variables
 ├── docs/                 # Nextra v4 documentation site (pnpm workspace package)

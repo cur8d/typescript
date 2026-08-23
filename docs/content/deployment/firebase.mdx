@@ -1,0 +1,34 @@
+# Firebase Hosting Deployment
+
+Cur8d includes configuration for deploying both the main application (`site`) and the documentation (`docs`) to Firebase Hosting.
+
+## Configuration
+
+Firebase project mapping and hosting rules are defined in:
+- [`.firebaserc`](file:///Users/amrabed/Library/CloudStorage/OneDrive-Personal/code/cur8d.tsx/.firebaserc): Maps project aliases to Firebase project IDs.
+- [`firebase.json`](file:///Users/amrabed/Library/CloudStorage/OneDrive-Personal/code/cur8d.tsx/firebase.json): Configures hosting targets (`site` and `docs`), clean URLs, custom HTTP security headers (CSP, HSTS, X-Frame-Options), and cache settings.
+
+## Automated CI/CD Deployment
+
+Firebase deployment is configured in `.github/workflows/deploy.yml`:
+
+- Can be triggered manually via `workflow_dispatch` selecting the `firebase` provider.
+- Deploys preview channels or live production channels based on the specified environment.
+
+### Setting up Secrets in GitHub
+
+1. Obtain a Firebase CI token via `firebase login:ci`.
+2. Add `FIREBASE_TOKEN` as a repository secret (`Settings > Secrets and variables > Actions`).
+
+## Local Deployment via mise
+
+```bash
+# Deploy main site to Firebase
+export FIREBASE_TOKEN="your_token"
+export FIREBASE_ENV="production" # or preview
+mise run deploy:firebase
+
+# Or using package.json scripts directly
+pnpm run deploy:firebase
+pnpm run deploy:firebase:docs
+```
