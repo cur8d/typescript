@@ -35,7 +35,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         />
         <meta name="referrer" content="strict-origin-when-cross-origin" />
       </Head>
-      <body className="font-sans antialiased">
+      <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
         <Layout
           navbar={<Navbar logoLink={false} logo={
             <div className="flex items-center gap-2">

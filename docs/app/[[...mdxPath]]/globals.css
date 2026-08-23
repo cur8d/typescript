@@ -35,6 +35,14 @@
 }
 
 @layer base {
+  :root,
+  :host {
+    --x-font-sans: var(--font-geist-sans);
+    --x-font-mono: var(--font-geist-mono);
+    --x-default-font-family: var(--font-geist-sans);
+    --x-default-mono-font-family: var(--font-geist-mono);
+  }
+
   :root {
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
