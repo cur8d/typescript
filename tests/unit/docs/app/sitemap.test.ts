@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach, Mock } from "vitest";
 import sitemap from "@docs/app/sitemap";
 import type { MetadataRoute } from "next";
 import fs from "node:fs";
@@ -28,8 +28,8 @@ describe("Docs Sitemap", () => {
   });
 
   it("returns correct sitemap based on MDX files", async () => {
-    (fs.existsSync as any).mockReturnValue(true);
-    (fs.promises.readdir as any).mockImplementation((dir: string) => {
+    (fs.existsSync as Mock).mockReturnValue(true);
+    (fs.promises.readdir as Mock).mockImplementation((dir: string) => {
       if (dir === CONTENT_DIR) {
         return Promise.resolve([
           { name: "index.mdx", isDirectory: () => false, isFile: () => true },
@@ -72,7 +72,7 @@ describe("Docs Sitemap", () => {
   });
 
   it("returns empty array if content directory does not exist", async () => {
-    (fs.existsSync as any).mockReturnValue(false);
+    (fs.existsSync as Mock).mockReturnValue(false);
     const result = await sitemap();
     expect(result).toEqual([]);
   });
