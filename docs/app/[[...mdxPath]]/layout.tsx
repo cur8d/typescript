@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { Footer, Layout, Navbar } from 'nextra-theme-docs'
 import { Head } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
@@ -17,9 +18,9 @@ const geistMono = Geist_Mono({
   subsets: ['latin']
 })
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Cur8d Documentation',
-  description: 'Production-ready Next.js starter documentation'
+  description: 'Production-ready Next.js starter documentation',
 }
 
 const CURRENT_YEAR = new Date().getFullYear()
