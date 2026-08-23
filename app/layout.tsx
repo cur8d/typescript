@@ -20,6 +20,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Cur8d",
   description: "A modern Next.js starter template",
+  icons: {
+    icon: "/icon.png",
+  },
 };
 
 interface RootLayoutProps {
