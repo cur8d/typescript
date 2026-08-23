@@ -23,7 +23,7 @@ export function Hero() {
       </div>
 
       <div className="mx-auto mb-10 max-w-fit">
-        <CodeSnippet code="npx create-cur8d awesome-app --template tsx" />
+        <CodeSnippet code="npx create-cur8d --template tsx awesome-app" />
       </div>
 
       <div className="flex justify-center gap-4">
