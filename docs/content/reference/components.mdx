@@ -1,12 +1,46 @@
-# Reusable Components
+# Components Reference
 
-Cur8d provides several pre-built components in `app/components/`.
+Cur8d provides production-ready, accessible components in `app/components/`.
 
-- **Navbar**: Standard navigation bar with theme toggle.
-- **Footer**: Branding and copyright information.
-- **DataTable**: Generic table with sorting, filtering, and pagination.
-- **KpiCard**: Metrics display with trend indicators.
-- **SearchPalette**: Keyboard-driven command palette using `cmdk`.
-- **PageHeader**: Consistent page titles and breadcrumbs.
-- **ShortcutHint**: Displays keyboard shortcut hints.
-- **ThemeToggle**: Switch between light and dark modes.
+## Component Catalog
+
+### `<CodeSnippet />`
+- **Location**: `app/components/CodeSnippet/index.tsx`
+- **Type**: Client Component (`"use client"`)
+- **Description**: Interactive terminal/CLI command snippet box. Features one-click clipboard copying (`navigator.clipboard.writeText`), real-time tooltip feedback states ("Copied!", "Failed to copy"), dynamic icon indicators (Copy, Check, AlertCircle), keyboard accessibility, and fallback error reporting.
+- **Props**:
+  - `code` (`string`): The command or code string to display and copy.
+
+### `<Features />`
+- **Location**: `app/components/Features/index.tsx`
+- **Type**: Server Component
+- **Description**: Responsive feature showcase grid displaying key architectural highlights (Lightning Fast, Type Safe, Accessible) using HeroUI compound `<Card>`, `<Card.Header>`, and `<Card.Content>` components alongside `lucide-react` icons.
+
+### `<Footer />`
+- **Location**: `app/components/Footer/index.tsx`
+- **Type**: Server Component
+- **Description**: Application footer with dynamic copyright year rendering and responsive layout styling.
+
+### `<Hero />`
+- **Location**: `app/components/Hero/index.tsx`
+- **Type**: Server Component
+- **Description**: Primary landing page hero section. Includes responsive typography, template taglines, embedded `<CodeSnippet>` for template initialization (`npx create-cur8d --template tsx awesome-app`), and an accessible external link to the GitHub repository.
+
+### `<Navbar />`
+- **Location**: `app/components/Navbar/index.tsx`
+- **Type**: Server Component
+- **Description**: Sticky top navigation bar featuring brand identity, accessible navigation links, external documentation link with icons and screen-reader annotations, and the `<ThemeToggle />` component.
+
+### `<Providers />`
+- **Location**: `app/components/Providers/index.tsx`
+- **Type**: Client Component (`"use client"`)
+- **Description**: Master context provider wrapper consolidating:
+  - HeroUI `RouterProvider` (bridged with Next.js `useRouter`)
+  - `next-themes` `ThemeProvider` (class attribute mode, system default)
+  - `SearchProvider` (search state management)
+
+### `<ThemeToggle />`
+- **Location**: `app/components/ThemeToggle/index.tsx`
+- **Type**: Client Component (`"use client"`)
+- **Description**: Theme switcher button supporting light, dark, and system themes. Built with HeroUI `<Button>` and `<Tooltip>`, with hydration mismatch protection and accessible ARIA attributes.
+

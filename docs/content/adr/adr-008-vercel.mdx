@@ -1,14 +1,15 @@
-# ADR-008: Vercel over Firebase Hosting
+# ADR-008: Deployment Architecture
 Status: Accepted
 
 ## Context
-We need a hosting provider that fully supports Next.js features.
+We need a scalable, automated hosting architecture supporting both Server-Side Rendered (SSR) web applications and static documentation.
 
 ## Decision
-We chose Vercel.
+We chose Vercel as the primary SSR deployment platform, Firebase Hosting as an alternative multi-target host, and GitHub Pages for static documentation.
 
 ## Rationale
-Vercel is the creator of Next.js and provides the best support for App Router, ISR, and Middleware. Firebase Hosting currently lacks full SSR support for Next.js 16.
+Vercel delivers native zero-configuration optimization for Next.js App Router, React Server Components, and Edge Middleware. GitHub Pages provides free, high-availability hosting for Nextra static docs, and Firebase Hosting serves as a battle-tested static and preview environment.
 
 ## Consequences
-GitHub repository should be connected directly to Vercel for production deployments.
+Workflows in `.github/workflows/` are partitioned into `deploy.yml` (application deployment to Vercel/Firebase) and `docs.yml` (documentation deployment to GitHub Pages).
+

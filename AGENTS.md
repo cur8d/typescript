@@ -1,18 +1,20 @@
 # Agents.md
 
 ## 1. Project Overview
-cur8d is a production-ready Next.js starter optimized for data integration and scalability.
+cur8d is a production-ready Next.js starter optimized for performance, accessibility, and type safety.
 
 ## 2. Tech Stack
-- Next.js 16.2.6: App Router, Server Components.
-- HeroUI v3.0.5: Compound components with dot notation.
-- Tailwind CSS v4: CSS-first configuration.
-- Vitest 4.1.6 & Playwright 1.59.1: Testing.
-- Supabase & Vercel Blob: Data and storage stubs.
+- Next.js 16 (App Router, Turbopack, Server Components, React 19).
+- HeroUI v3: Accessible compound components with dot notation.
+- Tailwind CSS v4: CSS-first configuration and theme variables.
+- Vitest & Playwright: Unit, E2E, and accessibility (`@axe-core/playwright`) testing.
+- Vercel Blob & Observability: Storage stub and centralized error reporting.
 
 ## 3. Directory Structure
-- `app`: Routes, layouts, components, hooks, and logic/data layer.
-- `docs`: Nextra v4 documentation.
+- `app`: Routes, layouts, components, hooks, and logic layer (`app/lib`).
+- `docs`: Nextra v4 documentation site.
+- `scripts`: Template initialization and utility scripts (`scripts/init.ts`).
+- `tests`: Test suites (`tests/unit/` for Vitest, `tests/e2e/` for Playwright).
 
 ## 4. Toolchain Management
 Managed via `mise`. Update `.mise.toml` to change Node.js or pnpm versions.
@@ -23,43 +25,50 @@ Managed via `mise`. Update `.mise.toml` to change Node.js or pnpm versions.
 - Explicit interfaces for all component props.
 
 ## 6. Coding Conventions
-- Named imports for icons.
-- Barrel exports (`index.ts`) in component folders.
-- Server Components by default.
+- Named imports for icons (`lucide-react`, `@icons-pack/react-simple-icons`).
+- Component folders in `app/components/ComponentName/index.tsx`.
+- Server Components by default; `"use client"` for interactive leaf components.
 
 ## 7. How to add a new page
 Add directory to `app/` with `page.tsx`.
 
 ## 8. How to add a new component
-Create folder in `app/components/` with `index.tsx`, types, and tests.
+Create folder in `app/components/ComponentName/` with `index.tsx`, explicit prop interface, and unit test in `tests/unit/components/ComponentName/index.test.tsx`.
 
-## 9. How to add a keyboard shortcut
-Register in `app/config/shortcuts.ts`, use `useShortcuts` hook, add UI hint.
+## 9. State Management & Hooks
+Custom hooks in `app/hooks/` (e.g., `useSearchState` via `SearchProvider` context).
 
 ## 10. Testing Guide
-- Unit: `pnpm test`
-- E2E: `pnpm test:e2e`
-- 80% coverage required.
+- Complete Verification: `mise run verify` (alias: `v`)
+- Unit: `mise run test` (alias: `t` or `pnpm test`)
+- Coverage: `mise run test:coverage` (80% coverage required)
+- E2E: `mise run test:e2e`
+- Install Playwright Browsers: `mise run playwright:install`
 
 ## 11. Environment Variables
 Validated via Zod in `app/lib/env.ts`.
 
 ## 12. Local Development Commands
-- `pnpm dev`: Start dev server.
-- `pnpm build`: Production build.
-- `pnpm lint`: Run linting.
+- `mise run dev` (alias: `d` or `pnpm dev`): Start Turbopack dev server.
+- `mise run build` (alias: `b` or `pnpm build`): Production build.
+- `mise run lint` (alias: `l` or `pnpm lint`): Run linting.
+- `mise run docs:dev`: Start documentation server.
+- `mise run docs:build`: Build static documentation.
 
 ## 13. Deployment
-Vercel for SSR, GitHub Pages for static export.
+- Vercel: Primary target for SSR site (`mise run deploy:vercel` / `deploy.yml`).
+- Firebase Hosting: Alternative target for site and docs (`mise run deploy:firebase`).
+- GitHub Pages: Static documentation hosting (`docs.yml`).
 
 ## 14. HeroUI v3 usage
-Use compound component pattern (e.g., `<Table.Header>`).
+Use compound component pattern (e.g., `<Card.Header>`, `<Tooltip.Trigger>`).
 
 ## 15. Dark mode
-Wiring via `next-themes` and Tailwind v4 variables.
+Wiring via `next-themes` (`Providers` component) and Tailwind v4 CSS variables.
 
 ## 16. Icon usage
-`lucide-react` named imports with Tailwind `size-*` utilities.
+Named imports with Tailwind `size-*` or `h-* w-*` utilities.
 
-## 17. Data layer
-Mock data in `app/lib/data/mock.ts`, migration path to Supabase documented in `app/lib/data/README.md`.
+## 17. Logic & Data layer
+Logic, Zod schemas, structured metadata (`json-ld.ts`), and centralized error reporting (`error-reporting.ts`) in `app/lib/`.
+

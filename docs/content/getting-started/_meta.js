@@ -1,6 +1,6 @@
 export default {
-    index: 'Overview',
-    installation: 'Installation',
-    'project-structure': 'Project Structure',
-    // 'environment-variables': 'Environment Variables'
-}
+  index: 'Overview',
+  installation: 'Installation',
+  'project-structure': 'Project Structure',
+  'environment-variables': 'Environment Variables',
+};

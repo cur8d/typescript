@@ -1,9 +1,36 @@
-# GitHub Workflows
+# GitHub Actions Workflows
 
-Cur8d includes pre-configured GitHub Actions workflows in `.github/workflows/`.
+Cur8d includes pre-configured GitHub Actions workflows in `.github/workflows/` with `jdx/mise-action` to guarantee identical toolchains between local development and CI.
 
-- **CI (`ci.yml`)**: Runs on push and PR to `main`. Includes lint, typecheck, tests, and build.
-- **App Deploy (`deploy-ghpages.yml`)**: Deploys the main application to GitHub Pages.
-- **Docs Deploy (`docs-ghpages.yml`)**: Deploys the Nextra documentation site to GitHub Pages.
+## Workflows Catalog
 
-All workflows use `mise` to ensure consistent tool versions.
+### 1. Verification & Quality (`check.yml`)
+- **Triggers**: Push to `main` and Pull Requests targeting `main`.
+- **Tasks**:
+  - Sets up toolchain with `jdx/mise-action@v4`.
+  - Installs dependencies: `mise run install`.
+  - Typechecks TypeScript: `mise run typecheck`.
+  - Lints codebase: `mise run lint`.
+  - Runs unit tests and collects coverage: `mise run test:coverage`.
+  - Executes SonarCloud static analysis with `SonarSource/sonarqube-scan-action@v8`.
+  - Installs Playwright browsers: `mise run playwright:install`.
+  - Builds production application: `mise run build`.
+  - Runs full E2E & accessibility test suites: `mise run test:e2e`.
+  - Uploads code coverage reports and Playwright failure artifacts.
+
+### 2. Application Deployment (`deploy.yml`)
+- **Triggers**: Push to `main` (excluding changes strictly in `docs/**`) and manual trigger (`workflow_dispatch`).
+- **Inputs**:
+  - `environment`: `'production'` (default) or `'preview'`.
+  - `provider`: `'vercel'` (default) or `'firebase'`.
+- **Jobs**:
+  - `deploy-vercel`: Runs `mise run deploy:vercel` using `VERCEL_TOKEN`.
+  - `deploy-firebase`: Runs `mise run deploy:firebase` using `FIREBASE_TOKEN`.
+
+### 3. Documentation Deployment (`docs.yml`)
+- **Triggers**: Push to `main` whenever files in `docs/**` change, and manual trigger (`workflow_dispatch`).
+- **Tasks**:
+  - Configures GitHub Pages with `actions/configure-pages@v6`.
+  - Builds static documentation with `mise run docs:build` into `./docs/out`.
+  - Deploys static bundle to GitHub Pages via `actions/deploy-pages@v5`.
+

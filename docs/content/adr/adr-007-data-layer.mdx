@@ -1,14 +1,15 @@
-# ADR-007: Data Layer Strategy
+# ADR-007: Logic & Data Layer Strategy
 Status: Accepted
 
 ## Context
-The application needs a consistent way to handle data fetching and mutation.
+The application requires a decoupled, testable, and robust architecture for logic, environment validation, error reporting, and data handling.
 
 ## Decision
-We utilize a service-based architecture in `app/lib/data/` for data access.
+We centralize business logic, environment validation, and third-party service abstractions in `app/lib/`.
 
 ## Rationale
-Decoupling data access from UI components improves testability and makes it easier to switch between mock data and real backend services like Supabase.
+Decoupling logic, observability, and data access from React UI components maximizes testability, isolates runtime side-effects, and allows seamless evolution from mock data to production storage providers (such as Vercel Blob).
 
 ## Consequences
-Direct database or API calls should not be made from React components. Always use the provided data services.
+Components focus purely on rendering and user interaction. All environment parsing (`env.ts`), structured metadata serialization (`json-ld.ts`), and error telemetry (`error-reporting.ts`) are imported from `@/lib/`.
+

@@ -1,20 +1,58 @@
 # Adding a Component
 
-Reusable components live in `app/components/`.
+Reusable UI components live in `app/components/`.
 
-1.  **Create directory**: `app/components/NewComponent/`.
-2.  **Create implementation**: `app/components/NewComponent/index.tsx`.
-3.  **Define Props**: Use an `interface` for props.
-4.  **Export**: Export the component.
+## Component Guidelines
+
+1. **Directory Structure**: Create a dedicated directory: `app/components/ComponentName/`.
+2. **Implementation**: Implement the component in `app/components/ComponentName/index.tsx`.
+3. **Props Typing**: Always declare explicit TypeScript `interface` types for component props (no `any`).
+4. **HeroUI v3**: Use compound component dot notation (e.g. `<Card.Header>`, `<Tooltip.Trigger>`) and accessible interactive primitives.
+5. **Icons**: Use named imports from `lucide-react` or `@icons-pack/react-simple-icons` with Tailwind `size-*` or `h-* w-*` classes.
+6. **Server vs. Client**: Keep components as Server Components by default. Add `"use client"` only when managing state, effects, or browser events.
+7. **Unit Testing**: Add a corresponding unit test file under `tests/unit/components/ComponentName/index.test.tsx`.
+
+## Example Component
 
 ```tsx
-interface NewComponentProps {
-  label: string;
+import { Card } from "@heroui/react";
+import { Sparkles } from "lucide-react";
+
+interface InfoCardProps {
+  title: string;
+  description: string;
 }
 
-export const NewComponent = ({ label }: NewComponentProps) => {
-  return <div>{label}</div>;
-};
+export function InfoCard({ title, description }: InfoCardProps) {
+  return (
+    <Card className="p-6">
+      <Card.Header className="flex items-center gap-2">
+        <Sparkles className="size-5 text-primary" aria-hidden="true" />
+        <Card.Title className="text-lg font-semibold">{title}</Card.Title>
+      </Card.Header>
+      <Card.Content>
+        <p className="text-muted-foreground">{description}</p>
+      </Card.Content>
+    </Card>
+  );
+}
 ```
 
-Remember to add TSDoc comments to public exports.
+## Adding Unit Tests
+
+Create `tests/unit/components/InfoCard/index.test.tsx`:
+
+```tsx
+import { render, screen } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
+import { InfoCard } from "@/components/InfoCard";
+
+describe("InfoCard", () => {
+  it("renders title and description", () => {
+    render(<InfoCard title="Test Title" description="Test Description" />);
+    expect(screen.getByText("Test Title")).toBeInTheDocument();
+    expect(screen.getByText("Test Description")).toBeInTheDocument();
+  });
+});
+```
+

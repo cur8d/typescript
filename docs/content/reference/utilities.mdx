@@ -1,0 +1,72 @@
+# Utilities & Hooks Reference
+
+Cur8d includes a set of modular utilities and custom React hooks in `app/lib/` and `app/hooks/`.
+
+## Environment Validation (`app/lib/env.ts`)
+
+Type-safe environment variable parsing with Zod schema verification:
+
+- **`env`**: Parsed and validated environment configuration object.
+- **`Env`**: TypeScript type inferred directly from `envSchema`.
+
+```typescript
+import { env } from "@/lib/env";
+
+if (env.NODE_ENV === "production") {
+  // Production behavior
+}
+```
+
+## Error Reporting (`app/lib/error-reporting.ts`)
+
+Centralized diagnostic error logging service abstraction:
+
+### `reportError(error, context?)`
+- **Parameters**:
+  - `error`: Error instance or unknown exception.
+  - `context` (`Record<string, unknown>`): Optional metadata (e.g. component name, action, parameters).
+- **Behavior**: Sanitizes and logs errors with breadcrumb history, ready for Sentry, Datadog, or custom telemetry integrations.
+
+### `addBreadcrumb(breadcrumb)`
+- **Parameters**:
+  - `message` (`string`): Breadcrumb description.
+  - `category` (`string`): Event classification.
+  - `level` (`'debug' | 'info' | 'warning' | 'error'`): Severity level.
+  - `data` (`Record<string, unknown>`): Optional supplementary data.
+
+## SEO & Structured Data (`app/lib/json-ld.ts`)
+
+### `safeJsonLdStringify(data)`
+- **Parameters**: `data` (JSON-LD schema object).
+- **Returns**: Safely escaped JSON string preventing XSS vulnerabilities when embedding structured data into `<script type="application/ld+json">`.
+
+```typescript
+import { safeJsonLdStringify } from "@/lib/json-ld";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "My App",
+};
+
+export default function Page() {
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(jsonLd) }}
+    />
+  );
+}
+```
+
+## Search & Modal State Hook (`app/hooks/use-search-state.tsx`)
+
+Custom React Context hook for managing global search dialog or command palette state.
+
+### `useSearchState()`
+Returns:
+- `isOpen` (`boolean`): Whether search dialog is currently visible.
+- `open()` / `onOpen()`: Function to show search modal.
+- `close()` / `onClose()`: Function to hide search modal.
+- `toggle()`: Toggle open state.
+- `setOpen(open: boolean)`: Explicit setter for open state.

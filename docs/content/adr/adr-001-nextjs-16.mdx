@@ -2,13 +2,14 @@
 Status: Accepted
 
 ## Context
-We need a modern, performant, and developer-friendly framework for the cur8d template.
+We need a modern, performant, and developer-friendly React framework for the cur8d starter template.
 
 ## Decision
-We chose Next.js 16.2.6 (App Router).
+We chose Next.js 16 (App Router) with Turbopack and React 19.
 
 ## Rationale
-Next.js provides excellent support for Server Components, SSR, and built-in optimization. Version 16 brings latest performance improvements and React 19 support.
+Next.js provides first-class support for React Server Components, Streaming SSR, and built-in optimization. Version 16 brings cutting-edge performance improvements, Turbopack dev acceleration, and seamless React 19 integration.
 
 ## Consequences
-All development must follow App Router conventions. Leaf nodes needing interactivity should use `"use client"`.
+All page routing and layouts follow App Router conventions. Server Components are used by default, and client-side interactivity is isolated in `"use client"` leaf components.
+

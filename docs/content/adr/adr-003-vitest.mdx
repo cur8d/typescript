@@ -2,13 +2,14 @@
 Status: Accepted
 
 ## Context
-We need a fast and modern unit testing framework compatible with Vite-based tooling.
+We need a fast, modern, and ESM-native unit testing framework with built-in code coverage support.
 
 ## Decision
-We chose Vitest 4.1.6.
+We chose Vitest.
 
 ## Rationale
-Vitest is significantly faster than Jest, provides out-of-the-box ESM support, and shares configuration with Vite, simplifying the build pipeline.
+Vitest provides native ESM execution, blazing fast test performance with worker threads, seamless Vite plugin integration, and zero-configuration TypeScript support.
 
 ## Consequences
-Tests are colocated with source files in `__tests__` directories.
+Unit and component tests are organized within the top-level `tests/unit/` directory mirroring the application structure. Code coverage is measured using `@vitest/coverage-v8` with an 80% coverage threshold enforced across CI.
+

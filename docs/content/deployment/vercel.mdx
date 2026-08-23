@@ -1,11 +1,36 @@
 # Vercel Deployment
 
-Vercel is the primary deployment target for cur8d.
+Vercel is the primary deployment target for cur8d, providing native support for Next.js App Router, Server Components, dynamic streaming, and Edge Middleware.
 
-## Continuous Deployment
+## Automated CI/CD Deployment
 
-1.  Connect your GitHub repository to Vercel.
-2.  Configure environment variables in the Vercel project dashboard.
-3.  Vercel will automatically deploy on every push to `main` and create preview URLs for PRs.
+The repository includes a pre-configured GitHub Actions workflow in `.github/workflows/deploy.yml`:
 
-The `vercel.json` file in the root provides additional project configuration.
+- **Production Deployment**: Triggered automatically on push to `main` (ignoring changes confined to `docs/**`).
+- **Preview Deployments**: Can also be triggered on-demand via GitHub Actions `workflow_dispatch` selecting the `vercel` provider and `preview` environment.
+
+### Setting up Secrets in GitHub
+
+To enable automated deployments via GitHub Actions:
+1. Generate an Access Token in your Vercel Account Settings.
+2. Add `VERCEL_TOKEN` to your repository secrets (`Settings > Secrets and variables > Actions`).
+
+## Local Deployment via mise
+
+You can trigger a Vercel build and deployment directly from your terminal:
+
+```bash
+# Preview deployment
+export VERCEL_TOKEN="your_token"
+export VERCEL_ENV="preview"
+mise run deploy:vercel
+
+# Production deployment
+export VERCEL_ENV="production"
+mise run deploy:vercel
+```
+
+## Configuration
+
+Project settings and overrides are maintained in [`vercel.json`](file:///Users/amrabed/Library/CloudStorage/OneDrive-Personal/code/cur8d.tsx/vercel.json).
+

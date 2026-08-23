@@ -1,17 +1,40 @@
 # Testing
 
-We use Vitest for unit tests and Playwright for E2E tests.
+Cur8d employs a dual-layered testing strategy combining Vitest for fast, isolated unit and component testing with Playwright for comprehensive End-to-End and accessibility verification.
+
+## Verification Pipeline
+
+To run the complete verification suite (linting, typechecking, and unit tests with coverage):
+
+```bash
+mise run verify
+# or using shortcut alias:
+v
+```
 
 ## Unit & Component Tests (Vitest)
 
-- Run tests: `mise run test`
-- Coverage: `mise run test:coverage`
-- Location: Located under `tests/unit/`, e.g., `tests/unit/components/Navbar/index.test.tsx`.
+Unit tests are powered by Vitest, React Testing Library, and `@testing-library/jest-dom` using `jsdom`.
 
-## End-to-End Tests (Playwright)
+- **Test Location**: All unit and component tests are organized in `tests/unit/` (e.g., `tests/unit/components/`, `tests/unit/app/`, `tests/unit/lib/`, `tests/unit/hooks/`).
+- **Run Unit Tests**: `mise run test` (alias: `t` or `pnpm test`)
+- **Interactive UI Mode**: `mise run test:ui` (or `pnpm run test:ui`)
+- **Coverage Report**: `mise run test:coverage` (or `pnpm run test:coverage`)
 
-- Run tests: `mise run test:e2e`
-- Interactive mode: `mise run test:e2e:ui`
-- Location: `tests/e2e/`.
+> [!NOTE]
+> Coverage is collected using `@vitest/coverage-v8`. The repository targets a minimum 80% coverage bar across statements, branches, functions, and lines.
 
-Accessibility testing is integrated into E2E tests via `@axe-core/playwright`.
+## End-to-End & Accessibility Tests (Playwright)
+
+E2E tests run against the built Next.js application across Chromium, Firefox, and WebKit.
+
+- **Test Location**: `tests/e2e/` (e.g., `accessibility.spec.ts`, `navbar.spec.ts`, `theme.spec.ts`, `not-found.spec.ts`).
+- **Install Browsers**: `mise run playwright:install`
+- **Run E2E Tests**: `mise run test:e2e` (or `pnpm run test:e2e`)
+- **Interactive Playwright UI**: `mise run test:e2e:ui` (or `pnpm run test:e2e:ui`)
+- **View Last Test Report**: `pnpm run test:e2e:report`
+
+### Accessibility Auditing
+
+Automated accessibility audits are performed in E2E tests using `@axe-core/playwright` (`tests/e2e/accessibility.spec.ts`), enforcing WCAG 2.1 AA standards and WAI-ARIA compliance.
+
