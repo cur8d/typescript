@@ -37,3 +37,19 @@ minimumReleaseAgeExclude:
   - vercel@59.5.0
 patchedDependencies:
   nextra-theme-docs: patches/nextra-theme-docs.patch
+
+overrides:
+  undici: "^6.28.0"
+  path-to-regexp: "^8.4.0"
+  tar: "^7.5.21"
+  minimatch: "^10.2.1"
+  "ajv@8": "^8.18.0"
+  smol-toml: "^1.6.1"
+  "@tootallnate/once": "^2.0.1"
+  uuid: "^11.1.1"
+  esbuild: "^0.28.2"
+  "@opentelemetry/core": "^2.8.0"
+  js-yaml: "^4.3.1"
+  dompurify: "^3.4.13"
+  brace-expansion: "^5.0.9"
+  mermaid: "^11.16.1"
