@@ -23,4 +23,13 @@ describe("NotFound component", () => {
     expect(link).toBeInTheDocument();
     expect(link).toHaveAttribute("href", "/");
   });
+
+  it("ensures decorative icons are hidden from screen readers", () => {
+    const { container } = render(<NotFound />);
+    const svgs = container.querySelectorAll("svg");
+    expect(svgs.length).toBeGreaterThan(0);
+    svgs.forEach((svg) => {
+      expect(svg).toHaveAttribute("aria-hidden", "true");
+    });
+  });
 });

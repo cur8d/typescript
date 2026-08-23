@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 const envSchema = z.object({
+  NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
   BLOB_READ_WRITE_TOKEN: z
     .string()
     .min(1)
@@ -9,6 +10,7 @@ const envSchema = z.object({
 });
 
 export const env = envSchema.parse({
+  NODE_ENV: process.env.NODE_ENV,
   BLOB_READ_WRITE_TOKEN: process.env.BLOB_READ_WRITE_TOKEN,
 });
 
