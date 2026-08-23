@@ -1,3 +1,0 @@
-## 2025-05-15 - [CLS and Static Optimization]
-**Learning:** Preventing Cumulative Layout Shift (CLS) in hydration-sensitive components (like theme toggles) can be achieved by explicitly mirroring the framework's (HeroUI) internal dimensions in the component's CSS. Additionally, moving static metadata like JSON-LD outside the render loop and pre-stringifying it avoids redundant computations on every server-side render.
-**Action:** Always check the library's base CSS for default dimensions of "icon-only" buttons and apply them to placeholders. Pre-compute static data that doesn't depend on props or state outside the component scope.
