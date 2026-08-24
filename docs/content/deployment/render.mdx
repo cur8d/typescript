@@ -1,0 +1,36 @@
+# Render Deployment
+
+Render provides cloud hosting for Next.js App Router applications as a managed Node.js web service, fully supporting Server Components, API routes, and SSR.
+
+## Configuration
+
+Render services can be defined as Infrastructure-as-Code using Render Blueprints:
+
+- [`render.yaml`](file:///Users/amrabed/Library/CloudStorage/OneDrive-Personal/code/cur8d.tsx/render.yaml): Configures the web service name, Node.js runtime, build command (`pnpm install && pnpm run build`), start command (`pnpm run start`), and environment variables.
+
+## Automated CI/CD Deployment
+
+Render deployment can be automated via Render Deploy Hooks and GitHub Actions:
+
+- **Deploy Hooks**: Trigger zero-downtime deployments instantly by sending a POST request to your Render Deploy Hook URL.
+- **GitHub Actions Workflow**: Configured in `.github/workflows/deploy.yml`. Can be triggered on-demand via `workflow_dispatch` selecting the `render` provider.
+
+### Setting up Secrets in GitHub
+
+To enable automated deployments via GitHub Actions:
+1. Navigate to your Web Service in the [Render Dashboard](https://dashboard.render.com).
+2. Go to **Settings** > **Deploy Hook** and copy your hook URL.
+3. Add `RENDER_DEPLOY_HOOK` to your repository secrets (`Settings > Secrets and variables > Actions`).
+
+## Local Deployment via mise
+
+You can trigger a deployment directly from your terminal using `mise` or `pnpm`:
+
+```bash
+# Trigger Render deployment via deploy hook
+export RENDER_DEPLOY_HOOK="https://api.render.com/deploy/srv-xxxx?key=yyyy"
+mise run deploy:render
+
+# Or using package.json script directly
+pnpm run deploy:render
+```

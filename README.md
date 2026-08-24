@@ -14,7 +14,7 @@ cur8d is an opinionated, production-ready Next.js starter template optimized for
 - **Comprehensive Testing Rigor**: Robust test coverage enforcement (80%+ target) with Vitest for unit/component tests and Playwright for E2E, visual, and accessibility (Axe) audits.
 - **Static Documentation Project**: An integrated documentation workspace powered by Nextra, generating a static site ready for GitHub Pages or Firebase hosting.
 - **Zero-Friction Dev Environment**: Fully managed local development tasks and toolchains via `mise`, including custom alias shortcuts for common git and npm tasks.
-- **Flexible Deployment Targets**: Configured for Serverless deployments on Vercel (ideal for Next.js App Router and Server Components) and static site deployment on Firebase Hosting.
+- **Flexible Deployment Targets**: Configured for Serverless deployments on Vercel, Node.js web service on Render, and static site deployment on Firebase Hosting.
 
 ## Project Structure
 
@@ -33,6 +33,7 @@ This project is organized as a monorepo workspace managed by `pnpm`:
 │   ├── unit/             # Component and utility tests (Vitest)
 │   └── e2e/              # E2E and accessibility audits (Playwright)
 ├── .mise.toml            # Toolchain, task definitions, and run shortcuts
+├── render.yaml           # Render Blueprint specification
 └── pnpm-workspace.yaml   # Monorepo workspaces definition
 ```
 
@@ -49,7 +50,7 @@ The core framework and library stack includes (without version locks):
 - **Unit Testing**: Vitest with React Testing Library & jsdom
 - **E2E & A11y Testing**: Playwright & `@axe-core/playwright`
 - **Documentation**: Nextra & Markdown (MDX)
-- **Deployments**: Vercel CLI & Firebase CLI
+- **Deployments**: Vercel CLI, Render Blueprint & Deploy Hook, and Firebase CLI
 
 ## Quick Start
 

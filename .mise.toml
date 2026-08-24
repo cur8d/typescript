@@ -109,6 +109,16 @@ else
 fi
 """
 
+[tasks."deploy:render"]
+description = "Deploy the site to Render"
+run = """
+if [ -z "$RENDER_DEPLOY_HOOK" ]; then
+  echo "Error: RENDER_DEPLOY_HOOK is not set." >&2
+  exit 1
+fi
+curl -f -X POST "$RENDER_DEPLOY_HOOK"
+"""
+
 [tasks."deploy:vercel"]
 description = "Deploy the site to Vercel"
 run = """

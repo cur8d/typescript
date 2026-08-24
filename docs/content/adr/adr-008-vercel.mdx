@@ -5,11 +5,11 @@ Status: Accepted
 We need a scalable, automated hosting architecture supporting both Server-Side Rendered (SSR) web applications and static documentation.
 
 ## Decision
-We chose Vercel as the primary SSR deployment platform, Firebase Hosting as an alternative multi-target host, and GitHub Pages for static documentation.
+We chose Vercel as the primary SSR deployment platform, Render as a managed Node.js web service platform, Firebase Hosting as an alternative multi-target host, and GitHub Pages for static documentation.
 
 ## Rationale
-Vercel delivers native zero-configuration optimization for Next.js App Router, React Server Components, and Edge Middleware. GitHub Pages provides free, high-availability hosting for Nextra static docs, and Firebase Hosting serves as a battle-tested static and preview environment.
+Vercel delivers native zero-configuration optimization for Next.js App Router, React Server Components, and Edge Middleware. Render provides fully managed Node.js runtime hosting with Blueprints and Deploy Hooks. GitHub Pages provides free, high-availability hosting for Nextra static docs, and Firebase Hosting serves as a battle-tested static and preview environment.
 
 ## Consequences
-Workflows in `.github/workflows/` are partitioned into `deploy.yml` (application deployment to Vercel/Firebase) and `docs.yml` (documentation deployment to GitHub Pages).
+Workflows in `.github/workflows/` are partitioned into `deploy.yml` (application deployment to Vercel/Render/Firebase) and `docs.yml` (documentation deployment to GitHub Pages).
 

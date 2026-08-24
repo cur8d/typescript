@@ -57,6 +57,7 @@ Validated via Zod in `app/lib/env.ts`.
 
 ## 13. Deployment
 - Vercel: Primary target for SSR site (`mise run deploy:vercel` / `deploy.yml`).
+- Render: Web service target for SSR site (`mise run deploy:render` / `render.yaml` / `deploy.yml`).
 - Firebase Hosting: Alternative target for site and docs (`mise run deploy:firebase`).
 - GitHub Pages: Static documentation hosting (`docs.yml`).
 
