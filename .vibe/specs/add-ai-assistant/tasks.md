@@ -2,7 +2,7 @@
 
 ## Phase 1: Toolchain, Dependencies & Environment
 - [x] Add `assistant-ui` and Vercel AI SDK dependencies (`@assistant-ui/react`, `@assistant-ui/react-ai-sdk`, `@assistant-ui/react-markdown`, `@assistant-ui/react-syntax-highlighter`, `ai`, `@ai-sdk/google`, `@ai-sdk/openai`, `@ai-sdk/anthropic`) to `package.json`
-- [ ] Add AI provider environment variables to `.env.example`
+- [x] Add AI provider environment variables to `.env.example`
 - [ ] Implement AI environment variable validation schema in `app/lib/ai/env.ts` and integrate with `app/lib/env.ts`
 
 ## Phase 2: AI Core Logic & Server API Route
