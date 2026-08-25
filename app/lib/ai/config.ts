@@ -3,7 +3,7 @@ import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { createOpenAI } from "@ai-sdk/openai";
 import { createAnthropic } from "@ai-sdk/anthropic";
 import { env } from "@/lib/env";
-import { mockModel } from "./mock-provider";
+import { mockModel } from "@/lib/ai/mock-provider";
 
 export type AIProvider = "mock" | "google" | "openai" | "anthropic" | "custom" | (string & {});
 

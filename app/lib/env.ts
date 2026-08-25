@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { aiEnvSchema } from "./ai/env";
+import { aiEnvSchema } from "@/lib/ai/env";
 
 const baseEnvSchema = z.object({
   NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
