@@ -13,7 +13,7 @@
 - [x] Implement Next.js App Router streaming endpoint `app/api/chat/route.ts` with error reporting
 
 ## Phase 3: Client Components (`assistant-ui`) & Generative UI
-- [ ] Implement `app/hooks/use-speech-to-text.ts` for Web Speech API voice input
+- [x] Implement `app/hooks/use-speech-to-text.ts` for Web Speech API voice input
 - [ ] Configure `useChatRuntime` in `app/components/AIAssistant/index.tsx`
 - [ ] Implement customized `app/components/AIAssistant/Thread.tsx` with `@assistant-ui/react-markdown` and syntax highlighting
 - [ ] Implement customized `app/components/AIAssistant/Composer.tsx` with voice input toggle and shortcut hint
