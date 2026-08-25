@@ -126,23 +126,7 @@ tests/
 
 ## 3. Implementation Phases
 
-```mermaid
-gantt
-    title AI Assistant Implementation Timeline
-    dateFormat  YYYY-MM-DD
-    section Phase 1
-    Dependencies & Env Schema       :done, p1, 2026-08-25, 1d
-    section Phase 2
-    Server API Route & Tools        :active, p2, 2026-08-26, 1d
-    Mock Provider & Resolvers       :p2b, 2026-08-26, 1d
-    section Phase 3
-    assistant-ui Primitives & Tools :p3, 2026-08-27, 2d
-    Trigger & Shell Integration     :p3b, 2026-08-28, 1d
-    section Phase 4
-    Unit Tests & E2E a11y Tests    :p4, 2026-08-29, 1d
-    section Phase 5
-    Nextra Docs & Init Script       :p5, 2026-08-30, 1d
-```
+
 
 ### Phase 1: Toolchain, Dependencies & Environment
 - Add packages:
