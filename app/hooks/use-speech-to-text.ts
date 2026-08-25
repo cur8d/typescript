@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 
-// Web Speech API interface definitions
 interface SpeechRecognitionEventLike {
   resultIndex: number;
   results: {
@@ -112,24 +111,26 @@ export function useSpeechToText(options: UseSpeechToTextOptions = {}) {
   }, [lang, continuous, interimResults]);
 
   const startListening = useCallback(() => {
-    if (!recognitionRef.current || isListening) return;
+    if (!recognitionRef.current) return;
     try {
       setTranscript("");
       setError(null);
       recognitionRef.current.start();
+      setIsListening(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to start speech recognition");
     }
-  }, [isListening]);
+  }, []);
 
   const stopListening = useCallback(() => {
-    if (!recognitionRef.current || !isListening) return;
+    if (!recognitionRef.current) return;
     try {
       recognitionRef.current.stop();
+      setIsListening(false);
     } catch {
-      // Ignore stop errors if already stopped
+      // Ignore stop errors
     }
-  }, [isListening]);
+  }, []);
 
   const toggleListening = useCallback(() => {
     if (isListening) {
