@@ -4,14 +4,14 @@ import AxeBuilder from "@axe-core/playwright";
 test.describe("AI Assistant E2E & Accessibility", () => {
   test("should show floating Ask AI trigger on landing page", async ({ page }) => {
     await page.goto("/");
-    const trigger = page.getByRole("button", { name: /open ai assistant/i });
+    const trigger = page.getByRole("button", { name: /open ai assistant/i }).last();
     await expect(trigger).toBeVisible();
     await expect(trigger).toContainText("Ask AI");
   });
 
   test("should open modal on clicking floating trigger and close on close button", async ({ page }) => {
     await page.goto("/");
-    const trigger = page.getByRole("button", { name: /open ai assistant/i });
+    const trigger = page.getByRole("button", { name: /open ai assistant/i }).last();
     await trigger.click();
 
     const dialog = page.getByRole("dialog", { name: /ai assistant chat/i });
@@ -25,7 +25,7 @@ test.describe("AI Assistant E2E & Accessibility", () => {
 
   test("should open modal on clicking navbar Ask AI button", async ({ page }) => {
     await page.goto("/");
-    const navBtn = page.getByRole("button", { name: /open ai assistant/i }).first();
+    const navBtn = page.locator("header").getByRole("button", { name: /open ai assistant/i });
     await navBtn.click();
 
     const dialog = page.getByRole("dialog", { name: /ai assistant chat/i });
@@ -45,7 +45,7 @@ test.describe("AI Assistant E2E & Accessibility", () => {
 
   test("AI assistant modal should pass axe-core accessibility audit", async ({ page }) => {
     await page.goto("/");
-    const trigger = page.getByRole("button", { name: /open ai assistant/i });
+    const trigger = page.getByRole("button", { name: /open ai assistant/i }).last();
     await trigger.click();
 
     const dialog = page.getByRole("dialog", { name: /ai assistant chat/i });
