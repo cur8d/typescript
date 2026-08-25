@@ -10,7 +10,7 @@
 - [x] Implement `app/lib/ai/config.ts` for dynamic model & provider resolution
 - [x] Implement `app/lib/ai/system-prompt.ts` for system instructions and context grounding
 - [x] Implement `app/lib/ai/tools.ts` for generative UI tool schemas (`searchDocumentation`, `setTheme`, `getSystemInfo`, `navigatePage`)
-- [ ] Implement Next.js App Router streaming endpoint `app/api/chat/route.ts` with error reporting
+- [x] Implement Next.js App Router streaming endpoint `app/api/chat/route.ts` with error reporting
 
 ## Phase 3: Client Components (`assistant-ui`) & Generative UI
 - [ ] Implement `app/hooks/use-speech-to-text.ts` for Web Speech API voice input
