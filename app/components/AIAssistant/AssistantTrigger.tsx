@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, createContext, useContext, useCallback } from "react";
+import { useEffect, useState, createContext, useContext, useCallback, useMemo } from "react";
 import { Bot, Sparkles, X } from "lucide-react";
 import { Thread } from "./Thread";
 
@@ -23,7 +23,11 @@ export function useAIAssistant() {
   return context || defaultContextValue;
 }
 
-export function AIAssistantProvider({ children }: { children: React.ReactNode }) {
+export interface AIAssistantProviderProps {
+  readonly children: React.ReactNode;
+}
+
+export function AIAssistantProvider({ children }: Readonly<AIAssistantProviderProps>) {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = useCallback(() => setIsOpen((prev) => !prev), []);
@@ -42,14 +46,20 @@ export function AIAssistantProvider({ children }: { children: React.ReactNode })
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen]);
 
+  const contextValue = useMemo(() => ({ isOpen, setIsOpen, toggle }), [isOpen, toggle]);
+
   return (
-    <AIAssistantContext.Provider value={{ isOpen, setIsOpen, toggle }}>
+    <AIAssistantContext.Provider value={contextValue}>
       {children}
     </AIAssistantContext.Provider>
   );
 }
 
-function AssistantModalHeader({ onClose }: { onClose: () => void }) {
+interface AssistantModalHeaderProps {
+  readonly onClose: () => void;
+}
+
+function AssistantModalHeader({ onClose }: Readonly<AssistantModalHeaderProps>) {
   const [isMac, setIsMac] = useState(false);
 
   useEffect(() => {
@@ -151,17 +161,17 @@ export function AssistantTrigger() {
           />
 
           {/* Drawer Content */}
-          <div
-            role="dialog"
+          <dialog
+            open
             aria-label="AI Assistant Chat"
             aria-modal="true"
-            className="relative z-10 flex h-full w-full flex-col border-l border-border bg-background shadow-2xl sm:max-w-md md:max-w-lg animate-in slide-in-from-right duration-200"
+            className="relative z-10 flex h-full w-full flex-col border-l border-border bg-background shadow-2xl sm:max-w-md md:max-w-lg animate-in slide-in-from-right duration-200 p-0 m-0 max-h-none text-foreground"
           >
             <AssistantModalHeader onClose={() => setIsOpen(false)} />
             <div className="flex-1 overflow-hidden">
               <Thread />
             </div>
-          </div>
+          </dialog>
         </div>
       )}
     </>

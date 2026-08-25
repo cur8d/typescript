@@ -63,7 +63,7 @@ export function Composer() {
         {isListening && (
           <span className="flex items-center gap-1 font-medium text-danger">
             <span className="size-1.5 rounded-full bg-danger animate-ping" />
-            Listening...
+            <span>Listening...</span>
           </span>
         )}
       </div>

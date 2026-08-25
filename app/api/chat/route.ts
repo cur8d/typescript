@@ -1,4 +1,4 @@
-import { streamText, convertToModelMessages, type UIMessage } from "ai";
+import { streamText, convertToModelMessages, createUIMessageStreamResponse, toUIMessageStream, type UIMessage } from "ai";
 import { getModel } from "@/lib/ai/config";
 import { SYSTEM_PROMPT } from "@/lib/ai/system-prompt";
 import { aiTools } from "@/lib/ai/tools";
@@ -47,7 +47,9 @@ export async function POST(req: Request) {
       tools: aiTools,
     });
 
-    return result.toUIMessageStreamResponse();
+    return createUIMessageStreamResponse({
+      stream: toUIMessageStream({ stream: result.stream }),
+    });
   } catch (error) {
     reportError(error, { route: "/api/chat" });
     return new Response(

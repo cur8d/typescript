@@ -5,8 +5,10 @@ import { createAnthropic } from "@ai-sdk/anthropic";
 import { env } from "@/lib/env";
 import { mockModel } from "./mock-provider";
 
+export type AIProvider = "mock" | "google" | "openai" | "anthropic" | "custom" | (string & {});
+
 export interface ModelResolutionOptions {
-  provider?: "mock" | "google" | "openai" | "anthropic" | "custom" | string;
+  provider?: AIProvider;
   model?: string;
   apiKey?: string;
   baseURL?: string;
