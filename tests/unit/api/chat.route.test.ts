@@ -27,12 +27,16 @@ describe("POST /api/chat", () => {
     expect(res.headers.get("content-type")).toContain("text/event-stream");
   });
 
-  it("should normalize messages with string content correctly", async () => {
+  it("should normalize messages with string content and handle missing id/role", async () => {
     const req = new Request("http://localhost:3000/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        messages: [{ role: "user", content: "Tell me about cur8d" }],
+        messages: [
+          { role: "user", content: "Tell me about cur8d" }, // without id
+          { id: "custom_id", content: "Without role" }, // without role (defaults to user)
+          { role: "assistant", parts: [{ type: "text", text: "Existing parts" }] }, // with parts
+        ],
       }),
     });
 
@@ -70,7 +74,26 @@ describe("POST /api/chat", () => {
     expect(json.error).toContain("Missing or invalid 'messages'");
   });
 
-  it("should catch errors, report them, and return 500", async () => {
+  it("should catch errors, report them, and return 500 when request body contains invalid message structure", async () => {
+    const reportErrorSpy = vi.spyOn(errorReporting, "reportError");
+
+    const req = new Request("http://localhost:3000/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        messages: [12345], // primitive value that fails convertToModelMessages
+      }),
+    });
+
+    const res = await POST(req);
+    expect(res.status).toBe(500);
+    expect(reportErrorSpy).toHaveBeenCalled();
+
+    const json = await res.json();
+    expect(json.error).toBe("Failed to process chat request");
+  });
+
+  it("should catch JSON parse errors, report them, and return 500", async () => {
     const reportErrorSpy = vi.spyOn(errorReporting, "reportError");
 
     const req = new Request("http://localhost:3000/api/chat", {
@@ -85,5 +108,20 @@ describe("POST /api/chat", () => {
 
     const json = await res.json();
     expect(json.error).toBe("Failed to process chat request");
+  });
+
+  it("should format unknown error when non-Error exception occurs", async () => {
+    const reportErrorSpy = vi.spyOn(errorReporting, "reportError");
+
+    const fakeReq = {
+      json: () => Promise.reject("string error reason"),
+    } as unknown as Request;
+
+    const res = await POST(fakeReq);
+    expect(res.status).toBe(500);
+    expect(reportErrorSpy).toHaveBeenCalled();
+
+    const json = await res.json();
+    expect(json.message).toBe("Unknown error");
   });
 });
