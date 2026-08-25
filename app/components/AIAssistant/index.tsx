@@ -2,7 +2,7 @@
 
 import { useChatRuntime, AssistantChatTransport } from "@assistant-ui/react-ai-sdk";
 import { AssistantRuntimeProvider } from "@assistant-ui/react";
-import { AIAssistantProvider, AssistantTrigger, useAIAssistant } from "./AssistantTrigger";
+import { AssistantTrigger } from "./AssistantTrigger";
 
 export interface AIAssistantProps {
   api?: string;
@@ -15,14 +15,11 @@ export function AIAssistant({ api = "/api/chat" }: AIAssistantProps) {
 
   return (
     <AssistantRuntimeProvider runtime={runtime}>
-      <AIAssistantProvider>
-        <AssistantTrigger />
-      </AIAssistantProvider>
+      <AssistantTrigger />
     </AssistantRuntimeProvider>
   );
 }
 
-export { useAIAssistant };
-export { AssistantTrigger } from "./AssistantTrigger";
+export { useAIAssistant, AIAssistantProvider, AssistantTrigger } from "./AssistantTrigger";
 export { Thread } from "./Thread";
 export { Composer } from "./Composer";
