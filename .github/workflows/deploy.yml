@@ -22,6 +22,7 @@ on:
         type: choice
         options:
           - vercel
+          - render
           - firebase
 
 jobs:
@@ -38,6 +39,19 @@ jobs:
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ENV: ${{ github.event.inputs.environment || 'production' }}
+
+  deploy-render:
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.provider == 'render' }}
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.event.inputs.environment }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: jdx/mise-action@v4
+      - name: Deploy to Render
+        run: mise run deploy:render
+        env:
+          RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
 
   deploy-firebase:
     if: ${{ github.event_name == 'workflow_dispatch' && inputs.provider == 'firebase' }}

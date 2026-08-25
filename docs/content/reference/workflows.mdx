@@ -22,9 +22,10 @@ Cur8d includes pre-configured GitHub Actions workflows in `.github/workflows/` w
 - **Triggers**: Push to `main` (excluding changes strictly in `docs/**`) and manual trigger (`workflow_dispatch`).
 - **Inputs**:
   - `environment`: `'production'` (default) or `'preview'`.
-  - `provider`: `'vercel'` (default) or `'firebase'`.
+  - `provider`: `'vercel'` (default), `'render'`, or `'firebase'`.
 - **Jobs**:
   - `deploy-vercel`: Runs `mise run deploy:vercel` using `VERCEL_TOKEN`.
+  - `deploy-render`: Runs `mise run deploy:render` using `RENDER_DEPLOY_HOOK`.
   - `deploy-firebase`: Runs `mise run deploy:firebase` using `FIREBASE_TOKEN`.
 
 ### 3. Documentation Deployment (`docs.yml`)

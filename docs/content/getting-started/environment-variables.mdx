@@ -21,6 +21,7 @@ Environment variables are validated against the `envSchema` defined in `app/lib/
 These tokens are used by deployment workflows in `.github/workflows/deploy.yml` and local deployment tasks defined in `.mise.toml`:
 
 - `VERCEL_TOKEN`: Authentication token for automated deployments using Vercel CLI.
+- `RENDER_DEPLOY_HOOK`: Webhook URL for triggering automated deployments to Render.
 - `FIREBASE_TOKEN`: Authentication token for deploying to Firebase Hosting via Firebase CLI.
 
 ## Schema Definition

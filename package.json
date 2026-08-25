@@ -17,7 +17,8 @@
     "test:e2e:report": "playwright show-report",
     "analyze": "ANALYZE=true next build",
     "deploy:firebase": "firebase deploy --only hosting:site",
-    "deploy:firebase:docs": "firebase deploy --only hosting:docs"
+    "deploy:firebase:docs": "firebase deploy --only hosting:docs",
+    "deploy:render": "curl -f -X POST $RENDER_DEPLOY_HOOK"
   },
   "dependencies": {
     "@heroui/react": "3.2.4",

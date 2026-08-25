@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: cur8d
+    runtime: node
+    plan: starter
+    buildCommand: pnpm install && pnpm run build
+    startCommand: pnpm run start
+    envVars:
+      - key: NODE_ENV
+        value: production
