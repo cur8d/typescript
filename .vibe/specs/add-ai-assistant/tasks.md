@@ -26,7 +26,7 @@
 - [x] Add unit tests for AI lib and tools in `tests/unit/lib/ai/config.test.ts` and `tools.test.ts`
 - [x] Add unit tests for AI assistant components in `tests/unit/components/AIAssistant/index.test.tsx`
 - [x] Add E2E tests and axe-core accessibility tests in `tests/e2e/ai-assistant.spec.ts`
-- [ ] Verify >= 80% coverage threshold is met with `mise run test:coverage`
+- [x] Verify >= 80% coverage threshold is met with `mise run test:coverage`
 
 ## Phase 5: Documentation & Template Scaffolding
 - [ ] Add documentation page in `docs/content/features/ai-assistant.mdx`
