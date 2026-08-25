@@ -29,7 +29,7 @@
 - [x] Verify >= 80% coverage threshold is met with `mise run test:coverage`
 
 ## Phase 5: Documentation & Template Scaffolding
-- [ ] Add documentation page in `docs/content/features/ai-assistant.mdx`
+- [x] Add documentation page in `docs/content/features/ai-assistant.mdx`
 - [ ] Update `docs/content/features/_meta.js` to include AI Assistant page
 - [ ] Update `scripts/init.ts` to include AI Assistant in project customization
 - [ ] Update `AGENTS.md` and `README.md` with AI Assistant conventions
