@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState, createContext, useContext } from "react";
+import { useEffect, useState, createContext, useContext, useCallback } from "react";
 import { Bot, Sparkles, X } from "lucide-react";
 import { Thread } from "./Thread";
 
-interface AIAssistantContextType {
+export interface AIAssistantContextType {
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
   toggle: () => void;
@@ -12,18 +12,21 @@ interface AIAssistantContextType {
 
 const AIAssistantContext = createContext<AIAssistantContextType | null>(null);
 
+const defaultContextValue: AIAssistantContextType = {
+  isOpen: false,
+  setIsOpen: () => {},
+  toggle: () => {},
+};
+
 export function useAIAssistant() {
   const context = useContext(AIAssistantContext);
-  if (!context) {
-    throw new Error("useAIAssistant must be used within an AIAssistantProvider");
-  }
-  return context;
+  return context || defaultContextValue;
 }
 
 export function AIAssistantProvider({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggle = () => setIsOpen((prev) => !prev);
+  const toggle = useCallback(() => setIsOpen((prev) => !prev), []);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -62,7 +65,7 @@ function AssistantModalHeader({ onClose }: { onClose: () => void }) {
         <div>
           <div className="flex items-center gap-1.5 font-semibold text-sm text-foreground">
             <span>cur8d Copilot</span>
-            <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-0.2 text-[10px] font-medium text-primary">
+            <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary">
               AI
             </span>
           </div>
@@ -88,12 +91,32 @@ function AssistantModalHeader({ onClose }: { onClose: () => void }) {
 }
 
 export function AssistantTrigger() {
-  const { isOpen, setIsOpen, toggle } = useAIAssistant();
+  const context = useContext(AIAssistantContext);
+  const [internalOpen, setInternalOpen] = useState(false);
   const [isMac, setIsMac] = useState(false);
+
+  const isOpen = context ? context.isOpen : internalOpen;
+  const setIsOpen = context ? context.setIsOpen : setInternalOpen;
+  const toggle = context ? context.toggle : () => setInternalOpen((prev) => !prev);
 
   useEffect(() => {
     setIsMac(typeof navigator !== "undefined" && navigator.platform?.toUpperCase().indexOf("MAC") >= 0);
   }, []);
+
+  useEffect(() => {
+    if (context) return; // Managed by provider
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "j") {
+        e.preventDefault();
+        setInternalOpen((prev) => !prev);
+      } else if (e.key === "Escape" && internalOpen) {
+        setInternalOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [context, internalOpen]);
 
   return (
     <>
