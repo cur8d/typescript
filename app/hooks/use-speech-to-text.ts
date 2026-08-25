@@ -32,9 +32,7 @@ interface SpeechRecognitionLike {
   onend: (() => void) | null;
 }
 
-interface SpeechRecognitionConstructor {
-  new (): SpeechRecognitionLike;
-}
+type SpeechRecognitionConstructor = new () => SpeechRecognitionLike;
 
 declare global {
   interface Window {

@@ -12,34 +12,29 @@ describe("AI Config & Model Resolution", () => {
     vi.unstubAllEnvs();
   });
 
-  it("should return mockModel by default when AI_PROVIDER is mock", () => {
-    const model = getModel({ provider: "mock" }) as LanguageModelV3;
-    expect(model.modelId).toBe("cur8d-mock-model");
-  });
-
-  it("should return mockModel when google provider has no API key", () => {
-    const model = getModel({ provider: "google" }) as LanguageModelV3;
-    expect(model.modelId).toBe("cur8d-mock-model");
-  });
+  it.each([
+    { provider: "mock", expectedModelId: "cur8d-mock-model" },
+    { provider: "google", expectedModelId: "cur8d-mock-model" },
+    { provider: "openai", expectedModelId: "cur8d-mock-model" },
+    { provider: "anthropic", expectedModelId: "cur8d-mock-model" },
+  ])(
+    "should return $expectedModelId when provider is $provider without API key",
+    ({ provider, expectedModelId }) => {
+      const model = getModel({
+        provider: provider as "mock" | "google" | "openai" | "anthropic",
+      }) as LanguageModelV3;
+      expect(model.modelId).toBe(expectedModelId);
+    }
+  );
 
   it("should return google model when API key is provided", () => {
     const model = getModel({ provider: "google", apiKey: "test-google-key" }) as LanguageModelV3;
     expect(model.modelId).toBe("gemini-2.5-flash");
   });
 
-  it("should return mockModel when openai provider has no API key", () => {
-    const model = getModel({ provider: "openai" }) as LanguageModelV3;
-    expect(model.modelId).toBe("cur8d-mock-model");
-  });
-
   it("should return openai model when API key is provided", () => {
     const model = getModel({ provider: "openai", apiKey: "test-openai-key", model: "gpt-4o" }) as LanguageModelV3;
     expect(model.modelId).toBe("gpt-4o");
-  });
-
-  it("should return mockModel when anthropic provider has no API key", () => {
-    const model = getModel({ provider: "anthropic" }) as LanguageModelV3;
-    expect(model.modelId).toBe("cur8d-mock-model");
   });
 
   it("should return anthropic model when API key is provided", () => {
@@ -67,41 +62,24 @@ describe("Mock Provider", () => {
     expect(res.finishReason.unified).toBe("stop");
   });
 
-  it("should simulate theme tool call when prompt mentions theme", async () => {
-    const model = createMockModel({ simulateTools: true }) as unknown as LanguageModelV3;
-    const res = await model.doStream({
-      prompt: "please switch to dark mode",
-    } as unknown as LanguageModelV3CallOptions);
+  it.each([
+    { prompt: "please switch to dark mode", expectedTool: "setTheme" },
+    { prompt: "show system info", expectedTool: "getSystemInfo" },
+    { prompt: "search documentation for testing", expectedTool: "searchDocumentation" },
+  ])(
+    "should simulate $expectedTool tool call when prompt is '$prompt'",
+    async ({ prompt, expectedTool }) => {
+      const model = createMockModel({ simulateTools: true }) as unknown as LanguageModelV3;
+      const res = await model.doStream({
+        prompt,
+      } as unknown as LanguageModelV3CallOptions);
 
-    const reader = res.stream.getReader();
-    const chunk1 = await reader.read();
-    expect(chunk1.value?.type).toBe("tool-call");
-    expect((chunk1.value as Extract<LanguageModelV3StreamPart, { type: "tool-call" }>)?.toolName).toBe("setTheme");
-  });
-
-  it("should simulate system info tool call when prompt mentions system info", async () => {
-    const model = createMockModel({ simulateTools: true }) as unknown as LanguageModelV3;
-    const res = await model.doStream({
-      prompt: "show system info",
-    } as unknown as LanguageModelV3CallOptions);
-
-    const reader = res.stream.getReader();
-    const chunk1 = await reader.read();
-    expect(chunk1.value?.type).toBe("tool-call");
-    expect((chunk1.value as Extract<LanguageModelV3StreamPart, { type: "tool-call" }>)?.toolName).toBe("getSystemInfo");
-  });
-
-  it("should simulate search documentation tool call when prompt mentions doc search", async () => {
-    const model = createMockModel({ simulateTools: true }) as unknown as LanguageModelV3;
-    const res = await model.doStream({
-      prompt: "search documentation for testing",
-    } as unknown as LanguageModelV3CallOptions);
-
-    const reader = res.stream.getReader();
-    const chunk1 = await reader.read();
-    expect(chunk1.value?.type).toBe("tool-call");
-    expect((chunk1.value as Extract<LanguageModelV3StreamPart, { type: "tool-call" }>)?.toolName).toBe("searchDocumentation");
-  });
+      const reader = res.stream.getReader();
+      const chunk1 = await reader.read();
+      expect(chunk1.value?.type).toBe("tool-call");
+      expect((chunk1.value as Extract<LanguageModelV3StreamPart, { type: "tool-call" }>)?.toolName).toBe(expectedTool);
+    }
+  );
 
   it("should stream default welcome chunks for general prompts", async () => {
     const model = createMockModel({ simulateTools: false }) as unknown as LanguageModelV3;

@@ -6,6 +6,7 @@ import {
   MessagePrimitive,
   ActionBarPrimitive,
   BranchPickerPrimitive,
+  AuiIf,
 } from "@assistant-ui/react";
 import { MarkdownTextPrimitive } from "@assistant-ui/react-markdown";
 import { Bot, User, Copy, Check, RotateCcw, ChevronLeft, ChevronRight, Sparkles, BookOpen, Sun, Cpu } from "lucide-react";
@@ -15,7 +16,12 @@ import { ThemeTool } from "./tools/ThemeTool";
 import { SystemInfoTool } from "./tools/SystemInfoTool";
 import { NavigatePageTool } from "./tools/NavigatePageTool";
 
-function CodeBlock({ code, language }: { code: string; language?: string }) {
+interface CodeBlockProps {
+  readonly code: string;
+  readonly language?: string;
+}
+
+function CodeBlock({ code, language }: Readonly<CodeBlockProps>) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -99,8 +105,7 @@ function SuggestedPrompts() {
             <ThreadPrimitive.Suggestion
               key={p.label}
               prompt={p.prompt}
-              method="replace"
-              autoSend
+              send
               asChild
             >
               <button
@@ -149,6 +154,68 @@ function UserMessage() {
   );
 }
 
+interface MarkdownCodeProps extends React.ComponentPropsWithoutRef<"code"> {
+  readonly inline?: boolean;
+}
+
+function MarkdownCode({ inline, className, children, ...props }: Readonly<MarkdownCodeProps>) {
+  const match = /language-(\w+)/.exec(className || "");
+  if (!inline && match) {
+    const codeString = Array.isArray(children)
+      ? children.join("")
+      : typeof children === "string"
+        ? children
+        : "";
+    return <CodeBlock code={codeString.replace(/\n$/, "")} language={match[1]} />;
+  }
+  return (
+    <code className="rounded bg-secondary/80 px-1 py-0.5 font-mono text-[12px] text-primary" {...props}>
+      {children}
+    </code>
+  );
+}
+
+function MarkdownParagraph({ children }: Readonly<{ readonly children?: React.ReactNode }>) {
+  return <p className="mb-2 last:mb-0 leading-relaxed">{children}</p>;
+}
+
+function MarkdownUnorderedList({ children }: Readonly<{ readonly children?: React.ReactNode }>) {
+  return <ul className="mb-2 list-disc pl-5 space-y-1">{children}</ul>;
+}
+
+function MarkdownOrderedList({ children }: Readonly<{ readonly children?: React.ReactNode }>) {
+  return <ol className="mb-2 list-decimal pl-5 space-y-1">{children}</ol>;
+}
+
+function MarkdownListItem({ children }: Readonly<{ readonly children?: React.ReactNode }>) {
+  return <li className="leading-relaxed">{children}</li>;
+}
+
+function MarkdownLink({ href, children }: Readonly<{ readonly href?: string; readonly children?: React.ReactNode }>) {
+  return (
+    <a href={href} className="text-primary underline hover:text-primary/80" target="_blank" rel="noopener noreferrer">
+      {children}
+    </a>
+  );
+}
+
+const markdownComponents = {
+  code: MarkdownCode,
+  p: MarkdownParagraph,
+  ul: MarkdownUnorderedList,
+  ol: MarkdownOrderedList,
+  li: MarkdownListItem,
+  a: MarkdownLink,
+};
+
+function AssistantMessageContent() {
+  return <MarkdownTextPrimitive components={markdownComponents} />;
+}
+
+const assistantMessageComponents = {
+  Text: AssistantMessageContent,
+};
+
 function AssistantMessage() {
   return (
     <MessagePrimitive.Root className="flex flex-col items-start gap-1.5 py-2">
@@ -162,36 +229,7 @@ function AssistantMessage() {
           <SystemInfoTool />
           <NavigatePageTool />
 
-          <MessagePrimitive.Content
-            components={{
-              Text: () => (
-                <MarkdownTextPrimitive
-                  components={{
-                    code: ({ inline, className, children, ...props }: React.ComponentPropsWithoutRef<"code"> & { inline?: boolean }) => {
-                      const match = /language-(\w+)/.exec(className || "");
-                      if (!inline && match) {
-                        return <CodeBlock code={String(children).replace(/\n$/, "")} language={match[1]} />;
-                      }
-                      return (
-                        <code className="rounded bg-secondary/80 px-1 py-0.5 font-mono text-[12px] text-primary" {...props}>
-                          {children}
-                        </code>
-                      );
-                    },
-                    p: ({ children }) => <p className="mb-2 last:mb-0 leading-relaxed">{children}</p>,
-                    ul: ({ children }) => <ul className="mb-2 list-disc pl-5 space-y-1">{children}</ul>,
-                    ol: ({ children }) => <ol className="mb-2 list-decimal pl-5 space-y-1">{children}</ol>,
-                    li: ({ children }) => <li className="leading-relaxed">{children}</li>,
-                    a: ({ href, children }) => (
-                      <a href={href} className="text-primary underline hover:text-primary/80" target="_blank" rel="noopener noreferrer">
-                        {children}
-                      </a>
-                    ),
-                  }}
-                />
-              ),
-            }}
-          />
+          <MessagePrimitive.Content components={assistantMessageComponents} />
 
           <ActionBarPrimitive.Root className="flex items-center gap-1 text-muted-foreground pt-1">
             <ActionBarPrimitive.Copy asChild>
@@ -225,9 +263,9 @@ export function Thread() {
   return (
     <ThreadPrimitive.Root className="flex h-full w-full flex-col overflow-hidden bg-background">
       <ThreadPrimitive.Viewport className="flex-1 overflow-y-auto px-4 py-3">
-        <ThreadPrimitive.Empty>
+        <AuiIf condition={(s) => s.thread.isEmpty}>
           <SuggestedPrompts />
-        </ThreadPrimitive.Empty>
+        </AuiIf>
         <ThreadPrimitive.Messages
           components={{
             UserMessage,
