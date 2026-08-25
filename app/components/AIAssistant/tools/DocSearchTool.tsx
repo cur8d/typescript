@@ -2,7 +2,7 @@
 
 import { makeAssistantToolUI } from "@assistant-ui/react";
 import Link from "next/link";
-import { BookOpen, ArrowRight, ExternalLink } from "lucide-react";
+import { BookOpen, ArrowRight } from "lucide-react";
 import type { DocItem } from "@/lib/ai/tools";
 
 export interface DocSearchArgs {

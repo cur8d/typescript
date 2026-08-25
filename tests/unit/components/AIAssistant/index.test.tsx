@@ -2,12 +2,18 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { AIAssistant, useAIAssistant, AIAssistantProvider } from "@/components/AIAssistant";
-import { DocSearchTool } from "@/components/AIAssistant/tools/DocSearchTool";
-import { ThemeTool } from "@/components/AIAssistant/tools/ThemeTool";
-import { SystemInfoTool } from "@/components/AIAssistant/tools/SystemInfoTool";
-import { NavigatePageTool } from "@/components/AIAssistant/tools/NavigatePageTool";
+import { DocSearchTool, type DocSearchArgs, type DocSearchResult } from "@/components/AIAssistant/tools/DocSearchTool";
+import { ThemeTool, type ThemeArgs, type ThemeResult } from "@/components/AIAssistant/tools/ThemeTool";
+import { SystemInfoTool, type SystemInfoArgs, type SystemInfoResult } from "@/components/AIAssistant/tools/SystemInfoTool";
+import { NavigatePageTool, type NavigatePageArgs, type NavigatePageResult } from "@/components/AIAssistant/tools/NavigatePageTool";
 import { useSpeechToText } from "@/hooks/use-speech-to-text";
 import { renderHook } from "@testing-library/react";
+
+interface ToolRenderProps<TArgs, TResult> {
+  args: TArgs;
+  result: TResult | undefined;
+  status: { type: "running" | "complete" | "incomplete" | "error" };
+}
 
 vi.mock("next/navigation", () => ({
   useRouter: () => ({
@@ -94,8 +100,8 @@ describe("AIAssistant Components", () => {
 
   describe("Generative UI Tools", () => {
     describe("DocSearchTool", () => {
-      const renderTool = (DocSearchTool as any).unstable_tool.render;
-      const ToolComponent = (props: any) => renderTool(props);
+      const renderTool = (DocSearchTool as unknown as { unstable_tool: { render: (props: ToolRenderProps<DocSearchArgs, DocSearchResult>) => React.ReactNode } }).unstable_tool.render;
+      const ToolComponent = (props: ToolRenderProps<DocSearchArgs, DocSearchResult>) => <>{renderTool(props)}</>;
 
       it("should render running state", () => {
         const { getByText } = render(
@@ -144,8 +150,8 @@ describe("AIAssistant Components", () => {
     });
 
     describe("ThemeTool", () => {
-      const renderTool = (ThemeTool as any).unstable_tool.render;
-      const ToolComponent = (props: any) => renderTool(props);
+      const renderTool = (ThemeTool as unknown as { unstable_tool: { render: (props: ToolRenderProps<ThemeArgs, ThemeResult>) => React.ReactNode } }).unstable_tool.render;
+      const ToolComponent = (props: ToolRenderProps<ThemeArgs, ThemeResult>) => <>{renderTool(props)}</>;
 
       it("should render running state", () => {
         const { getByText } = render(
@@ -171,8 +177,8 @@ describe("AIAssistant Components", () => {
     });
 
     describe("SystemInfoTool", () => {
-      const renderTool = (SystemInfoTool as any).unstable_tool.render;
-      const ToolComponent = (props: any) => renderTool(props);
+      const renderTool = (SystemInfoTool as unknown as { unstable_tool: { render: (props: ToolRenderProps<SystemInfoArgs, SystemInfoResult>) => React.ReactNode } }).unstable_tool.render;
+      const ToolComponent = (props: ToolRenderProps<SystemInfoArgs, SystemInfoResult>) => <>{renderTool(props)}</>;
 
       it("should render running state", () => {
         const { getByText } = render(
@@ -210,8 +216,8 @@ describe("AIAssistant Components", () => {
     });
 
     describe("NavigatePageTool", () => {
-      const renderTool = (NavigatePageTool as any).unstable_tool.render;
-      const ToolComponent = (props: any) => renderTool(props);
+      const renderTool = (NavigatePageTool as unknown as { unstable_tool: { render: (props: ToolRenderProps<NavigatePageArgs, NavigatePageResult>) => React.ReactNode } }).unstable_tool.render;
+      const ToolComponent = (props: ToolRenderProps<NavigatePageArgs, NavigatePageResult>) => <>{renderTool(props)}</>;
 
       it("should render navigation prompt card", () => {
         const { getByText } = render(
@@ -239,8 +245,8 @@ describe("AIAssistant Components", () => {
       const mockStop = vi.fn();
       const mockAbort = vi.fn();
       let onStartHandler: (() => void) | null = null;
-      let onResultHandler: ((event: any) => void) | null = null;
-      let onErrorHandler: ((event: any) => void) | null = null;
+      let onResultHandler: ((event: { resultIndex: number; results: Array<Array<{ transcript: string }>> }) => void) | null = null;
+      let onErrorHandler: ((event: { error: string }) => void) | null = null;
       let onEndHandler: (() => void) | null = null;
 
       class MockSpeechRecognition {
@@ -250,13 +256,13 @@ describe("AIAssistant Components", () => {
         start = mockStart;
         stop = mockStop;
         abort = mockAbort;
-        set onstart(fn: any) { onStartHandler = fn; }
-        set onresult(fn: any) { onResultHandler = fn; }
-        set onerror(fn: any) { onErrorHandler = fn; }
-        set onend(fn: any) { onEndHandler = fn; }
+        set onstart(fn: (() => void) | null) { onStartHandler = fn; }
+        set onresult(fn: ((event: { resultIndex: number; results: Array<Array<{ transcript: string }>> }) => void) | null) { onResultHandler = fn; }
+        set onerror(fn: ((event: { error: string }) => void) | null) { onErrorHandler = fn; }
+        set onend(fn: (() => void) | null) { onEndHandler = fn; }
       }
 
-      (window as any).SpeechRecognition = MockSpeechRecognition;
+      window.SpeechRecognition = MockSpeechRecognition as unknown as typeof window.SpeechRecognition;
 
       const onResult = vi.fn();
       const { result } = renderHook(() => useSpeechToText({ onResult }));
@@ -287,6 +293,10 @@ describe("AIAssistant Components", () => {
       expect(result.current.isListening).toBe(false);
 
       act(() => {
+        if (onEndHandler) onEndHandler();
+      });
+
+      act(() => {
         result.current.resetTranscript();
       });
       expect(result.current.transcript).toBe("");
@@ -302,7 +312,7 @@ describe("AIAssistant Components", () => {
       });
       expect(result.current.isListening).toBe(false);
 
-      delete (window as any).SpeechRecognition;
+      delete window.SpeechRecognition;
     });
   });
 });
