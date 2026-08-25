@@ -2,154 +2,156 @@
 
 ## 1. Executive Summary & Vision
 
-The goal of this feature is to introduce a **state-of-the-art, production-ready AI Assistant** into the `cur8d.tsx` starter template. 
+The goal of this feature is to introduce a **state-of-the-art, production-ready AI Assistant** into the `cur8d.tsx` starter template using industry-standard, established libraries rather than reinventing the wheel.
 
-The AI Assistant will serve as a first-class interactive capability for applications built on `cur8d.tsx`, providing:
-1. **Intelligent Conversational Interface**: A floating, collapsible chat drawer and full-page assistant experience with smooth streaming responses, markdown rendering, syntax-highlighted code blocks, and conversation history.
-2. **Generative UI & Tool Calling**: Live client-side and server-side tool execution (e.g., searching documentation, triggering navigation, changing theme preferences, querying app state) with interactive HeroUI v3 widgets rendered directly in the message stream.
-3. **Provider-Agnostic AI Architecture**: Seamless support for Google Gemini, OpenAI, Anthropic Claude, Groq, and local LLMs (via Ollama / OpenAI-compatible endpoints) using the modern **Vercel AI SDK (Core & React)**.
-4. **Zero-Config Fallback / Demo Mode**: Out-of-the-box functioning mock provider so that cloned templates and CI/CD pipelines work seamlessly without requiring private API keys.
-5. **Strict Quality, Accessibility & Typing**: Full compliance with `cur8d`'s strict TypeScript rules (no `any`), HeroUI v3 compound component patterns, Tailwind CSS v4 styling, WCAG AAA/AA accessibility with keyboard navigation, Vitest unit test coverage (>= 80%), and Playwright E2E testing.
+The AI Assistant integration combines:
+1. **`assistant-ui` (`@assistant-ui/react`)**: The premier open-source React UI library built specifically for AI chat interfaces, providing composable primitives for threads, composers, streaming markdown, syntax highlighting, generative UI tools, auto-scrolling, branch navigation, and modal/sidebar shells.
+2. **Vercel AI SDK (`ai`, `@assistant-ui/react-ai-sdk`)**: Unified LLM abstraction and streaming runtime supporting tool calling, multi-step agents, and runtime provider switching.
+3. **Multi-Provider & Zero-Config Architecture**: Out-of-the-box support for Google Gemini, OpenAI, Anthropic Claude, and local LLMs (Ollama), with a **zero-config Mock Provider** so starter clones run immediately without requiring API keys.
+4. **Strict Standards & Aesthetics**: Tailored to `cur8d`'s HeroUI v3 design system, Tailwind CSS v4 theming, strict TypeScript, WCAG AAA/AA accessibility, and $\ge 80\%$ test coverage.
 
 ---
 
-## 2. Tech Stack & Dependencies
+## 2. Architecture & Interaction Flow
 
-The AI assistant feature will integrate the following state-of-the-art libraries:
+```mermaid
+graph TD
+    User([User]) <-->|⌘J / Click Trigger| Shell[assistant-ui Modal / Sidebar]
+    Shell --> Thread[Thread & Composer Primitives]
+    Thread <-->|useChatRuntime| AISDK[Vercel AI SDK Core]
+    AISDK <-->|POST /api/chat - SSE Stream| Route[Next.js App Router API Route]
+    
+    subgraph Server Layer
+        Route --> Resolver{Provider Resolver}
+        Resolver -->|Default / No Key| Mock[Mock Dev Streamer]
+        Resolver -->|Google Key| Gemini[Google Gemini 2.5]
+        Resolver -->|OpenAI Key| OpenAI[OpenAI GPT-4o]
+        Resolver -->|Anthropic Key| Claude[Anthropic Claude 3.7]
+        Resolver -->|Custom Base URL| Ollama[Local Ollama / OpenAI-compatible]
+        
+        Route --> Tools[Tool Registry]
+        Tools --> DocSearch["searchDocumentation()"]
+        Tools --> ThemeTool["setTheme()"]
+        Tools --> SysInfo["getSystemInfo()"]
+    end
+```
 
-| Package | Purpose | Version / Target |
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User
+    participant UI as assistant-ui (Thread & Composer)
+    participant Client as useChatRuntime
+    participant API as /api/chat (streamText)
+    participant Provider as LLM Provider / Mock
+    
+    User->>UI: Types prompt / Speech-to-Text
+    UI->>Client: Submit message
+    Client->>API: POST /api/chat (messages, tools)
+    API->>Provider: Stream text with tool schemas
+    Provider-->>API: Yield tokens & tool call requests
+    API-->>Client: Stream SSE chunks
+    Client-->>UI: Real-time markdown rendering & Tool UI widget
+    UI-->>User: Display answer with syntax highlighting / interactive actions
+```
+
+---
+
+## 3. Tech Stack & Dependencies
+
+Rather than building chat components, markdown streaming, code highlighting, and auto-scroll logic from scratch, the feature leverages the `assistant-ui` ecosystem:
+
+| Package | Purpose | Category |
 | :--- | :--- | :--- |
-| `ai` | Core Vercel AI SDK (unified LLM abstraction, `streamText`, tool calling) | `^4.x` / `^5.x` |
-| `@ai-sdk/react` | React 19 hooks for chat streaming (`useChat`, `useCompletion`, message state) | Latest stable |
-| `@ai-sdk/google` | Google Gemini API provider (Gemini 2.5 Flash / Pro) | Latest stable |
-| `@ai-sdk/openai` | OpenAI API provider (GPT-4o, GPT-4o-mini, o3) | Latest stable |
-| `@ai-sdk/anthropic` | Anthropic Claude provider (Claude 3.7 Sonnet, Claude 3.5 Haiku) | Latest stable |
-| `@heroui/react` | HeroUI v3 compound components (`Drawer`, `Button`, `Card`, `Tooltip`, `Badge`, `Chip`, `ScrollShadow`, `Input`, `Kbd`) | `3.2.4` (existing) |
-| `lucide-react` | Icons (`Bot`, `Sparkles`, `Send`, `StopCircle`, `RotateCcw`, `Copy`, `Check`, `Mic`, `MicOff`, `Maximize2`, `Minimize2`, `X`) | `1.33.0` (existing) |
-| `zod` | Schema validation for tool calls, API payloads, and environment variables | `4.4.3` (existing) |
+| `@assistant-ui/react` | Headless & styled AI chat primitives (`Thread`, `Composer`, `AssistantModal`, `MessagePrimitive`) | Existing UI Library |
+| `@assistant-ui/react-ai-sdk` | Official runtime bridge connecting `assistant-ui` with Vercel AI SDK (`useChatRuntime`) | Integration |
+| `@assistant-ui/react-markdown` | Streaming markdown parser with smooth rendering & code blocks | UI / Markdown |
+| `@assistant-ui/react-syntax-highlighter` | Syntax-highlighted code blocks with line numbers and one-click copy buttons | Code Display |
+| `ai` | Vercel AI SDK Core (`streamText`, tool calling, message schemas) | Backend Runtime |
+| `@ai-sdk/google` | Google Gemini API provider | AI Provider |
+| `@ai-sdk/openai` | OpenAI API provider | AI Provider |
+| `@ai-sdk/anthropic` | Anthropic Claude provider | AI Provider |
+| `@heroui/react` | HeroUI v3 design system tokens and compound components for custom tool cards | Design System |
+| `lucide-react` | Icons (`Bot`, `Sparkles`, `Send`, `Mic`, `Copy`, `Check`, `RotateCcw`) | Icon Library |
+| `zod` | Zod schema validation for tools and environment variables | Validation |
 
 ---
 
-## 3. Detailed Functional Requirements
+## 4. Detailed Functional Requirements
 
-### 3.1. Floating Assistant Trigger & Shell
-- **Floating Action Trigger**:
-  - Located in the bottom-right corner of the viewport (fixed position with subtle floating animation and glowing backdrop blur).
-  - Displays icon (`Sparkles` / `Bot`) with tooltip indicating keyboard shortcut (`⌘J` on macOS, `Ctrl+J` on Linux/Windows).
-  - Unread/active response badge indicator.
-- **Header & Navbar Integration**:
-  - Option to open the Assistant directly from the main Navbar or Command Palette (`cmdk`).
-- **Responsive Drawer / Sheet**:
-  - **Desktop (>= 768px)**: Smooth slide-over side drawer (width: 440px-480px) docked to the right edge with backdrop overlay or persistent side-panel mode.
-  - **Mobile (< 768px)**: Full-height bottom sheet / modal covering the viewport with safe-area insets.
-  - Expand to full-screen toggle button (`Maximize2` / `Minimize2`).
-  - Close button and click-outside dismissal (customizable).
+### 4.1. UI Shell & Launch Modes (`assistant-ui`)
+- **Assistant Modal / Trigger**:
+  - Floating Action Button trigger anchored at the bottom-right corner with subtle glow and shortcut badge (`⌘J` / `Ctrl+J`).
+  - Slide-over drawer / modal shell powered by `@assistant-ui/react`'s `<AssistantModal>` or `<AssistantSidebar>` with customizable width and backdrop.
+  - Navbar button in desktop header providing secondary access.
+  - Full keyboard control (`⌘J` to toggle, `Escape` to dismiss, auto-focus input upon opening).
 
-### 3.2. Conversational UX & Streaming
-- **Token Streaming**: Real-time token-by-token streaming via Server-Sent Events (SSE) / ReadableStream.
-- **Message Structure**:
-  - **User Messages**: User avatar / icon, right-aligned styled bubble, timestamp.
-  - **Assistant Messages**: AI avatar with model badge, left-aligned bubble, streaming markdown content.
-  - **System / Status Messages**: Centered subtle notices for events (e.g., cleared history, tool invoked).
-- **Streaming Markdown & Code Syntax Highlighting**:
-  - Full GitHub-flavored markdown parsing (headings, lists, bold/italics, tables, blockquotes, inline links).
-  - Code blocks with language badge, line numbers, and a one-click **Copy Code** button with temporary `Check` confirmation.
-- **Conversation Controls**:
-  - **Stop Generation**: Immediate stream abort via `AbortController`.
-  - **Regenerate Response**: Re-triggers the last assistant turn.
-  - **Copy Response**: Copies markdown of the message to clipboard.
-  - **Clear Chat**: Resets active conversation with a confirmation prompt or undo toast.
-  - **Suggested Prompt Pills**: Welcome screen displaying curated quick-start prompts (e.g., *"How do I customize themes?"*, *"Search docs for deployment"*, *"What components are available?"*).
+### 4.2. Thread, Streaming & Markdown Capabilities
+- **Thread Experience**:
+  - Virtualized auto-scrolling message list with smooth pin-to-bottom behavior.
+  - Multi-turn conversation display with branch switching (edit previous user prompt & view alternative branches).
+  - Suggested starter prompt pills on empty thread state.
+- **Streaming Markdown & Code Blocks**:
+  - Handled via `@assistant-ui/react-markdown` and `@assistant-ui/react-syntax-highlighter`.
+  - Syntax highlighting for 50+ programming languages.
+  - Copy code button with confirmation feedback.
+- **Message Actions**:
+  - Stop generation button (AbortController).
+  - Reload / Regenerate button.
+  - Copy message text / markdown.
 
-### 3.3. Generative UI & Tool Calling
-The assistant supports dynamic tool execution where the model invokes client- or server-side tools, streaming interactive HeroUI components directly into the chat:
+### 4.3. Generative UI & Tool Calling
+Integrate custom tool renderers inside `assistant-ui`'s `<ToolFallback>` / `makeAssistantToolUI`:
+1. **`searchDocumentation`**:
+   - Searches Nextra docs and sitemap.
+   - Renders interactive HeroUI card with document title, excerpt snippet, and direct link navigation.
+2. **`setTheme`**:
+   - Switches active theme (`light`, `dark`, `system`) on the client and renders a theme switch status pill.
+3. **`getSystemInfo`**:
+   - Queries stack metadata (Next.js 16, React 19, HeroUI v3, Tailwind v4) and reports environment status.
+4. **`navigatePage`**:
+   - Renders confirmation card with a button to navigate to target route.
 
-1. **`searchDocumentation` Tool**:
-   - Searches Nextra docs and sitemap for relevant topics.
-   - Generates interactive result cards with article title, summary snippet, and one-click navigation links.
-2. **`setTheme` Tool**:
-   - Dynamically changes application theme (`light`, `dark`, or `system`).
-   - Renders confirmation pill showing the active theme switch.
-3. **`getSystemInfo` Tool**:
-   - Returns project stack details, active Next.js/React versions, and environment configuration status.
-4. **`navigatePage` Tool**:
-   - Generates an interactive confirmation card to navigate the user to routes (`/`, `/docs`, `/about`, etc.).
+### 4.4. Input, Speech & Persistence
+- **Composer**:
+  - Auto-growing multiline textarea with `Enter` (send) and `Shift + Enter` (newline).
+  - Integrated speech-to-text voice input button using Web Speech API with fallback.
+- **Local Persistence**:
+  - Chat history preserved across page reloads via `localStorage` integration.
 
-### 3.4. Input & Voice Capabilities
-- **Chat Input Area**:
-  - Auto-growing multi-line textarea (1 to 5 rows).
-  - Submit on `Enter` (without Shift), newline on `Shift + Enter`.
-  - Send button disabled when prompt is empty or while streaming.
-- **Speech-to-Text (Voice Input)**:
-  - Integration with Web Speech API (`SpeechRecognition` / `webkitSpeechRecognition`).
-  - Toggle microphone button (`Mic` / `MicOff`) with visual recording pulse animation.
-  - Graceful fallback when Web Speech API is unsupported or microphone permission is denied.
-- **Local Storage Persistence**:
-  - Automatically saves active chat messages in `localStorage` under a configurable key (`cur8d_ai_messages`).
-  - Export chat history as JSON or Markdown.
-
-### 3.5. Multi-Provider & Model Architecture
-- **Provider Switching via Environment Variables**:
-  - `AI_PROVIDER`: `"mock"` | `"google"` | `"openai"` | `"anthropic"` | `"custom"`. Default: `"mock"`.
+### 4.5. Multi-Provider & Zero-Config Fallback
+- **Environment Driven Provider**:
+  - `AI_PROVIDER`: `"mock"` (default) | `"google"` | `"openai"` | `"anthropic"` | `"custom"`.
   - `AI_MODEL`: Specific model identifier (e.g. `gemini-2.5-flash`, `gpt-4o-mini`, `claude-3-7-sonnet`).
-  - `GOOGLE_GENERATIVE_AI_API_KEY`: API key for Google Gemini.
-  - `OPENAI_API_KEY`: API key for OpenAI.
-  - `ANTHROPIC_API_KEY`: API key for Anthropic Claude.
-  - `AI_BASE_URL`: Optional custom base URL for OpenAI-compatible local models (Ollama, vLLM, LMStudio).
-- **Built-in Mock / Demo Mode**:
-  - Provides realistic simulated streaming responses with typing delay and mock tool calls when no API key is provided.
-  - Zero crashes or runtime exceptions when running out-of-the-box.
+  - `GOOGLE_GENERATIVE_AI_API_KEY`, `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `AI_BASE_URL`.
+- **Zero-Config Mock Provider**:
+  - When no API key is present or `AI_PROVIDER="mock"`, realistic streaming responses and mock tool calls are simulated.
 
 ---
 
-## 4. Non-Functional & Architecture Requirements
+## 5. Non-Functional & Architecture Requirements
 
-### 4.1. TypeScript & Code Standards
-- 100% strict TypeScript. Zero `any` types.
-- Explicit interfaces for all component props, tool inputs, tool outputs, and API contracts.
-- Colocated barrel exports (`index.tsx` per component).
-- Follow HeroUI v3 compound component dot-notation (`Drawer.Content`, `Card.Body`, `Tooltip.Trigger`).
+### 5.1. TypeScript & Code Quality
+- Strict TypeScript (`"strict": true`), zero `any` types.
+- Explicit interfaces for all custom tool components and hook parameters.
+- Co-located component structure under `app/components/AIAssistant/`.
 
-### 4.2. Security & Guardrails
-- **Edge / Server Execution**: AI API keys strictly kept on server side; never exposed to browser bundles.
-- **Input Validation**: Zod schema validation for incoming messages and tool payloads.
-- **Error Reporting**: All server exceptions and stream interruptions logged via `app/lib/error-reporting.ts`.
-- **System Prompt Guardrails**: Configurable system prompt instructing the model on tone, scope, and safety boundaries.
+### 5.2. Accessibility & Performance
+- Full keyboard operability and focus management provided by `@assistant-ui/react` primitives.
+- ARIA live region announcements for streaming message updates.
+- Axe-core accessibility clean (zero WCAG violations).
 
-### 4.3. Accessibility (a11y)
-- WCAG AAA/AA compliance verified via `@axe-core/playwright`.
-- Full keyboard operability:
-  - `⌘J` / `Ctrl+J` opens/closes assistant.
-  - `Escape` closes drawer and returns focus to trigger button.
-  - Focus trap inside the drawer while open.
-- ARIA live regions (`aria-live="polite"`) for streaming content to assist screen reader users.
-- Explicit `aria-label` attributes on all icon-only buttons (`Send`, `Mic`, `Close`, `Copy`, `Regenerate`, `Stop`).
-
-### 4.4. Testing Requirements
-- **Unit Tests (Vitest 4.1 + Testing Library)**:
-  - Minimum 80% line and branch coverage across all new files.
-  - Test suites for:
-    - `app/api/chat/route.test.ts` (API route mock streaming, error handling, provider selection).
-    - `app/components/AIAssistant/index.test.tsx` (Trigger button, drawer rendering, open/close state).
-    - `app/components/AIAssistant/ChatInput.test.tsx` (Textarea input, submit on Enter, voice toggle).
-    - `app/components/AIAssistant/MessageList.test.tsx` (Markdown rendering, code block copy, tool invocation cards).
-    - `app/lib/ai/tools.test.ts` (Tool execution logic and Zod validation).
-    - `app/lib/ai/env.test.ts` (AI environment validation schema).
-- **E2E Tests (Playwright 1.62)**:
-  - Open assistant drawer via trigger button and keyboard shortcut.
-  - Type prompt, submit, and verify streaming response in mock mode.
-  - Verify tool call execution rendering interactive card.
-  - Run `@axe-core/playwright` accessibility audit on the open assistant drawer.
+### 5.3. Testing Strategy
+- **Vitest Unit Tests ($\ge 80\%$ coverage)**:
+  - `app/api/chat/route.test.ts` (API route streaming, error handling, mock fallback).
+  - `app/components/AIAssistant/index.test.tsx` (Assistant trigger, modal state, tool card rendering).
+  - `app/lib/ai/tools.test.ts` (Tool schemas & execution).
+- **Playwright E2E Tests**:
+  - End-to-end verification of opening modal, submitting prompt, streaming mock response, and running axe-core a11y audit.
 
 ---
 
-## 5. Documentation & Developer Experience
-- **Documentation**: New Nextra documentation page at `docs/content/features/ai-assistant.mdx` detailing:
-  - Provider setup and API key configuration.
-  - How to define custom server-side and client-side tools.
-  - Customizing system prompts and starter questions.
-  - Switching between floating drawer mode and embedded page mode.
-- **Initialization Script (`scripts/init.ts`)**:
-  - Include AI configuration prompts during template initialization.
-- **Sample Environment Config**:
-  - Update `.env.example` with commented AI provider templates.
+## 6. Documentation & Template Scaffolding
+- **Documentation**: Nextra documentation page at `docs/content/features/ai-assistant.mdx`.
+- **Template Init**: Integration with `scripts/init.ts` to customize AI settings when scaffolding a new project.
+- **Project Guides**: Updates to `AGENTS.md` and `README.md`.
