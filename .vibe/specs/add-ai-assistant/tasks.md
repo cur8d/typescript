@@ -32,4 +32,4 @@
 - [x] Add documentation page in `docs/content/features/ai-assistant.mdx`
 - [x] Update `docs/content/features/_meta.js` to include AI Assistant page
 - [x] Update `scripts/init.ts` to include AI Assistant in project customization
-- [ ] Update `AGENTS.md` and `README.md` with AI Assistant conventions
+- [x] Update `AGENTS.md` and `README.md` with AI Assistant conventions

@@ -7,6 +7,7 @@ cur8d is a production-ready Next.js starter optimized for performance, accessibi
 - Next.js 16 (App Router, Turbopack, Server Components, React 19).
 - HeroUI v3: Accessible compound components with dot notation.
 - Tailwind CSS v4: CSS-first configuration and theme variables.
+- AI Assistant: assistant-ui (`@assistant-ui/react`), `@assistant-ui/react-ai-sdk`, and Vercel AI SDK (`ai`).
 - Vitest & Playwright: Unit, E2E, and accessibility (`@axe-core/playwright`) testing.
 - Vercel Blob & Observability: Storage stub and centralized error reporting.
 
@@ -22,7 +23,7 @@ Managed via `mise`. Update `.mise.toml` to change Node.js or pnpm versions.
 ## 5. TypeScript Rules
 - Strict mode enabled.
 - No `any` types allowed.
-- Explicit interfaces for all component props.
+- Explicit interfaces for all component props and tool schemas.
 
 ## 6. Coding Conventions
 - Named imports for icons (`lucide-react`, `@icons-pack/react-simple-icons`).
@@ -36,7 +37,7 @@ Add directory to `app/` with `page.tsx`.
 Create folder in `app/components/ComponentName/` with `index.tsx`, explicit prop interface, and unit test in `tests/unit/components/ComponentName/index.test.tsx`.
 
 ## 9. State Management & Hooks
-Custom hooks in `app/hooks/` (e.g., `useSearchState` via `SearchProvider` context).
+Custom hooks in `app/hooks/` (e.g., `useSearchState` via `SearchProvider` context, `useSpeechToText` for Web Speech API).
 
 ## 10. Testing Guide
 - Complete Verification: `mise run verify` (alias: `v`)
@@ -46,7 +47,7 @@ Custom hooks in `app/hooks/` (e.g., `useSearchState` via `SearchProvider` contex
 - Install Playwright Browsers: `mise run playwright:install`
 
 ## 11. Environment Variables
-Validated via Zod in `app/lib/env.ts`.
+Validated via Zod in `app/lib/env.ts` and `app/lib/ai/env.ts`.
 
 ## 12. Local Development Commands
 - `mise run dev` (alias: `d` or `pnpm dev`): Start Turbopack dev server.
@@ -73,3 +74,8 @@ Named imports with Tailwind `size-*` or `h-* w-*` utilities.
 ## 17. Logic & Data layer
 Logic, Zod schemas, structured metadata (`json-ld.ts`), and centralized error reporting (`error-reporting.ts`) in `app/lib/`.
 
+## 18. AI Assistant Architecture
+- **Client**: `app/components/AIAssistant/` using `@assistant-ui/react` primitives and `@assistant-ui/react-ai-sdk` runtime.
+- **Server**: `app/api/chat/route.ts` powered by Vercel AI SDK `streamText()`.
+- **Model Resolution**: `app/lib/ai/config.ts` supporting Google Gemini, OpenAI, Anthropic, Ollama, and a zero-config Mock Provider (`app/lib/ai/mock-provider.ts`).
+- **Generative UI Tools**: Defined in `app/lib/ai/tools.ts` with renderers in `app/components/AIAssistant/tools/`.
