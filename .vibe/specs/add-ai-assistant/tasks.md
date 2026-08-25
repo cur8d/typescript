@@ -30,6 +30,6 @@
 
 ## Phase 5: Documentation & Template Scaffolding
 - [x] Add documentation page in `docs/content/features/ai-assistant.mdx`
-- [ ] Update `docs/content/features/_meta.js` to include AI Assistant page
+- [x] Update `docs/content/features/_meta.js` to include AI Assistant page
 - [ ] Update `scripts/init.ts` to include AI Assistant in project customization
 - [ ] Update `AGENTS.md` and `README.md` with AI Assistant conventions
