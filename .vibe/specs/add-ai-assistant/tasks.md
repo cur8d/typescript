@@ -9,7 +9,7 @@
 - [x] Implement `app/lib/ai/mock-provider.ts` for zero-config demo streaming in development and CI/CD
 - [x] Implement `app/lib/ai/config.ts` for dynamic model & provider resolution
 - [x] Implement `app/lib/ai/system-prompt.ts` for system instructions and context grounding
-- [ ] Implement `app/lib/ai/tools.ts` for generative UI tool schemas (`searchDocumentation`, `setTheme`, `getSystemInfo`, `navigatePage`)
+- [x] Implement `app/lib/ai/tools.ts` for generative UI tool schemas (`searchDocumentation`, `setTheme`, `getSystemInfo`, `navigatePage`)
 - [ ] Implement Next.js App Router streaming endpoint `app/api/chat/route.ts` with error reporting
 
 ## Phase 3: Client Components (`assistant-ui`) & Generative UI
