@@ -13,42 +13,42 @@ describe("AI Config & Model Resolution", () => {
   });
 
   it("should return mockModel by default when AI_PROVIDER is mock", () => {
-    const model = getModel({ provider: "mock" });
+    const model = getModel({ provider: "mock" }) as LanguageModelV3;
     expect(model.modelId).toBe("cur8d-mock-model");
   });
 
   it("should return mockModel when google provider has no API key", () => {
-    const model = getModel({ provider: "google" });
+    const model = getModel({ provider: "google" }) as LanguageModelV3;
     expect(model.modelId).toBe("cur8d-mock-model");
   });
 
   it("should return google model when API key is provided", () => {
-    const model = getModel({ provider: "google", apiKey: "test-google-key" });
+    const model = getModel({ provider: "google", apiKey: "test-google-key" }) as LanguageModelV3;
     expect(model.modelId).toBe("gemini-2.5-flash");
   });
 
   it("should return mockModel when openai provider has no API key", () => {
-    const model = getModel({ provider: "openai" });
+    const model = getModel({ provider: "openai" }) as LanguageModelV3;
     expect(model.modelId).toBe("cur8d-mock-model");
   });
 
   it("should return openai model when API key is provided", () => {
-    const model = getModel({ provider: "openai", apiKey: "test-openai-key", model: "gpt-4o" });
+    const model = getModel({ provider: "openai", apiKey: "test-openai-key", model: "gpt-4o" }) as LanguageModelV3;
     expect(model.modelId).toBe("gpt-4o");
   });
 
   it("should return mockModel when anthropic provider has no API key", () => {
-    const model = getModel({ provider: "anthropic" });
+    const model = getModel({ provider: "anthropic" }) as LanguageModelV3;
     expect(model.modelId).toBe("cur8d-mock-model");
   });
 
   it("should return anthropic model when API key is provided", () => {
-    const model = getModel({ provider: "anthropic", apiKey: "test-anthropic-key" });
+    const model = getModel({ provider: "anthropic", apiKey: "test-anthropic-key" }) as LanguageModelV3;
     expect(model.modelId).toBe("claude-3-7-sonnet-20250219");
   });
 
   it("should return custom OpenAI-compatible model for custom provider", () => {
-    const model = getModel({ provider: "custom", baseURL: "http://localhost:11434/v1" });
+    const model = getModel({ provider: "custom", baseURL: "http://localhost:11434/v1" }) as LanguageModelV3;
     expect(model.modelId).toBe("llama3.2");
   });
 });
@@ -60,7 +60,10 @@ describe("Mock Provider", () => {
       prompt: [{ role: "user", content: [{ type: "text", text: "tell me about features" }] }],
     } as LanguageModelV3CallOptions);
 
-    expect(res.content[0].text).toContain("Mock AI response");
+    const firstContent = res.content[0];
+    if (firstContent.type === "text") {
+      expect(firstContent.text).toContain("Mock AI response");
+    }
     expect(res.finishReason.unified).toBe("stop");
   });
 
