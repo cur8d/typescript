@@ -21,7 +21,12 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "paths": {
+      "@docs/*": [
+        "./*"
+      ]
+    }
   },
   "include": [
     "next-env.d.ts",

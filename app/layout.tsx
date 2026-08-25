@@ -6,7 +6,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { AIAssistant } from "@/components/AIAssistant";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import "./globals.css";
+import "@/globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

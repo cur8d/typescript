@@ -2,7 +2,7 @@
 
 import { useEffect, useState, createContext, useContext, useCallback, useMemo } from "react";
 import { Bot, Sparkles, X } from "lucide-react";
-import { Thread } from "./Thread";
+import { Thread } from "@/components/AIAssistant/Thread";
 
 export interface AIAssistantContextType {
   isOpen: boolean;
