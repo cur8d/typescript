@@ -19,7 +19,7 @@
 - [x] Implement customized `app/components/AIAssistant/Composer.tsx` with voice input toggle and shortcut hint
 - [x] Implement generative UI tool renderers under `app/components/AIAssistant/tools/` (`DocSearchTool.tsx`, `ThemeTool.tsx`, `SystemInfoTool.tsx`)
 - [x] Implement floating trigger button and modal shell `app/components/AIAssistant/AssistantTrigger.tsx`
-- [ ] Mount `<AIAssistant />` in `app/layout.tsx` and add assistant toggle button in `app/components/Navbar/index.tsx`
+- [x] Mount `<AIAssistant />` in `app/layout.tsx` and add assistant toggle button in `app/components/Navbar/index.tsx`
 
 ## Phase 4: Testing & Accessibility
 - [ ] Add unit tests for API route in `tests/unit/api/chat.route.test.ts`
