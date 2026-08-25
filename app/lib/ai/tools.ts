@@ -9,6 +9,18 @@ export interface DocItem {
   category: string;
 }
 
+export interface SystemInfo {
+  name: string;
+  version: string;
+  framework: string;
+  runtime: string;
+  designSystem: string;
+  aiStack: string;
+  environment: string;
+  provider: string;
+  status: string;
+}
+
 export const DOCS_CATALOG: DocItem[] = [
   {
     title: "Project Overview",

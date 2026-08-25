@@ -6,6 +6,8 @@ import {
   navigatePage,
   DOCS_CATALOG,
   aiTools,
+  type DocItem,
+  type SystemInfo,
 } from "@/lib/ai/tools";
 
 describe("AI Generative Tools", () => {
@@ -21,7 +23,7 @@ describe("AI Generative Tools", () => {
       const execute = searchDocumentation.execute;
       if (!execute) throw new Error("searchDocumentation has no execute method");
 
-      const result = await execute({ query: "testing" }, {} as never);
+      const result = (await execute({ query: "testing" }, {} as never)) as { query: string; results: DocItem[] };
       expect(result.results.length).toBeGreaterThan(0);
       expect(result.results[0].title).toBe("Testing Guide");
     });
@@ -30,7 +32,7 @@ describe("AI Generative Tools", () => {
       const execute = searchDocumentation.execute;
       if (!execute) throw new Error("searchDocumentation has no execute method");
 
-      const result = await execute({ query: "xyznonexistent" }, {} as never);
+      const result = (await execute({ query: "xyznonexistent" }, {} as never)) as { query: string; results: DocItem[] };
       expect(result.results.length).toBe(3);
     });
   });
@@ -40,11 +42,11 @@ describe("AI Generative Tools", () => {
       const execute = setTheme.execute;
       if (!execute) throw new Error("setTheme has no execute method");
 
-      const darkResult = await execute({ theme: "dark" }, {} as never);
+      const darkResult = (await execute({ theme: "dark" }, {} as never)) as { success: boolean; theme: string };
       expect(darkResult.success).toBe(true);
       expect(darkResult.theme).toBe("dark");
 
-      const lightResult = await execute({ theme: "light" }, {} as never);
+      const lightResult = (await execute({ theme: "light" }, {} as never)) as { success: boolean; theme: string };
       expect(lightResult.success).toBe(true);
       expect(lightResult.theme).toBe("light");
     });
@@ -55,7 +57,7 @@ describe("AI Generative Tools", () => {
       const execute = getSystemInfo.execute;
       if (!execute) throw new Error("getSystemInfo has no execute method");
 
-      const info = await execute({}, {} as never);
+      const info = (await execute({}, {} as never)) as SystemInfo;
       expect(info.name).toBe("cur8d");
       expect(info.framework).toContain("Next.js");
       expect(info.designSystem).toContain("HeroUI");
@@ -68,7 +70,7 @@ describe("AI Generative Tools", () => {
       const execute = navigatePage.execute;
       if (!execute) throw new Error("navigatePage has no execute method");
 
-      const res = await execute({ route: "/docs" }, {} as never);
+      const res = (await execute({ route: "/docs" }, {} as never)) as { success: boolean; route: string; message: string };
       expect(res.success).toBe(true);
       expect(res.route).toBe("/docs");
       expect(res.message).toContain("/docs");
