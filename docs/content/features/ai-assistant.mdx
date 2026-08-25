@@ -1,0 +1,121 @@
+# AI Assistant
+
+cur8d includes a production-ready, accessible, and extensible **AI Assistant** interface powered by **[`assistant-ui`](https://www.assistant-ui.com/)** (`@assistant-ui/react`) and the **[Vercel AI SDK](https://sdk.vercel.ai/)** (`ai`).
+
+---
+
+## Highlights
+
+- ⚡ **Zero-Config Default**: Works instantly in development and CI/CD without requiring third-party API keys using our built-in realistic mock provider.
+- 🎨 **HeroUI v3 & Tailwind CSS v4**: Beautiful, accessible slide-over drawer shell, floating trigger badge, and compound component styling.
+- 🛠️ **Generative UI & Tool Calling**: Interactive tool cards for searching documentation, switching theme, and inspecting system metrics.
+- 🎙️ **Voice Input**: Speech-to-text dictation powered by the Web Speech API with microphone indicator.
+- ⌨️ **Keyboard Accessibility**: Full keyboard support with `⌘J` / `Ctrl+J` toggle, `Escape` dismissal, and ARIA attributes.
+- 🔄 **Multi-Provider Switching**: Dynamic model resolution for Google Gemini, OpenAI GPT-4o, Anthropic Claude, and local LLMs (Ollama).
+
+---
+
+## Architecture
+
+```
+User (⌘J / Click Trigger)
+       │
+       ▼
+AssistantTrigger (Floating Action Button & Modal Shell)
+       │
+       ▼
+Thread & Composer (@assistant-ui/react)
+       │
+       ▼
+useChatRuntime (@assistant-ui/react-ai-sdk)
+       │ (POST /api/chat - SSE Stream)
+       ▼
+App Router Route Handler (streamText())
+ ┌─────┴─────────────────────────┐
+ │                               │
+ ▼                               ▼
+Provider Resolver            Tool Registry
+ - Mock (Zero-Config)         - searchDocumentation
+ - Google Gemini 2.5          - setTheme
+ - OpenAI GPT-4o              - getSystemInfo
+ - Anthropic Claude 3.7       - navigatePage
+ - Local Ollama / Custom
+```
+
+---
+
+## Environment Variables
+
+Configure your preferred AI provider in `.env`:
+
+```bash
+# Provider: "mock" (default) | "google" | "openai" | "anthropic" | "custom"
+AI_PROVIDER=mock
+
+# Model name override (optional)
+AI_MODEL=
+
+# API Keys (required when provider is not "mock")
+GOOGLE_GENERATIVE_AI_API_KEY=
+OPENAI_API_KEY=
+ANTHROPIC_API_KEY=
+
+# Base URL for custom or local OpenAI-compatible endpoints (e.g., Ollama)
+AI_BASE_URL=http://localhost:11434/v1
+```
+
+---
+
+## Generative UI Tools
+
+The AI assistant can invoke client and server tools to render rich generative cards:
+
+### 1. `searchDocumentation`
+Searches project guides and docs catalog, rendering interactive cards with direct navigation links.
+
+### 2. `setTheme`
+Changes active theme (`light`, `dark`, `system`) on the client using `next-themes` and displays confirmation feedback.
+
+### 3. `getSystemInfo`
+Queries framework versions (Next.js 16, React 19, HeroUI v3, Tailwind CSS v4) and reports environment health.
+
+### 4. `navigatePage`
+Navigates the user to a target URL or route within the application.
+
+---
+
+## Adding Custom Tools
+
+To add a new server tool and generative UI card:
+
+1. **Define the Server Tool** in `app/lib/ai/tools.ts`:
+   ```typescript
+   import { tool } from "ai";
+   import { z } from "zod";
+
+   export const myCustomTool = tool({
+     description: "Description of what this tool does",
+     inputSchema: z.object({
+       query: z.string(),
+     }),
+     execute: async ({ query }) => {
+       return { success: true, data: query };
+     },
+   });
+   ```
+
+2. **Create the Generative UI Component** in `app/components/AIAssistant/tools/`:
+   ```typescript
+   "use client";
+   import { makeAssistantToolUI } from "@assistant-ui/react";
+
+   export const MyCustomToolUI = makeAssistantToolUI({
+     toolName: "myCustomTool",
+     render: ({ result, status }) => {
+       if (status.type === "running") return <div>Running...</div>;
+       return <div>Result: {JSON.stringify(result)}</div>;
+     },
+   });
+   ```
+
+3. **Mount the Tool UI** inside `app/components/AIAssistant/Thread.tsx`.
