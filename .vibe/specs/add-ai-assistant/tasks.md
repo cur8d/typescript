@@ -14,7 +14,7 @@
 
 ## Phase 3: Client Components (`assistant-ui`) & Generative UI
 - [x] Implement `app/hooks/use-speech-to-text.ts` for Web Speech API voice input
-- [ ] Configure `useChatRuntime` in `app/components/AIAssistant/index.tsx`
+- [x] Configure `useChatRuntime` in `app/components/AIAssistant/index.tsx`
 - [x] Implement customized `app/components/AIAssistant/Thread.tsx` with `@assistant-ui/react-markdown` and syntax highlighting
 - [x] Implement customized `app/components/AIAssistant/Composer.tsx` with voice input toggle and shortcut hint
 - [x] Implement generative UI tool renderers under `app/components/AIAssistant/tools/` (`DocSearchTool.tsx`, `ThemeTool.tsx`, `SystemInfoTool.tsx`)
