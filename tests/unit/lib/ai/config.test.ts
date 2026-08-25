@@ -1,6 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { getModel } from "@/lib/ai/config";
-import { createMockModel, mockModel } from "@/lib/ai/mock-provider";
+import { createMockModel } from "@/lib/ai/mock-provider";
+import type {
+  LanguageModelV3,
+  LanguageModelV3CallOptions,
+  LanguageModelV3StreamPart,
+} from "@ai-sdk/provider";
 
 describe("AI Config & Model Resolution", () => {
   beforeEach(() => {
@@ -50,60 +55,60 @@ describe("AI Config & Model Resolution", () => {
 
 describe("Mock Provider", () => {
   it("should support doGenerate with prompt text", async () => {
-    const model = createMockModel();
+    const model = createMockModel() as unknown as LanguageModelV3;
     const res = await model.doGenerate({
       prompt: [{ role: "user", content: [{ type: "text", text: "tell me about features" }] }],
-    } as any);
+    } as LanguageModelV3CallOptions);
 
     expect(res.content[0].text).toContain("Mock AI response");
     expect(res.finishReason.unified).toBe("stop");
   });
 
   it("should simulate theme tool call when prompt mentions theme", async () => {
-    const model = createMockModel({ simulateTools: true });
+    const model = createMockModel({ simulateTools: true }) as unknown as LanguageModelV3;
     const res = await model.doStream({
       prompt: "please switch to dark mode",
-    } as any);
+    } as unknown as LanguageModelV3CallOptions);
 
     const reader = res.stream.getReader();
     const chunk1 = await reader.read();
     expect(chunk1.value?.type).toBe("tool-call");
-    expect((chunk1.value as any)?.toolName).toBe("setTheme");
+    expect((chunk1.value as Extract<LanguageModelV3StreamPart, { type: "tool-call" }>)?.toolName).toBe("setTheme");
   });
 
   it("should simulate system info tool call when prompt mentions system info", async () => {
-    const model = createMockModel({ simulateTools: true });
+    const model = createMockModel({ simulateTools: true }) as unknown as LanguageModelV3;
     const res = await model.doStream({
       prompt: "show system info",
-    } as any);
+    } as unknown as LanguageModelV3CallOptions);
 
     const reader = res.stream.getReader();
     const chunk1 = await reader.read();
     expect(chunk1.value?.type).toBe("tool-call");
-    expect((chunk1.value as any)?.toolName).toBe("getSystemInfo");
+    expect((chunk1.value as Extract<LanguageModelV3StreamPart, { type: "tool-call" }>)?.toolName).toBe("getSystemInfo");
   });
 
   it("should simulate search documentation tool call when prompt mentions doc search", async () => {
-    const model = createMockModel({ simulateTools: true });
+    const model = createMockModel({ simulateTools: true }) as unknown as LanguageModelV3;
     const res = await model.doStream({
       prompt: "search documentation for testing",
-    } as any);
+    } as unknown as LanguageModelV3CallOptions);
 
     const reader = res.stream.getReader();
     const chunk1 = await reader.read();
     expect(chunk1.value?.type).toBe("tool-call");
-    expect((chunk1.value as any)?.toolName).toBe("searchDocumentation");
+    expect((chunk1.value as Extract<LanguageModelV3StreamPart, { type: "tool-call" }>)?.toolName).toBe("searchDocumentation");
   });
 
   it("should stream default welcome chunks for general prompts", async () => {
-    const model = createMockModel({ simulateTools: false });
+    const model = createMockModel({ simulateTools: false }) as unknown as LanguageModelV3;
     const res = await model.doStream({
       prompt: "hello world",
-    } as any);
+    } as unknown as LanguageModelV3CallOptions);
 
     const reader = res.stream.getReader();
     const chunk1 = await reader.read();
     expect(chunk1.value?.type).toBe("text-delta");
-    expect((chunk1.value as any)?.delta).toContain("Welcome to cur8d AI Assistant");
+    expect((chunk1.value as Extract<LanguageModelV3StreamPart, { type: "text-delta" }>)?.delta).toContain("Welcome to cur8d AI Assistant");
   });
 });
