@@ -10,11 +10,11 @@ import {
 } from "@assistant-ui/react";
 import { MarkdownTextPrimitive } from "@assistant-ui/react-markdown";
 import { Bot, User, Copy, Check, RotateCcw, ChevronLeft, ChevronRight, Sparkles, BookOpen, Sun, Cpu } from "lucide-react";
-import { Composer } from "./Composer";
-import { DocSearchTool } from "./tools/DocSearchTool";
-import { ThemeTool } from "./tools/ThemeTool";
-import { SystemInfoTool } from "./tools/SystemInfoTool";
-import { NavigatePageTool } from "./tools/NavigatePageTool";
+import { Composer } from "@/components/AIAssistant/Composer";
+import { DocSearchTool } from "@/components/AIAssistant/tools/DocSearchTool";
+import { ThemeTool } from "@/components/AIAssistant/tools/ThemeTool";
+import { SystemInfoTool } from "@/components/AIAssistant/tools/SystemInfoTool";
+import { NavigatePageTool } from "@/components/AIAssistant/tools/NavigatePageTool";
 
 interface CodeBlockProps {
   readonly code: string;
