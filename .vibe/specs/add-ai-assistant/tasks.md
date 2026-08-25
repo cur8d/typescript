@@ -17,7 +17,7 @@
 - [ ] Configure `useChatRuntime` in `app/components/AIAssistant/index.tsx`
 - [ ] Implement customized `app/components/AIAssistant/Thread.tsx` with `@assistant-ui/react-markdown` and syntax highlighting
 - [ ] Implement customized `app/components/AIAssistant/Composer.tsx` with voice input toggle and shortcut hint
-- [ ] Implement generative UI tool renderers under `app/components/AIAssistant/tools/` (`DocSearchTool.tsx`, `ThemeTool.tsx`, `SystemInfoTool.tsx`)
+- [x] Implement generative UI tool renderers under `app/components/AIAssistant/tools/` (`DocSearchTool.tsx`, `ThemeTool.tsx`, `SystemInfoTool.tsx`)
 - [ ] Implement floating trigger button and modal shell `app/components/AIAssistant/AssistantTrigger.tsx`
 - [ ] Mount `<AIAssistant />` in `app/layout.tsx` and add assistant toggle button in `app/components/Navbar/index.tsx`
 
