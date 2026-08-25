@@ -8,7 +8,7 @@ export const aiEnvSchema = z.object({
   GOOGLE_GENERATIVE_AI_API_KEY: z.string().optional(),
   OPENAI_API_KEY: z.string().optional(),
   ANTHROPIC_API_KEY: z.string().optional(),
-  AI_BASE_URL: z.string().url().optional().or(z.literal("")),
+  AI_BASE_URL: z.url().optional().or(z.literal("")),
 });
 
 export const aiEnv = aiEnvSchema.parse({

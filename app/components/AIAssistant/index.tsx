@@ -5,10 +5,10 @@ import { AssistantRuntimeProvider } from "@assistant-ui/react";
 import { AssistantTrigger } from "./AssistantTrigger";
 
 export interface AIAssistantProps {
-  api?: string;
+  readonly api?: string;
 }
 
-export function AIAssistant({ api = "/api/chat" }: AIAssistantProps) {
+export function AIAssistant({ api = "/api/chat" }: Readonly<AIAssistantProps>) {
   const runtime = useChatRuntime({
     transport: new AssistantChatTransport({ api }),
   });

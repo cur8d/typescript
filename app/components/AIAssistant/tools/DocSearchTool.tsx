@@ -26,7 +26,7 @@ export const DocSearchTool = makeAssistantToolUI<DocSearchArgs, DocSearchResult>
       );
     }
 
-    if (!result || !result.results || result.results.length === 0) {
+    if (!result?.results?.length) {
       return (
         <div className="rounded-lg border border-border bg-secondary/20 p-3 text-sm text-muted-foreground">
           No documentation matches found for &quot;{args?.query}&quot;.

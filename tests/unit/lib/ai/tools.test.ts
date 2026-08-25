@@ -33,7 +33,7 @@ describe("AI Generative Tools", () => {
       if (!execute) throw new Error("searchDocumentation has no execute method");
 
       const result = (await execute({ query: "xyznonexistent" }, {} as never)) as { query: string; results: DocItem[] };
-      expect(result.results.length).toBe(3);
+      expect(result.results).toHaveLength(3);
     });
   });
 
