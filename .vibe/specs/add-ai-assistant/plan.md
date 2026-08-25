@@ -1,90 +1,111 @@
 # Implementation Plan - AI Assistant Support (add-ai-assistant)
 
-This plan outlines the technical design and phased implementation for adding a state-of-the-art AI Assistant to `cur8d.tsx`.
+This plan details the technical architecture and implementation roadmap for adding state-of-the-art AI Assistant support to `cur8d.tsx` using **`assistant-ui` (`@assistant-ui/react`)** and **Vercel AI SDK (`ai`)**.
 
 ---
 
-## 1. Architectural Overview
+## 1. System Architecture
 
-The AI Assistant integration is built on the **Vercel AI SDK Core & React (`ai`, `@ai-sdk/react`)** combined with **HeroUI v3** compound components and **Next.js 16 App Router**.
+```mermaid
+graph TB
+    subgraph Client["Client Application (React 19 / Next.js 16)"]
+        Trigger["AssistantTrigger (Floating / Navbar)"]
+        Modal["AssistantModal / Thread (@assistant-ui/react)"]
+        Runtime["useChatRuntime (@assistant-ui/react-ai-sdk)"]
+        ToolsUI["Generative Tool Cards (HeroUI v3)"]
+        
+        Trigger -->|⌘J / Click| Modal
+        Modal --> Runtime
+        Modal --> ToolsUI
+    end
 
-```
-┌────────────────────────────────────────────────────────────────────────┐
-│                              Client Layer                              │
-│                                                                        │
-│  ┌────────────────────────┐         ┌───────────────────────────────┐  │
-│  │   AssistantTrigger     │ ──⌘J──> │       AssistantDrawer         │  │
-│  │ (Floating / Navbar)    │         │ (HeroUI v3 Drawer Compound)   │  │
-│  └────────────────────────┘         └───────────────┬───────────────┘  │
-│                                                     │                  │
-│                                     ┌───────────────┴───────────────┐  │
-│                                     │  useChat Hook (@ai-sdk/react) │  │
-│                                     │  - Token Streaming            │  │
-│                                     │  - Generative UI Tool State   │  │
-│                                     │  - LocalStorage Persistence   │  │
-│                                     └───────────────┬───────────────┘  │
-└─────────────────────────────────────────────────────┼──────────────────┘
-                                                      │ POST /api/chat
-                                                      │ (ReadableStream / SSE)
-┌─────────────────────────────────────────────────────┼──────────────────┐
-│                              Server Layer           ▼                  │
-│                                                                        │
-│  ┌──────────────────────────────────────────────────────────────────┐  │
-│  │ Route Handler: app/api/chat/route.ts                             │  │
-│  │ - Zod Request Validation                                         │  │
-│  │ - Provider Resolver (Google Gemini / OpenAI / Anthropic / Mock)  │  │
-│  │ - Tool Registry (searchDocumentation, setTheme, getSystemInfo)  │  │
-│  │ - streamText() with error handling & telemetry                   │  │
-│  └──────────────────────────────────┬───────────────────────────────┘  │
-│                                     │                                  │
-│                 ┌───────────────────┼───────────────────┐              │
-│                 ▼                   ▼                   ▼              │
-│        ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐     │
-│        │  Google Gemini  │ │   OpenAI GPT    │ │ Anthropic Claude│     │
-│        │ (@ai-sdk/google)│ │ (@ai-sdk/openai)│ │(@ai-sdk/anthrop)│     │
-│        └─────────────────┘ └─────────────────┘ └─────────────────┘     │
-│                                     ▲                                  │
-│                                     │ (Zero-Config Default)            │
-│                            ┌─────────────────┐                         │
-│                            │ Mock Stream Dev │                         │
-│                            │ (Local / CI/CD) │                         │
-│                            └─────────────────┘                         │
-└────────────────────────────────────────────────────────────────────────┘
+    subgraph API["App Router Route Handler (app/api/chat/route.ts)"]
+        StreamHandler["streamText() Engine"]
+        ZodValidator["Zod Request Validator"]
+        ProviderResolver{"Provider Resolver"}
+        ToolRegistry["Tool Registry (Zod Schemas)"]
+        
+        Runtime <-->|"POST /api/chat (SSE Stream)"| StreamHandler
+        StreamHandler --> ZodValidator
+        StreamHandler --> ProviderResolver
+        StreamHandler --> ToolRegistry
+    end
+
+    subgraph Providers["Model Providers & Fallbacks"]
+        MockProvider["Mock Stream Generator (Zero-Config Default)"]
+        Google["Google Gemini 2.5 (@ai-sdk/google)"]
+        OpenAI["OpenAI GPT-4o (@ai-sdk/openai)"]
+        Anthropic["Anthropic Claude 3.7 (@ai-sdk/anthropic)"]
+        CustomLLM["Ollama / Local OpenAI Endpoint"]
+        
+        ProviderResolver --> MockProvider
+        ProviderResolver --> Google
+        ProviderResolver --> OpenAI
+        ProviderResolver --> Anthropic
+        ProviderResolver --> CustomLLM
+    end
 ```
 
 ---
 
-## 2. File & Directory Structure
+## 2. Component Hierarchy & File Structure
 
+```mermaid
+classDiagram
+    class AIAssistantRoot {
+        +useChatRuntime()
+        +AssistantModal
+    }
+    class CustomThread {
+        +ThreadWelcome
+        +ThreadMessages
+        +Composer
+    }
+    class CustomComposer {
+        +ComposerInput
+        +VoiceInputButton
+        +ComposerSend
+    }
+    class GenerativeToolUI {
+        +DocSearchResultCard
+        +ThemeSwitchCard
+        +SystemInfoCard
+    }
+
+    AIAssistantRoot --> CustomThread
+    CustomThread --> CustomComposer
+    CustomThread --> GenerativeToolUI
+```
+
+### Proposed Directory Layout
 ```
 app/
 ├── api/
 │   └── chat/
-│       └── route.ts                 # AI streaming route handler (streamText)
+│       └── route.ts                 # Next.js App Router POST handler using streamText
 ├── components/
 │   └── AIAssistant/
-│       ├── index.tsx                # Container: Floating Trigger + Drawer modal
-│       ├── AssistantTrigger.tsx     # Floating button with shortcut badge
-│       ├── AssistantDrawer.tsx      # HeroUI v3 Drawer shell & header
-│       ├── MessageList.tsx          # Scrollable message stream & typing indicator
-│       ├── ChatMessage.tsx          # Individual user/assistant message & markdown
-│       ├── MarkdownRenderer.tsx     # Syntax-highlighted code blocks with copy button
-│       ├── ToolResultCard.tsx       # Generative UI cards for executed tools
+│       ├── index.tsx                # assistant-ui AssistantModal container & provider
+│       ├── AssistantTrigger.tsx     # Floating button with shortcut badge & tooltip
+│       ├── Thread.tsx               # assistant-ui Thread configuration & styling
+│       ├── Composer.tsx             # assistant-ui Composer with Web Speech API voice button
 │       ├── SuggestedPrompts.tsx     # Starter prompt pill chips
-│       └── ChatInput.tsx            # Auto-growing textarea, submit button, voice toggle
+│       └── tools/
+│           ├── DocSearchTool.tsx    # Generative UI card for doc search results
+│           ├── ThemeTool.tsx        # Generative UI badge for theme changes
+│           └── SystemInfoTool.tsx   # Generative UI card for stack metrics
 ├── hooks/
-│   ├── use-ai-assistant.ts          # State wrapper for open/close, unread, persistent history
 │   └── use-speech-to-text.ts        # Web Speech API speech-to-text hook
 └── lib/
     └── ai/
-        ├── config.ts                # Model & provider resolution based on env
+        ├── config.ts                # Model & provider resolver
         ├── env.ts                   # Zod schema for AI environment variables
-        ├── system-prompt.ts         # Base system instructions & context grounding
-        ├── tools.ts                 # Server & client tool definitions (searchDocs, etc.)
+        ├── system-prompt.ts         # Grounded system instructions & context
+        ├── tools.ts                 # Server tool definitions with Zod schemas
         └── mock-provider.ts         # Zero-config realistic mock streamer for dev/CI
 
 docs/content/features/
-└── ai-assistant.mdx                 # Full Nextra guide on setup, tools, and providers
+└── ai-assistant.mdx                 # Nextra feature guide
 
 tests/
 ├── unit/
@@ -92,128 +113,62 @@ tests/
 │   │   └── chat.route.test.ts       # Vitest tests for POST /api/chat
 │   ├── components/
 │   │   └── AIAssistant/
-│   │       ├── index.test.tsx       # Assistant open/close & trigger tests
-│   │       ├── ChatInput.test.tsx   # Input handling, keyboard submit tests
-│   │       └── ChatMessage.test.tsx # Markdown and tool card rendering tests
+│   │       └── index.test.tsx       # assistant-ui integration tests
 │   └── lib/
 │       └── ai/
 │           ├── config.test.ts       # Provider resolver tests
-│           └── tools.test.ts        # Tool schemas and execution tests
+│           └── tools.test.ts        # Tool definitions tests
 └── e2e/
-    └── ai-assistant.spec.ts         # Playwright E2E & @axe-core/playwright a11y tests
+    └── ai-assistant.spec.ts         # Playwright E2E & axe-core a11y tests
 ```
 
 ---
 
-## 3. Proposed Changes Breakdown
+## 3. Implementation Phases
+
+```mermaid
+gantt
+    title AI Assistant Implementation Timeline
+    dateFormat  YYYY-MM-DD
+    section Phase 1
+    Dependencies & Env Schema       :done, p1, 2026-08-25, 1d
+    section Phase 2
+    Server API Route & Tools        :active, p2, 2026-08-26, 1d
+    Mock Provider & Resolvers       :p2b, 2026-08-26, 1d
+    section Phase 3
+    assistant-ui Primitives & Tools :p3, 2026-08-27, 2d
+    Trigger & Shell Integration     :p3b, 2026-08-28, 1d
+    section Phase 4
+    Unit Tests & E2E a11y Tests    :p4, 2026-08-29, 1d
+    section Phase 5
+    Nextra Docs & Init Script       :p5, 2026-08-30, 1d
+```
 
 ### Phase 1: Toolchain, Dependencies & Environment
-
-#### 1. [MODIFY] [package.json](file:///Users/amrabed/Library/CloudStorage/OneDrive-Personal/code/cur8d.tsx/package.json)
-Add the Vercel AI SDK and provider packages:
-- `ai`
-- `@ai-sdk/react`
-- `@ai-sdk/google`
-- `@ai-sdk/openai`
-- `@ai-sdk/anthropic`
-
-#### 2. [MODIFY] [.env.example](file:///Users/amrabed/Library/CloudStorage/OneDrive-Personal/code/cur8d.tsx/.env.example)
-Add AI configuration keys:
-```env
-# AI Assistant Configuration
-AI_PROVIDER="mock" # "mock" | "google" | "openai" | "anthropic" | "custom"
-AI_MODEL=""
-GOOGLE_GENERATIVE_AI_API_KEY=""
-OPENAI_API_KEY=""
-ANTHROPIC_API_KEY=""
-AI_BASE_URL=""
-```
-
-#### 3. [NEW] `app/lib/ai/env.ts` & [MODIFY] `app/lib/env.ts`
-Validate AI environment variables using Zod schemas with fallback defaults.
-
----
+- Add packages:
+  - `@assistant-ui/react`, `@assistant-ui/react-ai-sdk`, `@assistant-ui/react-markdown`, `@assistant-ui/react-syntax-highlighter`
+  - `ai`, `@ai-sdk/google`, `@ai-sdk/openai`, `@ai-sdk/anthropic`
+- Configure environment variables in `.env.example` and Zod validation in `app/lib/ai/env.ts`.
 
 ### Phase 2: AI Core Logic & Server API Route
+- Implement provider resolver `app/lib/ai/config.ts` and `mock-provider.ts`.
+- Implement tool definitions with Zod schemas in `app/lib/ai/tools.ts`.
+- Implement App Router route handler `app/api/chat/route.ts` using `streamText()` and centralized error reporting.
 
-#### 1. [NEW] `app/lib/ai/config.ts`
-- Factory function `getAIModel()` returning the configured provider instance.
-- Graceful fallback to `mockAIProvider` if no API key is set.
-
-#### 2. [NEW] `app/lib/ai/system-prompt.ts`
-- Configurable base system prompt with application context, formatting rules, and safety bounds.
-
-#### 3. [NEW] `app/lib/ai/tools.ts`
-- Zod-schema validated tools:
-  - `searchDocumentation`: searches site headings and documentation mdx.
-  - `setTheme`: switches dark/light mode client state.
-  - `getSystemInfo`: queries tech stack and active environment status.
-  - `navigatePage`: requests page navigation.
-
-#### 4. [NEW] `app/lib/ai/mock-provider.ts`
-- High-fidelity simulated streaming generator for zero-config out-of-the-box local development and automated CI testing.
-
-#### 5. [NEW] `app/api/chat/route.ts`
-- Edge/Node.js Next.js App Router POST handler using `streamText({ model, system, messages, tools })`.
-- Handles streaming errors and reports exceptions via `app/lib/error-reporting.ts`.
-
----
-
-### Phase 3: Client Components & Generative UI (HeroUI v3)
-
-#### 1. [NEW] `app/hooks/use-speech-to-text.ts`
-- Web Speech API integration for speech-to-text microphone input with browser compatibility checks.
-
-#### 2. [NEW] `app/hooks/use-ai-assistant.ts`
-- Encapsulates drawer visibility, shortcut listener (`⌘J` / `Ctrl+J`), and message caching.
-
-#### 3. [NEW] `app/components/AIAssistant/MarkdownRenderer.tsx`
-- Renders streaming markdown, formatted tables, lists, and syntax-highlighted code blocks with a copy button.
-
-#### 4. [NEW] `app/components/AIAssistant/ToolResultCard.tsx`
-- Renders interactive HeroUI cards when tools (such as documentation search results) are executed.
-
-#### 5. [NEW] `app/components/AIAssistant/ChatMessage.tsx` & `MessageList.tsx`
-- Accessible message display with avatar badges, timestamps, retry/copy action buttons, and scroll anchoring.
-
-#### 6. [NEW] `app/components/AIAssistant/ChatInput.tsx`
-- Keyboard-accessible input form with auto-expanding textarea, voice toggle, send button, and stop stream button.
-
-#### 7. [NEW] `app/components/AIAssistant/AssistantDrawer.tsx` & `index.tsx`
-- HeroUI v3 Drawer compound component integration (`Drawer.Content`, `Drawer.Header`, `Drawer.Body`, `Drawer.Footer`).
-- Floating Action Button trigger with tooltips and shortcut hints.
-
-#### 8. [MODIFY] `app/layout.tsx` & `app/components/Navbar/index.tsx`
-- Mount `<AIAssistant />` globally in the root layout so it is available across all routes.
-- Add AI Assistant icon button to Navbar for desktop discoverability.
-
----
+### Phase 3: Client Components (`@assistant-ui/react`) & Generative UI
+- Configure `useChatRuntime` from `@assistant-ui/react-ai-sdk`.
+- Implement customized `Thread`, `Composer` (with voice input), and `AssistantModal`.
+- Implement generative tool renderers (`DocSearchTool`, `ThemeTool`, `SystemInfoTool`).
+- Mount `<AIAssistant />` in `app/layout.tsx` and Navbar trigger.
 
 ### Phase 4: Testing & Accessibility
+- Unit tests (`tests/unit/api/chat.route.test.ts`, `tests/unit/components/AIAssistant/index.test.tsx`, `tests/unit/lib/ai/`).
+- Playwright E2E tests (`tests/e2e/ai-assistant.spec.ts`) with `@axe-core/playwright` accessibility audits.
+- Validate $\ge 80\%$ test coverage with `mise run test:coverage`.
 
-#### 1. Unit Tests (`tests/unit/`)
-- API Route tests (`tests/unit/api/chat.route.test.ts`) validating POST requests, streaming headers, and error handling.
-- Component tests (`tests/unit/components/AIAssistant/`) testing open/close state, message rendering, code copy, and keyboard events.
-- Tools & env tests (`tests/unit/lib/ai/`).
-
-#### 2. End-to-End Tests (`tests/e2e/ai-assistant.spec.ts`)
-- Verify floating trigger opens drawer.
-- Verify `⌘J` / `Ctrl+J` shortcut toggles drawer.
-- Verify typing and submitting a query streams a mock response.
-- Verify axe-core accessibility audit has zero WCAG violations.
-
----
-
-### Phase 5: Documentation & Scaffolding Integration
-
-#### 1. [NEW] `docs/content/features/ai-assistant.mdx`
-- Document AI Assistant features, provider configuration, tool creation, and UI customization.
-
-#### 2. [MODIFY] `scripts/init.ts`
-- Include AI Assistant project initialization prompt and documentation file updates.
-
-#### 3. [MODIFY] `AGENTS.md` & `README.md`
-- Document AI Assistant architectural conventions and commands.
+### Phase 5: Documentation & Scaffolding
+- Add documentation page `docs/content/features/ai-assistant.mdx`.
+- Update `scripts/init.ts` and `AGENTS.md`.
 
 ---
 
@@ -221,24 +176,24 @@ Validate AI environment variables using Zod schemas with fallback defaults.
 
 ### Automated Verification
 ```bash
-# 1. Typecheck
+# Typecheck
 pnpm typecheck
 
-# 2. Lint
+# Linting
 pnpm lint
 
-# 3. Unit Tests with Coverage (>= 80%)
+# Unit Tests (>= 80% coverage)
 pnpm test:coverage
 
-# 4. End-to-End & a11y Tests
+# E2E & Accessibility Tests
 pnpm test:e2e
 
-# 5. Production Build
+# Production Build
 pnpm build
 ```
 
 ### Manual Verification
-- Test floating trigger and `⌘J` shortcut across Chromium, Firefox, WebKit.
-- Test mock streaming responses and voice input toggle.
-- Verify responsive layout on mobile viewport (375px) and desktop (1440px).
-- Verify dark/light mode appearance across all assistant components.
+- Verify modal opening via floating trigger and `⌘J` / `Ctrl+J`.
+- Verify real-time token streaming and code copy buttons.
+- Verify tool execution cards in chat thread.
+- Verify theme changes and responsive mobile layout.
