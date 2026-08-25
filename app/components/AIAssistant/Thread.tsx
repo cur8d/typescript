@@ -16,12 +16,12 @@ import { ThemeTool } from "@/components/AIAssistant/tools/ThemeTool";
 import { SystemInfoTool } from "@/components/AIAssistant/tools/SystemInfoTool";
 import { NavigatePageTool } from "@/components/AIAssistant/tools/NavigatePageTool";
 
-interface CodeBlockProps {
+export interface CodeBlockProps {
   readonly code: string;
   readonly language?: string;
 }
 
-function CodeBlock({ code, language }: Readonly<CodeBlockProps>) {
+export function CodeBlock({ code, language }: Readonly<CodeBlockProps>) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -64,7 +64,7 @@ function CodeBlock({ code, language }: Readonly<CodeBlockProps>) {
   );
 }
 
-function SuggestedPrompts() {
+export function SuggestedPrompts() {
   const prompts = [
     {
       label: "Search documentation",
@@ -123,7 +123,7 @@ function SuggestedPrompts() {
   );
 }
 
-function UserMessage() {
+export function UserMessage() {
   return (
     <MessagePrimitive.Root className="flex flex-col items-end gap-1.5 py-2">
       <div className="flex items-start gap-2 max-w-[85%] flex-row-reverse">
@@ -154,11 +154,11 @@ function UserMessage() {
   );
 }
 
-interface MarkdownCodeProps extends React.ComponentPropsWithoutRef<"code"> {
+export interface MarkdownCodeProps extends React.ComponentPropsWithoutRef<"code"> {
   readonly inline?: boolean;
 }
 
-function MarkdownCode({ inline, className, children, ...props }: Readonly<MarkdownCodeProps>) {
+export function MarkdownCode({ inline, className, children, ...props }: Readonly<MarkdownCodeProps>) {
   const match = /language-(\w+)/.exec(className || "");
   if (!inline && match) {
     const codeString = Array.isArray(children)
@@ -175,23 +175,23 @@ function MarkdownCode({ inline, className, children, ...props }: Readonly<Markdo
   );
 }
 
-function MarkdownParagraph({ children }: Readonly<{ readonly children?: React.ReactNode }>) {
+export function MarkdownParagraph({ children }: Readonly<{ readonly children?: React.ReactNode }>) {
   return <p className="mb-2 last:mb-0 leading-relaxed">{children}</p>;
 }
 
-function MarkdownUnorderedList({ children }: Readonly<{ readonly children?: React.ReactNode }>) {
+export function MarkdownUnorderedList({ children }: Readonly<{ readonly children?: React.ReactNode }>) {
   return <ul className="mb-2 list-disc pl-5 space-y-1">{children}</ul>;
 }
 
-function MarkdownOrderedList({ children }: Readonly<{ readonly children?: React.ReactNode }>) {
+export function MarkdownOrderedList({ children }: Readonly<{ readonly children?: React.ReactNode }>) {
   return <ol className="mb-2 list-decimal pl-5 space-y-1">{children}</ol>;
 }
 
-function MarkdownListItem({ children }: Readonly<{ readonly children?: React.ReactNode }>) {
+export function MarkdownListItem({ children }: Readonly<{ readonly children?: React.ReactNode }>) {
   return <li className="leading-relaxed">{children}</li>;
 }
 
-function MarkdownLink({ href, children }: Readonly<{ readonly href?: string; readonly children?: React.ReactNode }>) {
+export function MarkdownLink({ href, children }: Readonly<{ readonly href?: string; readonly children?: React.ReactNode }>) {
   return (
     <a href={href} className="text-primary underline hover:text-primary/80" target="_blank" rel="noopener noreferrer">
       {children}
@@ -199,7 +199,7 @@ function MarkdownLink({ href, children }: Readonly<{ readonly href?: string; rea
   );
 }
 
-const markdownComponents = {
+export const markdownComponents = {
   code: MarkdownCode,
   p: MarkdownParagraph,
   ul: MarkdownUnorderedList,
@@ -208,15 +208,15 @@ const markdownComponents = {
   a: MarkdownLink,
 };
 
-function AssistantMessageContent() {
+export function AssistantMessageContent() {
   return <MarkdownTextPrimitive components={markdownComponents} />;
 }
 
-const assistantMessageComponents = {
+export const assistantMessageComponents = {
   Text: AssistantMessageContent,
 };
 
-function AssistantMessage() {
+export function AssistantMessage() {
   return (
     <MessagePrimitive.Root className="flex flex-col items-start gap-1.5 py-2">
       <div className="flex items-start gap-2 max-w-[90%]">
