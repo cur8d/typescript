@@ -358,9 +358,8 @@ describe("AIAssistant Components", () => {
         const copyButton = screen.getByRole("button", { name: /copy code block/i });
         expect(copyButton).toBeInTheDocument();
 
-        await act(async () => {
-          fireEvent.click(copyButton);
-        });
+        fireEvent.click(copyButton);
+        await act(async () => {});
         expect(writeTextMock).toHaveBeenCalledWith("const a = 1;");
         expect(screen.getByText("Copied")).toBeInTheDocument();
 
@@ -385,9 +384,7 @@ describe("AIAssistant Components", () => {
         expect(screen.getByText("text")).toBeInTheDocument();
 
         const copyButton = screen.getByRole("button", { name: /copy code block/i });
-        await act(async () => {
-          fireEvent.click(copyButton);
-        });
+        fireEvent.click(copyButton);
         expect(screen.getByText("Copy")).toBeInTheDocument();
       });
     });

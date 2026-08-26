@@ -161,11 +161,12 @@ export interface MarkdownCodeProps extends React.ComponentPropsWithoutRef<"code"
 export function MarkdownCode({ inline, className, children, ...props }: Readonly<MarkdownCodeProps>) {
   const match = /language-(\w+)/.exec(className || "");
   if (!inline && match) {
-    const codeString = Array.isArray(children)
-      ? children.join("")
-      : typeof children === "string"
-        ? children
-        : "";
+    let codeString = "";
+    if (Array.isArray(children)) {
+      codeString = children.join("");
+    } else if (typeof children === "string") {
+      codeString = children;
+    }
     return <CodeBlock code={codeString.replace(/\n$/, "")} language={match[1]} />;
   }
   return (
