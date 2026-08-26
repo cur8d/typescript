@@ -107,15 +107,32 @@ To add a new server tool and generative UI card:
 2. **Create the Generative UI Component** in `app/components/AIAssistant/tools/`:
    ```typescript
    "use client";
-   import { makeAssistantToolUI } from "@assistant-ui/react";
+   import type { ToolCallMessagePartComponent } from "@assistant-ui/react";
 
-   export const MyCustomToolUI = makeAssistantToolUI({
-     toolName: "myCustomTool",
-     render: ({ result, status }) => {
-       if (status.type === "running") return <div>Running...</div>;
-       return <div>Result: {JSON.stringify(result)}</div>;
+   export interface MyCustomToolArgs {
+     query: string;
+   }
+
+   export interface MyCustomToolResult {
+     success: boolean;
+     data: string;
+   }
+
+   export const MyCustomToolUI: ToolCallMessagePartComponent<MyCustomToolArgs, MyCustomToolResult> = ({ result, status }) => {
+     if (status.type === "running") return <div>Running...</div>;
+     return <div>Result: {JSON.stringify(result)}</div>;
+   };
+   ```
+
+3. **Register the Tool in Toolkit** in `app/components/AIAssistant/toolkit.ts`:
+   ```typescript
+   import { defineToolkit } from "@assistant-ui/react";
+   import { MyCustomToolUI } from "@/components/AIAssistant/tools/MyCustomTool";
+
+   export const assistantToolkit = defineToolkit({
+     // ...other tools
+     myCustomTool: {
+       render: MyCustomToolUI,
      },
    });
    ```
-
-3. **Mount the Tool UI** inside `app/components/AIAssistant/Thread.tsx`.
