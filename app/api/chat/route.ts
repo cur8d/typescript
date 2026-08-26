@@ -4,9 +4,9 @@ import { SYSTEM_PROMPT } from "@/lib/ai/system-prompt";
 import { aiTools } from "@/lib/ai/tools";
 import { reportError } from "@/lib/error-reporting";
 
-export async function POST(req: Request) {
+export async function POST(request: Request) {
   try {
-    const body = await req.json();
+    const body = await request.json();
     const { messages, model: modelOverride, provider: providerOverride } = body;
 
     if (!messages || !Array.isArray(messages)) {
@@ -18,15 +18,15 @@ export async function POST(req: Request) {
 
     const normalizedMessages: UIMessage[] = messages.map((m: unknown) => {
       if (typeof m === "object" && m !== null) {
-        const msg = m as Record<string, unknown>;
-        if (msg.parts && Array.isArray(msg.parts)) {
-          return msg as unknown as UIMessage;
+        const message = m as Record<string, unknown>;
+        if (message.parts && Array.isArray(message.parts)) {
+          return message as unknown as UIMessage;
         }
-        if (typeof msg.content === "string") {
+        if (typeof message.content === "string") {
           return {
-            id: typeof msg.id === "string" ? msg.id : `msg_${Date.now()}`,
-            role: (msg.role as "user" | "assistant" | "system") || "user",
-            parts: [{ type: "text", text: msg.content }],
+            id: typeof message.id === "string" ? message.id : `msg_${Date.now()}`,
+            role: (message.role as "user" | "assistant" | "system") || "user",
+            parts: [{ type: "text", text: message.content }],
           } as unknown as UIMessage;
         }
       }
