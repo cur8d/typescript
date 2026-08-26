@@ -31,15 +31,15 @@ export const NavigatePageTool: ToolCallMessagePartComponent<NavigatePageArgs, Na
   }, [status.type, targetRoute, router]);
 
   return (
-    <div className="my-2 flex items-center justify-between rounded-lg border border-border bg-secondary/40 p-2.5 text-xs text-foreground shadow-xs">
-      <div className="flex items-center gap-2">
+    <div className="ai-tool-navigate">
+      <div className="ai-tool-navigate__content">
         <Navigation className="size-3.5 text-primary" />
-        <span>Navigating to <code className="font-mono text-primary">{targetRoute}</code></span>
+        <span>Navigating to <code className="ai-tool-navigate__code">{targetRoute}</code></span>
       </div>
       {targetRoute && (
         <Link
           href={targetRoute}
-          className="flex items-center gap-1 font-medium text-primary hover:underline"
+          className="ai-tool-navigate__link"
         >
           Go now <ArrowRight className="size-3" />
         </Link>

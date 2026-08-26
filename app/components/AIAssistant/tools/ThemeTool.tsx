@@ -42,7 +42,7 @@ export const ThemeTool: ToolCallMessagePartComponent<ThemeArgs, ThemeResult> = (
 
   if (status.type === "running") {
     return (
-      <div className="my-2 inline-flex items-center gap-2 rounded-full border border-border bg-secondary/50 px-3 py-1.5 text-xs text-muted-foreground animate-pulse">
+      <div className="ai-tool-theme--running">
         {getIcon(targetTheme)}
         <span>Switching theme to {targetTheme || "system"}...</span>
       </div>
@@ -50,7 +50,7 @@ export const ThemeTool: ToolCallMessagePartComponent<ThemeArgs, ThemeResult> = (
   }
 
   return (
-    <div className="my-2 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1.5 text-xs text-foreground font-medium shadow-xs">
+    <div className="ai-tool-theme--complete">
       {getIcon(targetTheme)}
       <span className="capitalize">{targetTheme || "Theme"} applied</span>
       <CheckCircle2 className="size-3.5 text-emerald-500 ml-1" />

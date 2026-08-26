@@ -114,5 +114,308 @@
 
   .btn-secondary {
     @apply focus-ring inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-background px-8 py-3 text-sm font-medium transition-colors hover:bg-secondary;
+  /* AI Assistant Components */
+  .ai-trigger {
+    @apply fixed bottom-6 right-6 z-40;
+  }
+  .ai-trigger__button {
+    @apply focus-ring relative flex items-center gap-2 rounded-full bg-primary px-4 py-3 text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:scale-105 hover:shadow-xl hover:shadow-primary/30;
+  }
+  .ai-trigger__button:hover .ai-trigger__icon {
+    @apply rotate-12;
+  }
+  .ai-trigger__icon {
+    @apply size-5 transition-transform;
+  }
+  .ai-trigger__sparkles {
+    @apply absolute -top-1 -right-1 size-2.5 text-amber-300 animate-pulse;
+  }
+  .ai-trigger__label {
+    @apply text-xs font-semibold tracking-wide;
+  }
+  .ai-trigger__shortcut {
+    @apply hidden sm:inline-flex items-center rounded bg-primary-foreground/15 px-1.5 py-0.5 text-[10px] font-mono;
+  }
+
+  .ai-modal {
+    @apply fixed inset-0 z-50 flex justify-end;
+  }
+  .ai-modal__backdrop {
+    @apply fixed inset-0 bg-black/40 backdrop-blur-xs transition-opacity animate-in fade-in;
+  }
+  .ai-modal__dialog {
+    @apply relative z-10 flex h-full w-full flex-col border-l border-border bg-background shadow-2xl sm:max-w-md md:max-w-lg animate-in slide-in-from-right duration-200 p-0 m-0 max-h-none text-foreground;
+  }
+  .ai-modal__body {
+    @apply flex-1 overflow-hidden;
+  }
+
+  .ai-header {
+    @apply flex h-14 items-center justify-between border-b border-border px-4 bg-background/95 backdrop-blur-xs;
+  }
+  .ai-header__left {
+    @apply flex items-center gap-2.5;
+  }
+  .ai-header__icon {
+    @apply flex size-8 items-center justify-center rounded-xl bg-primary/10 text-primary;
+  }
+  .ai-header__title {
+    @apply flex items-center gap-1.5 font-semibold text-sm text-foreground;
+  }
+  .ai-header__badge {
+    @apply inline-flex items-center rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary;
+  }
+  .ai-header__subtitle {
+    @apply text-[11px] text-muted-foreground;
+  }
+  .ai-header__right {
+    @apply flex items-center gap-1;
+  }
+  .ai-header__shortcut {
+    @apply hidden sm:inline-flex items-center rounded border border-border bg-secondary/50 px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground;
+  }
+  .ai-header__close {
+    @apply flex size-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground;
+  }
+
+  .ai-composer {
+    @apply relative flex w-full flex-col rounded-2xl border border-border bg-secondary/30 p-2.5 shadow-xs transition-all focus-within:border-primary/50 focus-within:ring-1 focus-within:ring-primary/20;
+  }
+  .ai-composer__row {
+    @apply flex w-full items-end gap-2;
+  }
+  .ai-composer__input {
+    @apply max-h-32 min-h-[40px] flex-1 resize-none bg-transparent px-2 py-1.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none;
+  }
+  .ai-composer__actions {
+    @apply flex items-center gap-1 shrink-0 pb-0.5;
+  }
+  .ai-composer__mic {
+    @apply rounded-lg p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground;
+  }
+  .ai-composer__mic--active {
+    @apply bg-danger text-danger-foreground animate-pulse;
+  }
+  .ai-composer__cancel {
+    @apply rounded-lg bg-secondary p-2 text-muted-foreground transition-colors hover:bg-secondary/80 hover:text-foreground;
+  }
+  .ai-composer__send {
+    @apply rounded-lg bg-primary p-2 text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .ai-composer__footer {
+    @apply mt-1.5 flex items-center justify-between px-2 text-[11px] text-muted-foreground;
+  }
+  .ai-composer__kbd {
+    @apply rounded border border-border bg-secondary/60 px-1 py-0.5 font-mono text-[10px];
+  }
+  .ai-composer__listening {
+    @apply flex items-center gap-1 font-medium text-danger;
+  }
+  .ai-composer__listening-dot {
+    @apply size-1.5 rounded-full bg-danger animate-ping;
+  }
+
+  .ai-thread {
+    @apply flex h-full w-full flex-col overflow-hidden bg-background;
+  }
+  .ai-thread__viewport {
+    @apply flex-1 overflow-y-auto px-4 py-3;
+  }
+  .ai-thread__composer {
+    @apply p-4 border-t border-border bg-background/95 backdrop-blur-xs;
+  }
+
+  .ai-suggestions {
+    @apply flex flex-col items-center justify-center p-6 text-center;
+  }
+  .ai-suggestions__icon {
+    @apply flex size-12 items-center justify-center rounded-2xl bg-primary/10 text-primary shadow-xs mb-3;
+  }
+  .ai-suggestions__title {
+    @apply text-base font-semibold text-foreground;
+  }
+  .ai-suggestions__desc {
+    @apply mt-1 max-w-sm text-xs text-muted-foreground;
+  }
+  .ai-suggestions__grid {
+    @apply mt-5 grid grid-cols-1 sm:grid-cols-2 gap-2 w-full max-w-md;
+  }
+  .ai-suggestion-button {
+    @apply focus-ring flex items-center gap-2 rounded-xl border border-border bg-secondary/30 p-2.5 text-left text-xs font-medium text-foreground transition-all hover:border-primary/40 hover:bg-secondary/60;
+  }
+
+  .ai-message {
+    @apply flex flex-col gap-1.5 py-2;
+  }
+  .ai-message--user {
+    @apply items-end;
+  }
+  .ai-message--assistant {
+    @apply items-start;
+  }
+  .ai-message__wrapper--user {
+    @apply flex items-start gap-2 max-w-[85%] flex-row-reverse;
+  }
+  .ai-message__wrapper--assistant {
+    @apply flex items-start gap-2 max-w-[90%];
+  }
+  .ai-message__avatar--user {
+    @apply flex size-7 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-xs;
+  }
+  .ai-message__avatar--assistant {
+    @apply flex size-7 shrink-0 items-center justify-center rounded-full bg-secondary border border-border text-primary shadow-xs;
+  }
+  .ai-message__bubble--user {
+    @apply rounded-2xl rounded-tr-sm bg-primary px-3.5 py-2 text-sm text-primary-foreground shadow-xs;
+  }
+  .ai-message__bubble--assistant {
+    @apply flex flex-col gap-2 rounded-2xl rounded-tl-sm border border-border/80 bg-secondary/20 px-4 py-3 text-sm text-foreground shadow-xs;
+  }
+
+  .ai-branch-picker {
+    @apply flex items-center gap-1 text-[11px] text-muted-foreground mr-9;
+  }
+  .ai-branch-picker__button {
+    @apply rounded p-0.5 hover:bg-secondary;
+  }
+
+  .ai-action-bar {
+    @apply flex items-center gap-1 text-muted-foreground pt-1;
+  }
+  .ai-action-bar__button {
+    @apply flex items-center gap-1 rounded px-1.5 py-0.5 text-[11px] hover:bg-secondary hover:text-foreground transition-colors;
+  }
+
+  .ai-code-block {
+    @apply relative my-3 overflow-hidden rounded-xl border border-border bg-secondary/50 font-mono text-xs shadow-xs;
+  }
+  .ai-code-block__header {
+    @apply flex items-center justify-between border-b border-border/60 bg-secondary/70 px-3.5 py-1.5 text-muted-foreground;
+  }
+  .ai-code-block__lang {
+    @apply text-[11px] font-medium lowercase;
+  }
+  .ai-code-block__copy {
+    @apply flex items-center gap-1 rounded px-1.5 py-0.5 text-[11px] hover:bg-secondary hover:text-foreground transition-colors;
+  }
+  .ai-code-block__pre {
+    @apply overflow-x-auto p-3 text-foreground font-mono leading-relaxed;
+  }
+
+  .ai-markdown__code {
+    @apply rounded bg-secondary/80 px-1 py-0.5 font-mono text-[12px] text-primary;
+  }
+  .ai-markdown__p {
+    @apply mb-2 last:mb-0 leading-relaxed;
+  }
+  .ai-markdown__ul {
+    @apply mb-2 list-disc pl-5 space-y-1;
+  }
+  .ai-markdown__ol {
+    @apply mb-2 list-decimal pl-5 space-y-1;
+  }
+  .ai-markdown__li {
+    @apply leading-relaxed;
+  }
+  .ai-markdown__a {
+    @apply text-primary underline hover:text-primary/80;
+  }
+
+  /* AI Generative UI Tools */
+  .ai-tool-navigate {
+    @apply my-2 flex items-center justify-between rounded-lg border border-border bg-secondary/40 p-2.5 text-xs text-foreground shadow-xs;
+  }
+  .ai-tool-navigate__content {
+    @apply flex items-center gap-2;
+  }
+  .ai-tool-navigate__code {
+    @apply font-mono text-primary;
+  }
+  .ai-tool-navigate__link {
+    @apply flex items-center gap-1 font-medium text-primary hover:underline;
+  }
+
+  .ai-tool-docsearch {
+    @apply my-2 space-y-2 rounded-xl border border-border bg-secondary/30 p-3 shadow-xs;
+  }
+  .ai-tool-docsearch--loading {
+    @apply flex items-center gap-2 rounded-lg border border-border bg-secondary/40 p-3 text-sm text-muted-foreground animate-pulse;
+  }
+  .ai-tool-docsearch--empty {
+    @apply rounded-lg border border-border bg-secondary/20 p-3 text-sm text-muted-foreground;
+  }
+  .ai-tool-docsearch__header {
+    @apply flex items-center justify-between text-xs font-semibold text-muted-foreground uppercase tracking-wider;
+  }
+  .ai-tool-docsearch__query {
+    @apply text-[11px] font-normal text-muted-foreground;
+  }
+  .ai-tool-docsearch__grid {
+    @apply grid gap-2;
+  }
+  .ai-tool-docsearch__card {
+    @apply focus-ring flex flex-col justify-between rounded-lg border border-border/60 bg-background/80 p-2.5 transition-colors hover:border-primary/50 hover:bg-secondary/60;
+  }
+  .ai-tool-docsearch__card:hover .ai-tool-docsearch__card-title {
+    @apply text-primary;
+  }
+  .ai-tool-docsearch__card:hover .ai-tool-docsearch__card-arrow {
+    @apply translate-x-0.5;
+  }
+  .ai-tool-docsearch__card-header {
+    @apply flex items-start justify-between gap-2;
+  }
+  .ai-tool-docsearch__card-title {
+    @apply font-medium text-sm text-foreground transition-colors;
+  }
+  .ai-tool-docsearch__card-badge {
+    @apply inline-flex items-center rounded-full bg-secondary px-2 py-0.5 text-[10px] font-medium text-muted-foreground;
+  }
+  .ai-tool-docsearch__card-desc {
+    @apply mt-1 line-clamp-2 text-xs text-muted-foreground;
+  }
+  .ai-tool-docsearch__card-action {
+    @apply mt-2 flex items-center gap-1 text-[11px] font-medium text-primary;
+  }
+  .ai-tool-docsearch__card-arrow {
+    @apply size-3 transition-transform;
+  }
+
+  .ai-tool-system-info {
+    @apply my-2 rounded-xl border border-border bg-secondary/30 p-3.5 shadow-xs;
+  }
+  .ai-tool-system-info--loading {
+    @apply flex items-center gap-2 rounded-lg border border-border bg-secondary/40 p-3 text-sm text-muted-foreground animate-pulse;
+  }
+  .ai-tool-system-info__header {
+    @apply flex items-center justify-between border-b border-border/60 pb-2 mb-2.5;
+  }
+  .ai-tool-system-info__title-wrap {
+    @apply flex items-center gap-2;
+  }
+  .ai-tool-system-info__title {
+    @apply font-semibold text-xs text-foreground tracking-wide uppercase;
+  }
+  .ai-tool-system-info__status {
+    @apply inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold text-emerald-500;
+  }
+  .ai-tool-system-info__grid {
+    @apply grid grid-cols-2 gap-2 text-xs;
+  }
+  .ai-tool-system-info__item {
+    @apply flex items-start gap-1.5 rounded-md bg-background/60 p-2 border border-border/40;
+  }
+  .ai-tool-system-info__label {
+    @apply text-[10px] font-medium text-muted-foreground;
+  }
+  .ai-tool-system-info__val {
+    @apply font-semibold text-foreground;
+  }
+
+  .ai-tool-theme--running {
+    @apply my-2 inline-flex items-center gap-2 rounded-full border border-border bg-secondary/50 px-3 py-1.5 text-xs text-muted-foreground animate-pulse;
+  }
+  .ai-tool-theme--complete {
+    @apply my-2 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1.5 text-xs text-foreground font-medium shadow-xs;
   }
 }
