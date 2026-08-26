@@ -34,7 +34,6 @@ vi.mock("@assistant-ui/react", () => ({
     Messages: () => <div data-testid="messages" />,
   },
   AuiIf: ({ children }: { children?: React.ReactNode }) => <>{children}</>,
-  makeAssistantToolUI: () => () => <div data-testid="mock-tool-ui" />,
 }));
 
 vi.mock("@assistant-ui/react-markdown", () => ({
