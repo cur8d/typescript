@@ -77,5 +77,4 @@ Logic, Zod schemas, structured metadata (`json-ld.ts`), and centralized error re
 ## 18. AI Assistant Architecture
 - **Client**: `app/components/AIAssistant/` using `@assistant-ui/react` primitives and `@assistant-ui/react-ai-sdk` runtime.
 - **Server**: `app/api/chat/route.ts` powered by Vercel AI SDK `streamText()`.
-- **Model Resolution**: `app/lib/ai/config.ts` supporting Google Gemini, OpenAI, Anthropic, Ollama, and a zero-config Mock Provider (`app/lib/ai/mock-provider.ts`).
-- **Generative UI Tools**: Defined in `app/lib/ai/tools.ts` with renderers in `app/components/AIAssistant/tools/`.
+- **Generative UI Tools**: Defined in `app/lib/ai/tools.ts` with renderers in `app/components/AIAssistant/tools/` and registered via toolkit in `app/components/AIAssistant/toolkit.ts`.

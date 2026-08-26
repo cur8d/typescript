@@ -11,10 +11,6 @@ import {
 import { MarkdownTextPrimitive } from "@assistant-ui/react-markdown";
 import { Bot, User, Copy, Check, RotateCcw, ChevronLeft, ChevronRight, Sparkles, BookOpen, Sun, Cpu } from "lucide-react";
 import { Composer } from "@/components/AIAssistant/Composer";
-import { DocSearchTool } from "@/components/AIAssistant/tools/DocSearchTool";
-import { ThemeTool } from "@/components/AIAssistant/tools/ThemeTool";
-import { SystemInfoTool } from "@/components/AIAssistant/tools/SystemInfoTool";
-import { NavigatePageTool } from "@/components/AIAssistant/tools/NavigatePageTool";
 
 export interface CodeBlockProps {
   readonly code: string;
@@ -225,11 +221,6 @@ export function AssistantMessage() {
           <Bot className="size-4" />
         </div>
         <div className="flex flex-col gap-2 rounded-2xl rounded-tl-sm border border-border/80 bg-secondary/20 px-4 py-3 text-sm text-foreground shadow-xs">
-          <DocSearchTool />
-          <ThemeTool />
-          <SystemInfoTool />
-          <NavigatePageTool />
-
           <MessagePrimitive.Content components={assistantMessageComponents} />
 
           <ActionBarPrimitive.Root className="flex items-center gap-1 text-muted-foreground pt-1">

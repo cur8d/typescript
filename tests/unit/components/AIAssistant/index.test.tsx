@@ -8,6 +8,7 @@ import {
   AssistantTrigger,
   Composer,
   Thread,
+  assistantToolkit,
 } from "@/components/AIAssistant";
 import {
   CodeBlock,
@@ -19,17 +20,11 @@ import {
   MarkdownListItem,
   MarkdownLink,
 } from "@/components/AIAssistant/Thread";
-import { DocSearchTool, type DocSearchArgs, type DocSearchResult } from "@/components/AIAssistant/tools/DocSearchTool";
-import { ThemeTool, type ThemeArgs, type ThemeResult } from "@/components/AIAssistant/tools/ThemeTool";
-import { SystemInfoTool, type SystemInfoArgs, type SystemInfoResult } from "@/components/AIAssistant/tools/SystemInfoTool";
-import { NavigatePageTool, type NavigatePageArgs, type NavigatePageResult } from "@/components/AIAssistant/tools/NavigatePageTool";
+import { DocSearchTool, type DocSearchArgs } from "@/components/AIAssistant/tools/DocSearchTool";
+import { ThemeTool, type ThemeArgs } from "@/components/AIAssistant/tools/ThemeTool";
+import { SystemInfoTool } from "@/components/AIAssistant/tools/SystemInfoTool";
+import { NavigatePageTool } from "@/components/AIAssistant/tools/NavigatePageTool";
 import * as speechHook from "@/hooks/use-speech-to-text";
-
-interface ToolRenderProps<TArgs, TResult> {
-  args: TArgs;
-  result: TResult | undefined;
-  status: { type: "running" | "complete" | "incomplete" | "error" };
-}
 
 const mockPush = vi.fn();
 const mockSetTheme = vi.fn();
@@ -57,6 +52,9 @@ vi.mock("@assistant-ui/react-ai-sdk", () => ({
 
 vi.mock("@assistant-ui/react", () => ({
   AssistantRuntimeProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+  AuiConfig: (config: unknown) => config,
+  Tools: (tools: unknown) => tools,
+  defineToolkit: <T,>(toolkit: T): T => toolkit,
   ThreadPrimitive: {
     Root: ({ children, className }: { children?: React.ReactNode; className?: string }) => (
       <div data-testid="thread-root" className={className}>
@@ -114,11 +112,6 @@ vi.mock("@assistant-ui/react", () => ({
   }) => {
     condition?.({ thread: { isEmpty: true } });
     return <>{children}</>;
-  },
-  makeAssistantToolUI: <TArgs, TResult>(options: { toolName: string; render: (props: ToolRenderProps<TArgs, TResult>) => React.ReactNode }) => {
-    const Comp = (props: ToolRenderProps<TArgs, TResult>) => <>{options.render(props)}</>;
-    (Comp as unknown as { unstable_tool: typeof options }).unstable_tool = options;
-    return Comp;
   },
 }));
 
@@ -359,7 +352,7 @@ describe("AIAssistant Components", () => {
         expect(copyButton).toBeInTheDocument();
 
         fireEvent.click(copyButton);
-        await act(async () => {});
+        await act(async () => { });
         expect(writeTextMock).toHaveBeenCalledWith("const a = 1;");
         expect(screen.getByText("Copied")).toBeInTheDocument();
 
@@ -467,13 +460,29 @@ describe("AIAssistant Components", () => {
   });
 
   describe("Generative UI Tools", () => {
-    describe("DocSearchTool", () => {
-      const renderTool = (DocSearchTool as unknown as { unstable_tool: { render: (props: ToolRenderProps<DocSearchArgs, DocSearchResult>) => React.ReactNode } }).unstable_tool.render;
-      const ToolComponent = (props: ToolRenderProps<DocSearchArgs, DocSearchResult>) => <>{renderTool(props)}</>;
+    const defaultToolProps = {
+      type: "tool-call" as const,
+      addResult: vi.fn(),
+      resume: vi.fn(),
+      respondToApproval: vi.fn(),
+      toolCallId: "tool-call-1",
+      argsText: "",
+    };
 
+    it("should export assistantToolkit with all tool renderers configured", () => {
+      expect(assistantToolkit).toBeDefined();
+      expect(assistantToolkit.searchDocumentation.render).toBe(DocSearchTool);
+      expect(assistantToolkit.setTheme.render).toBe(ThemeTool);
+      expect(assistantToolkit.getSystemInfo.render).toBe(SystemInfoTool);
+      expect(assistantToolkit.navigatePage.render).toBe(NavigatePageTool);
+    });
+
+    describe("DocSearchTool", () => {
       it("should render running state with query and default topics fallback", () => {
         const { getByText, rerender } = render(
-          <ToolComponent
+          <DocSearchTool
+            {...defaultToolProps}
+            toolName="searchDocumentation"
             args={{ query: "getting started" }}
             result={undefined}
             status={{ type: "running" }}
@@ -482,7 +491,9 @@ describe("AIAssistant Components", () => {
         expect(getByText(/Searching documentation for "getting started"/i)).toBeInTheDocument();
 
         rerender(
-          <ToolComponent
+          <DocSearchTool
+            {...defaultToolProps}
+            toolName="searchDocumentation"
             args={{} as DocSearchArgs}
             result={undefined}
             status={{ type: "running" }}
@@ -493,7 +504,9 @@ describe("AIAssistant Components", () => {
 
       it("should render empty state when no results", () => {
         const { getByText } = render(
-          <ToolComponent
+          <DocSearchTool
+            {...defaultToolProps}
+            toolName="searchDocumentation"
             args={{ query: "nonexistent" }}
             result={{ query: "nonexistent", results: [] }}
             status={{ type: "complete" }}
@@ -504,7 +517,9 @@ describe("AIAssistant Components", () => {
 
       it("should render document search result cards with links", () => {
         const { getByText } = render(
-          <ToolComponent
+          <DocSearchTool
+            {...defaultToolProps}
+            toolName="searchDocumentation"
             args={{ query: "overview" }}
             result={{
               query: "overview",
@@ -527,13 +542,12 @@ describe("AIAssistant Components", () => {
     });
 
     describe("ThemeTool", () => {
-      const renderTool = (ThemeTool as unknown as { unstable_tool: { render: (props: ToolRenderProps<ThemeArgs, ThemeResult>) => React.ReactNode } }).unstable_tool.render;
-      const ToolComponent = (props: ToolRenderProps<ThemeArgs, ThemeResult>) => <>{renderTool(props)}</>;
-
       it("should render running and completed states for dark, light, and system themes", () => {
         // Dark theme running
         const { getByText, rerender } = render(
-          <ToolComponent
+          <ThemeTool
+            {...defaultToolProps}
+            toolName="setTheme"
             args={{ theme: "dark" }}
             result={undefined}
             status={{ type: "running" }}
@@ -543,7 +557,9 @@ describe("AIAssistant Components", () => {
 
         // Light theme running
         rerender(
-          <ToolComponent
+          <ThemeTool
+            {...defaultToolProps}
+            toolName="setTheme"
             args={{ theme: "light" }}
             result={undefined}
             status={{ type: "running" }}
@@ -553,7 +569,9 @@ describe("AIAssistant Components", () => {
 
         // System theme running with undefined args fallback
         rerender(
-          <ToolComponent
+          <ThemeTool
+            {...defaultToolProps}
+            toolName="setTheme"
             args={{} as ThemeArgs}
             result={undefined}
             status={{ type: "running" }}
@@ -563,7 +581,9 @@ describe("AIAssistant Components", () => {
 
         // Completed light theme
         rerender(
-          <ToolComponent
+          <ThemeTool
+            {...defaultToolProps}
+            toolName="setTheme"
             args={{ theme: "light" }}
             result={{ success: true, theme: "light", message: "Theme set" }}
             status={{ type: "complete" }}
@@ -574,7 +594,9 @@ describe("AIAssistant Components", () => {
 
         // Completed dark theme
         rerender(
-          <ToolComponent
+          <ThemeTool
+            {...defaultToolProps}
+            toolName="setTheme"
             args={{ theme: "dark" }}
             result={{ success: true, theme: "dark", message: "Theme set" }}
             status={{ type: "complete" }}
@@ -584,7 +606,9 @@ describe("AIAssistant Components", () => {
 
         // Completed system theme
         rerender(
-          <ToolComponent
+          <ThemeTool
+            {...defaultToolProps}
+            toolName="setTheme"
             args={{ theme: "system" }}
             result={{ success: true, theme: "system", message: "Theme set" }}
             status={{ type: "complete" }}
@@ -595,12 +619,11 @@ describe("AIAssistant Components", () => {
     });
 
     describe("SystemInfoTool", () => {
-      const renderTool = (SystemInfoTool as unknown as { unstable_tool: { render: (props: ToolRenderProps<SystemInfoArgs, SystemInfoResult>) => React.ReactNode } }).unstable_tool.render;
-      const ToolComponent = (props: ToolRenderProps<SystemInfoArgs, SystemInfoResult>) => <>{renderTool(props)}</>;
-
       it("should render running state", () => {
         const { getByText } = render(
-          <ToolComponent
+          <SystemInfoTool
+            {...defaultToolProps}
+            toolName="getSystemInfo"
             args={{}}
             result={undefined}
             status={{ type: "running" }}
@@ -611,7 +634,9 @@ describe("AIAssistant Components", () => {
 
       it("should return null if complete but no result", () => {
         const { container } = render(
-          <ToolComponent
+          <SystemInfoTool
+            {...defaultToolProps}
+            toolName="getSystemInfo"
             args={{}}
             result={undefined}
             status={{ type: "complete" }}
@@ -622,7 +647,9 @@ describe("AIAssistant Components", () => {
 
       it("should render completed system metrics card with custom provider", () => {
         const { getByText } = render(
-          <ToolComponent
+          <SystemInfoTool
+            {...defaultToolProps}
+            toolName="getSystemInfo"
             args={{}}
             result={{
               name: "cur8d",
@@ -647,12 +674,11 @@ describe("AIAssistant Components", () => {
     });
 
     describe("NavigatePageTool", () => {
-      const renderTool = (NavigatePageTool as unknown as { unstable_tool: { render: (props: ToolRenderProps<NavigatePageArgs, NavigatePageResult>) => React.ReactNode } }).unstable_tool.render;
-      const ToolComponent = (props: ToolRenderProps<NavigatePageArgs, NavigatePageResult>) => <>{renderTool(props)}</>;
-
       it("should render navigation prompt card and trigger router.push when complete", () => {
         const { getByText } = render(
-          <ToolComponent
+          <NavigatePageTool
+            {...defaultToolProps}
+            toolName="navigatePage"
             args={{ route: "/docs" }}
             result={{ success: true, route: "/docs", message: "Navigating" }}
             status={{ type: "complete" }}
