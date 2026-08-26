@@ -23,7 +23,7 @@ export const SystemInfoTool: ToolCallMessagePartComponent<SystemInfoArgs, System
 }) => {
   if (status.type === "running") {
     return (
-      <div className="flex items-center gap-2 rounded-lg border border-border bg-secondary/40 p-3 text-sm text-muted-foreground animate-pulse">
+      <div className="ai-tool-system-info--loading">
         <Cpu className="size-4 animate-spin text-primary" />
         <span>Querying system metrics and runtime info...</span>
       </div>
@@ -33,48 +33,48 @@ export const SystemInfoTool: ToolCallMessagePartComponent<SystemInfoArgs, System
   if (!result) return null;
 
   return (
-    <div className="my-2 rounded-xl border border-border bg-secondary/30 p-3.5 shadow-xs">
-      <div className="flex items-center justify-between border-b border-border/60 pb-2 mb-2.5">
-        <div className="flex items-center gap-2">
+    <div className="ai-tool-system-info">
+      <div className="ai-tool-system-info__header">
+        <div className="ai-tool-system-info__title-wrap">
           <Cpu className="size-4 text-primary" />
-          <span className="font-semibold text-xs text-foreground tracking-wide uppercase">System Information</span>
+          <span className="ai-tool-system-info__title">System Information</span>
         </div>
-        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold text-emerald-500">
+        <span className="ai-tool-system-info__status">
           <CheckCircle className="size-3" />
           {result.status}
         </span>
       </div>
 
-      <div className="grid grid-cols-2 gap-2 text-xs">
-        <div className="flex items-start gap-1.5 rounded-md bg-background/60 p-2 border border-border/40">
+      <div className="ai-tool-system-info__grid">
+        <div className="ai-tool-system-info__item">
           <Layers className="size-3.5 text-primary shrink-0 mt-0.5" />
           <div>
-            <div className="text-[10px] font-medium text-muted-foreground">Framework</div>
-            <div className="font-semibold text-foreground">{result.framework}</div>
+            <div className="ai-tool-system-info__label">Framework</div>
+            <div className="ai-tool-system-info__val">{result.framework}</div>
           </div>
         </div>
 
-        <div className="flex items-start gap-1.5 rounded-md bg-background/60 p-2 border border-border/40">
+        <div className="ai-tool-system-info__item">
           <Palette className="size-3.5 text-primary shrink-0 mt-0.5" />
           <div>
-            <div className="text-[10px] font-medium text-muted-foreground">Design System</div>
-            <div className="font-semibold text-foreground">{result.designSystem}</div>
+            <div className="ai-tool-system-info__label">Design System</div>
+            <div className="ai-tool-system-info__val">{result.designSystem}</div>
           </div>
         </div>
 
-        <div className="flex items-start gap-1.5 rounded-md bg-background/60 p-2 border border-border/40">
+        <div className="ai-tool-system-info__item">
           <Bot className="size-3.5 text-primary shrink-0 mt-0.5" />
           <div>
-            <div className="text-[10px] font-medium text-muted-foreground">AI Stack</div>
-            <div className="font-semibold text-foreground">{result.aiStack}</div>
+            <div className="ai-tool-system-info__label">AI Stack</div>
+            <div className="ai-tool-system-info__val">{result.aiStack}</div>
           </div>
         </div>
 
-        <div className="flex items-start gap-1.5 rounded-md bg-background/60 p-2 border border-border/40">
+        <div className="ai-tool-system-info__item">
           <Cpu className="size-3.5 text-primary shrink-0 mt-0.5" />
           <div>
-            <div className="text-[10px] font-medium text-muted-foreground">Environment</div>
-            <div className="font-semibold text-foreground capitalize">{result.environment} ({result.provider || "mock"})</div>
+            <div className="ai-tool-system-info__label">Environment</div>
+            <div className="ai-tool-system-info__val capitalize">{result.environment} ({result.provider || "mock"})</div>
           </div>
         </div>
       </div>

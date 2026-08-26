@@ -220,7 +220,7 @@ describe("AIAssistant Components", () => {
       fireEvent.keyDown(window, { key: "j", metaKey: true });
       expect(screen.getByRole("dialog")).toBeInTheDocument();
 
-      const backdrop = document.querySelector(".bg-black\\/40");
+      const backdrop = document.querySelector(".ai-modal__backdrop");
       expect(backdrop).toBeInTheDocument();
       if (backdrop) {
         fireEvent.click(backdrop);

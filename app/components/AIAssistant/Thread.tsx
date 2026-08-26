@@ -31,14 +31,14 @@ export function CodeBlock({ code, language }: Readonly<CodeBlockProps>) {
   };
 
   return (
-    <div className="relative my-3 overflow-hidden rounded-xl border border-border bg-secondary/50 font-mono text-xs shadow-xs">
-      <div className="flex items-center justify-between border-b border-border/60 bg-secondary/70 px-3.5 py-1.5 text-muted-foreground">
-        <span className="text-[11px] font-medium lowercase">{language || "text"}</span>
+    <div className="ai-code-block">
+      <div className="ai-code-block__header">
+        <span className="ai-code-block__lang">{language || "text"}</span>
         <button
           type="button"
           onClick={handleCopy}
           aria-label="Copy code block"
-          className="flex items-center gap-1 rounded px-1.5 py-0.5 text-[11px] hover:bg-secondary hover:text-foreground transition-colors"
+          className="ai-code-block__copy"
         >
           {copied ? (
             <>
@@ -53,7 +53,7 @@ export function CodeBlock({ code, language }: Readonly<CodeBlockProps>) {
           )}
         </button>
       </div>
-      <pre className="overflow-x-auto p-3 text-foreground font-mono leading-relaxed">
+      <pre className="ai-code-block__pre">
         <code>{code}</code>
       </pre>
     </div>
@@ -85,16 +85,16 @@ export function SuggestedPrompts() {
   ];
 
   return (
-    <div className="flex flex-col items-center justify-center p-6 text-center">
-      <div className="flex size-12 items-center justify-center rounded-2xl bg-primary/10 text-primary shadow-xs mb-3">
+    <div className="ai-suggestions">
+      <div className="ai-suggestions__icon">
         <Bot className="size-6" />
       </div>
-      <h3 className="text-base font-semibold text-foreground">How can I assist you today?</h3>
-      <p className="mt-1 max-w-sm text-xs text-muted-foreground">
+      <h3 className="ai-suggestions__title">How can I assist you today?</h3>
+      <p className="ai-suggestions__desc">
         Ask about the template, search docs, toggle themes, or run tools with AI.
       </p>
 
-      <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-2 w-full max-w-md">
+      <div className="ai-suggestions__grid">
         {prompts.map((p) => {
           const Icon = p.icon;
           return (
@@ -106,7 +106,7 @@ export function SuggestedPrompts() {
             >
               <button
                 type="button"
-                className="flex items-center gap-2 rounded-xl border border-border bg-secondary/30 p-2.5 text-left text-xs font-medium text-foreground transition-all hover:border-primary/40 hover:bg-secondary/60 focus-ring"
+                className="ai-suggestion-button"
               >
                 <Icon className="size-4 text-primary shrink-0" />
                 <span className="truncate">{p.label}</span>
@@ -121,19 +121,19 @@ export function SuggestedPrompts() {
 
 export function UserMessage() {
   return (
-    <MessagePrimitive.Root className="flex flex-col items-end gap-1.5 py-2">
-      <div className="flex items-start gap-2 max-w-[85%] flex-row-reverse">
-        <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-xs">
+    <MessagePrimitive.Root className="ai-message ai-message--user">
+      <div className="ai-message__wrapper--user">
+        <div className="ai-message__avatar--user">
           <User className="size-4" />
         </div>
-        <div className="rounded-2xl rounded-tr-sm bg-primary px-3.5 py-2 text-sm text-primary-foreground shadow-xs">
+        <div className="ai-message__bubble--user">
           <MessagePrimitive.Content />
         </div>
       </div>
 
-      <BranchPickerPrimitive.Root className="flex items-center gap-1 text-[11px] text-muted-foreground mr-9">
+      <BranchPickerPrimitive.Root className="ai-branch-picker">
         <BranchPickerPrimitive.Previous asChild>
-          <button type="button" aria-label="Previous branch" className="rounded p-0.5 hover:bg-secondary">
+          <button type="button" aria-label="Previous branch" className="ai-branch-picker__button">
             <ChevronLeft className="size-3" />
           </button>
         </BranchPickerPrimitive.Previous>
@@ -141,7 +141,7 @@ export function UserMessage() {
           <BranchPickerPrimitive.Number /> / <BranchPickerPrimitive.Count />
         </span>
         <BranchPickerPrimitive.Next asChild>
-          <button type="button" aria-label="Next branch" className="rounded p-0.5 hover:bg-secondary">
+          <button type="button" aria-label="Next branch" className="ai-branch-picker__button">
             <ChevronRight className="size-3" />
           </button>
         </BranchPickerPrimitive.Next>
@@ -166,31 +166,31 @@ export function MarkdownCode({ inline, className, children, ...props }: Readonly
     return <CodeBlock code={codeString.replace(/\n$/, "")} language={match[1]} />;
   }
   return (
-    <code className="rounded bg-secondary/80 px-1 py-0.5 font-mono text-[12px] text-primary" {...props}>
+    <code className="ai-markdown__code" {...props}>
       {children}
     </code>
   );
 }
 
 export function MarkdownParagraph({ children }: Readonly<{ readonly children?: React.ReactNode }>) {
-  return <p className="mb-2 last:mb-0 leading-relaxed">{children}</p>;
+  return <p className="ai-markdown__p">{children}</p>;
 }
 
 export function MarkdownUnorderedList({ children }: Readonly<{ readonly children?: React.ReactNode }>) {
-  return <ul className="mb-2 list-disc pl-5 space-y-1">{children}</ul>;
+  return <ul className="ai-markdown__ul">{children}</ul>;
 }
 
 export function MarkdownOrderedList({ children }: Readonly<{ readonly children?: React.ReactNode }>) {
-  return <ol className="mb-2 list-decimal pl-5 space-y-1">{children}</ol>;
+  return <ol className="ai-markdown__ol">{children}</ol>;
 }
 
 export function MarkdownListItem({ children }: Readonly<{ readonly children?: React.ReactNode }>) {
-  return <li className="leading-relaxed">{children}</li>;
+  return <li className="ai-markdown__li">{children}</li>;
 }
 
 export function MarkdownLink({ href, children }: Readonly<{ readonly href?: string; readonly children?: React.ReactNode }>) {
   return (
-    <a href={href} className="text-primary underline hover:text-primary/80" target="_blank" rel="noopener noreferrer">
+    <a href={href} className="ai-markdown__a" target="_blank" rel="noopener noreferrer">
       {children}
     </a>
   );
@@ -215,20 +215,20 @@ export const assistantMessageComponents = {
 
 export function AssistantMessage() {
   return (
-    <MessagePrimitive.Root className="flex flex-col items-start gap-1.5 py-2">
-      <div className="flex items-start gap-2 max-w-[90%]">
-        <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-secondary border border-border text-primary shadow-xs">
+    <MessagePrimitive.Root className="ai-message ai-message--assistant">
+      <div className="ai-message__wrapper--assistant">
+        <div className="ai-message__avatar--assistant">
           <Bot className="size-4" />
         </div>
-        <div className="flex flex-col gap-2 rounded-2xl rounded-tl-sm border border-border/80 bg-secondary/20 px-4 py-3 text-sm text-foreground shadow-xs">
+        <div className="ai-message__bubble--assistant">
           <MessagePrimitive.Content components={assistantMessageComponents} />
 
-          <ActionBarPrimitive.Root className="flex items-center gap-1 text-muted-foreground pt-1">
+          <ActionBarPrimitive.Root className="ai-action-bar">
             <ActionBarPrimitive.Copy asChild>
               <button
                 type="button"
                 aria-label="Copy assistant message"
-                className="flex items-center gap-1 rounded px-1.5 py-0.5 text-[11px] hover:bg-secondary hover:text-foreground transition-colors"
+                className="ai-action-bar__button"
               >
                 <Copy className="size-3" />
                 <span>Copy</span>
@@ -238,7 +238,7 @@ export function AssistantMessage() {
               <button
                 type="button"
                 aria-label="Regenerate response"
-                className="flex items-center gap-1 rounded px-1.5 py-0.5 text-[11px] hover:bg-secondary hover:text-foreground transition-colors"
+                className="ai-action-bar__button"
               >
                 <RotateCcw className="size-3" />
                 <span>Regenerate</span>
@@ -253,8 +253,8 @@ export function AssistantMessage() {
 
 export function Thread() {
   return (
-    <ThreadPrimitive.Root className="flex h-full w-full flex-col overflow-hidden bg-background">
-      <ThreadPrimitive.Viewport className="flex-1 overflow-y-auto px-4 py-3">
+    <ThreadPrimitive.Root className="ai-thread">
+      <ThreadPrimitive.Viewport className="ai-thread__viewport">
         <AuiIf condition={(s) => s.thread.isEmpty}>
           <SuggestedPrompts />
         </AuiIf>
@@ -266,7 +266,7 @@ export function Thread() {
         />
       </ThreadPrimitive.Viewport>
 
-      <div className="p-4 border-t border-border bg-background/95 backdrop-blur-xs">
+      <div className="ai-thread__composer">
         <Composer />
       </div>
     </ThreadPrimitive.Root>
