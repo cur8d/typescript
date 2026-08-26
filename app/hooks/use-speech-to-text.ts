@@ -34,11 +34,9 @@ interface SpeechRecognitionLike {
 
 type SpeechRecognitionConstructor = new () => SpeechRecognitionLike;
 
-declare global {
-  interface Window {
-    SpeechRecognition?: SpeechRecognitionConstructor;
-    webkitSpeechRecognition?: SpeechRecognitionConstructor;
-  }
+interface SpeechRecognitionWindow {
+  SpeechRecognition?: SpeechRecognitionConstructor;
+  webkitSpeechRecognition?: SpeechRecognitionConstructor;
 }
 
 export interface UseSpeechToTextOptions {
@@ -62,10 +60,12 @@ export function useSpeechToText(options: UseSpeechToTextOptions = {}) {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const SpeechRecognitionClass = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const speechWindow = window as unknown as SpeechRecognitionWindow;
+      const SpeechRecognitionClass =
+        speechWindow.SpeechRecognition || speechWindow.webkitSpeechRecognition;
       if (SpeechRecognitionClass) {
         setIsSupported(true);
-        const recognition = new SpeechRecognitionClass();
+        const recognition: SpeechRecognitionLike = new SpeechRecognitionClass();
         recognition.continuous = continuous;
         recognition.interimResults = interimResults;
         recognition.lang = lang;
