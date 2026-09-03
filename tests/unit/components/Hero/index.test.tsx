@@ -36,6 +36,22 @@ describe("Hero Component", () => {
     expect(externalLinkIcon).toHaveAttribute("aria-hidden", "true");
   });
 
+  it("renders the Documentation link with open book icon and correct attributes", () => {
+    render(<Hero />);
+    const docLink = screen.getByRole("link", { name: /documentation/i });
+    expect(docLink).toHaveAttribute("href", "https://cur8d.dev/typescript");
+    expect(docLink).toHaveAttribute("target", "_blank");
+    expect(docLink).toHaveAttribute("rel", "noopener noreferrer");
+
+    const bookIcon = docLink.querySelector("svg.lucide-book-open");
+    expect(bookIcon).toBeInTheDocument();
+    expect(bookIcon).toHaveAttribute("aria-hidden", "true");
+
+    const externalIcon = docLink.querySelector("svg.lucide-external-link");
+    expect(externalIcon).toBeInTheDocument();
+    expect(externalIcon).toHaveAttribute("aria-hidden", "true");
+  });
+
   it("renders the code snippet", () => {
     render(<Hero />);
     expect(screen.getByTestId("code-snippet")).toBeInTheDocument();
