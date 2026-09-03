@@ -8,6 +8,9 @@ interface SearchContextValue {
   onClose: () => void;
   onOpenChange: (open: boolean) => void;
   toggle: () => void;
+  open: () => void;
+  close: () => void;
+  setOpen: (open: boolean) => void;
 }
 
 const SearchContext = createContext<SearchContextValue | undefined>(undefined);
@@ -20,6 +23,8 @@ export function SearchProvider({ children }: { children: ReactNode }) {
   const onOpenChange = useCallback((open: boolean) => setIsOpen(open), []);
   const toggle = useCallback(() => setIsOpen((prev) => !prev), []);
 
+  // Performance optimization: Include HeroUI compatibility aliases directly in the
+  // context value memoization to prevent allocating a new wrapper object on every call to useSearchState.
   const value = useMemo(
     () => ({
       isOpen,
@@ -27,6 +32,9 @@ export function SearchProvider({ children }: { children: ReactNode }) {
       onClose,
       onOpenChange,
       toggle,
+      open: onOpen,
+      close: onClose,
+      setOpen: onOpenChange,
     }),
     [isOpen, onOpen, onClose, onOpenChange, toggle]
   );
@@ -40,13 +48,5 @@ export function useSearchState() {
     throw new Error("useSearchState must be used within a SearchProvider");
   }
 
-  return useMemo(
-    () => ({
-      ...context,
-      open: context.onOpen,
-      close: context.onClose,
-      setOpen: context.onOpenChange,
-    }),
-    [context]
-  );
+  return context;
 }
