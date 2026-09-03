@@ -1,6 +1,16 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  compress: true,
+  poweredByHeader: false,
+  experimental: {
+    optimizePackageImports: [
+      "@heroui/react",
+      "@heroui/styles",
+      "lucide-react",
+      "react-icons",
+    ],
+  },
   async headers() {
     return [
       {
