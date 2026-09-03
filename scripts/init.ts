@@ -106,7 +106,11 @@ async function main() {
       const results: string[] = [];
       const walk = async (currentDir: string): Promise<void> => {
         try {
-          const list = await fs.promises.readdir(currentDir, { withFileTypes: true });
+          const resolvedCurrentDir = path.resolve(currentDir);
+          if (!resolvedCurrentDir.startsWith(path.resolve(dir))) {
+            throw new Error("Path traversal detected");
+          }
+          const list = await fs.promises.readdir(resolvedCurrentDir, { withFileTypes: true });
           const tasks: Promise<void>[] = [];
 
           for (const dirent of list) {
@@ -137,7 +141,11 @@ async function main() {
         const filePath = path.join(process.cwd(), file);
         try {
           await fs.promises.access(filePath);
-          let content = await fs.promises.readFile(filePath, 'utf8');
+          const resolvedFilePath = path.resolve(filePath);
+          if (!resolvedFilePath.startsWith(process.cwd())) {
+            throw new Error("Path traversal detected");
+          }
+          let content = await fs.promises.readFile(resolvedFilePath, 'utf8');
 
           // Order matters for replacements
           // 1. GitHub full URLs
@@ -174,7 +182,7 @@ async function main() {
           // 6. General "cur8d" replacement (Brand name)
           content = content.replace(/cur8d/g, name);
 
-          await fs.promises.writeFile(filePath, content, 'utf8');
+          await fs.promises.writeFile(resolvedFilePath, content, 'utf8');
           console.log(`✅ Updated ${file}`);
         } catch {
           // File does not exist, skip

@@ -16,7 +16,11 @@ async function getMdxFiles(
   baseDir: string,
   results: string[] = [],
 ): Promise<string[]> {
-  const entries = await fs.promises.readdir(dir, { withFileTypes: true });
+  const resolvedDir = path.resolve(dir);
+  if (!resolvedDir.startsWith(path.resolve(baseDir))) {
+    throw new Error("Path traversal detected");
+  }
+  const entries = await fs.promises.readdir(resolvedDir, { withFileTypes: true });
 
   await Promise.all(
     entries.map(async (entry) => {
