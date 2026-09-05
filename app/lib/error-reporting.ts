@@ -2,7 +2,11 @@ const SENSITIVE_KEY_PATTERN = /(?:password|secret|token|key|auth|cred)/i;
 const VERCEL_BLOB_TOKEN_PATTERN = /vercel_blob_rw_[a-zA-Z0-9_-]+/g;
 
 function sanitizeString(data: string): string {
-  return data.replace(VERCEL_BLOB_TOKEN_PATTERN, "[REDACTED_VERCEL_BLOB_TOKEN]");
+  // Performance optimization: Fast-path check using includes() to avoid
+  // expensive regex execution on strings that do not contain Vercel Blob tokens.
+  return data.includes("vercel_blob_rw_")
+    ? data.replace(VERCEL_BLOB_TOKEN_PATTERN, "[REDACTED_VERCEL_BLOB_TOKEN]")
+    : data;
 }
 
 function sanitizeError(data: Error, seen: WeakSet<object>): Error {
