@@ -47,7 +47,7 @@ export function Hero() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <SiGithub className="h-5 w-5" />
+          <SiGithub className="h-5 w-5" aria-hidden="true" />
           GitHub
           <ExternalLink
             className="size-4 text-muted-foreground/80"
