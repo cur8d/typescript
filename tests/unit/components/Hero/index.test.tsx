@@ -29,6 +29,10 @@ describe("Hero Component", () => {
     expect(githubLink).toHaveAttribute("target", "_blank");
     expect(githubLink).toHaveAttribute("rel", "noopener noreferrer");
 
+    const githubIcon = githubLink.querySelector("svg");
+    expect(githubIcon).toBeInTheDocument();
+    expect(githubIcon).toHaveAttribute("aria-hidden", "true");
+
     const externalLinkIcon = githubLink.querySelector(
       "svg.lucide-external-link",
     );
