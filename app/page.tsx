@@ -17,9 +17,7 @@ const JSON_LD_STRING = safeJsonLdStringify(JSON_LD);
 export default function Page() {
   return (
     <div className="flex flex-col gap-20 pb-20">
-      <script type="application/ld+json">
-        {JSON_LD_STRING}
-      </script>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON_LD_STRING }} />
       <Hero />
       <Features />
     </div>
