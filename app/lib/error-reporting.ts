@@ -24,8 +24,6 @@ function sanitizeError(data: Error, seen: WeakSet<object>): Error {
 
 function sanitizeObject(data: Record<string, unknown>, seen: WeakSet<object>): Record<string, unknown> {
   const sanitizedObj: Record<string, unknown> = {};
-  // Performance optimization: Use for...in with Object.hasOwn to avoid intermediate
-  // [key, value] tuple array allocations created by Object.entries(data).
   for (const key in data) {
     if (Object.hasOwn(data, key)) {
       sanitizedObj[key] = SENSITIVE_KEY_PATTERN.test(key)
