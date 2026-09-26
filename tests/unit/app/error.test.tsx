@@ -40,6 +40,17 @@ describe("Error component", () => {
     expect(mockReset).toHaveBeenCalledTimes(1);
   });
 
+  it("ensures decorative icons are hidden from screen readers", () => {
+    const { container } = render(
+      <ErrorComponent error={mockError} reset={mockReset} />
+    );
+    const svgs = container.querySelectorAll("svg");
+    expect(svgs.length).toBeGreaterThan(0);
+    svgs.forEach((svg) => {
+      expect(svg).toHaveAttribute("aria-hidden", "true");
+    });
+  });
+
   it("reloads the page when 'Reload Page' button is clicked", () => {
     const reloadMock = vi.fn();
 
