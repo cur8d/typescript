@@ -4,11 +4,12 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=cur8d.tsx&metric=coverage)](https://sonarcloud.io/summary/new_code?id=cur8d.tsx)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=cur8d.tsx&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=cur8d.tsx)
 
-cur8d is an opinionated, production-ready Next.js starter template optimized for data integration, accessibility, and high performance. It comes with built-in support for toolchain management, automated testing, static documentation, and streamlined deployments.
+cur8d is an opinionated, production-ready Next.js starter template optimized for data integration, accessibility, and high performance. It comes with built-in support for an AI assistant, toolchain management, automated testing, static documentation, and streamlined deployments.
 
 ## Capabilities
 
 - **Interactive Initialization**: A custom template setup script that configures your project's metadata, repository links, hosting options, and cleans up after itself.
+- **Built-in AI Assistant**: Production-ready AI copilot interface powered by `assistant-ui` and Vercel AI SDK, featuring zero-config mock mode, generative UI tools, and voice input (`⌘J` / `Ctrl+J`).
 - **Strict Type-Safety**: Built with TypeScript in strict mode, including runtime verification of environment variables using Zod schemas.
 - **Modern Styling & UI Foundation**: Implemented with Tailwind CSS (using CSS-first configuration and variables) and HeroUI compound components, pre-configured with a system-aware light/dark mode (`next-themes`).
 - **Comprehensive Testing Rigor**: Robust test coverage enforcement (80%+ target) with Vitest for unit/component tests and Playwright for E2E, visual, and accessibility (Axe) audits.
@@ -22,10 +23,12 @@ This project is organized as a monorepo workspace managed by `pnpm`:
 
 ```text
 ├── app/                  # Main Next.js App Router application
+│   ├── api/chat/         # Streaming AI Assistant route handler
 │   ├── components/       # Reusable React components (with barrel exports)
-│   ├── hooks/            # Custom React hooks (e.g., search state)
-│   ├── lib/              # Logic layer, Zod environment schema, SEO JSON-LD helpers, error reporting
-│   ├── layout.tsx        # Root layout with providers configured
+│   │   └── AIAssistant/  # assistant-ui chat interface & generative tools
+│   ├── hooks/            # Custom React hooks (e.g., search state, speech-to-text)
+│   ├── lib/              # Logic layer, AI config/tools, Zod env schemas, error reporting
+│   ├── layout.tsx        # Root layout with providers and AIAssistant mounted
 │   └── globals.css       # Tailwind CSS v4 directives and variables
 ├── docs/                 # Nextra v4 documentation site (pnpm workspace package)
 ├── scripts/              # Template setup and utility scripts
@@ -39,17 +42,17 @@ This project is organized as a monorepo workspace managed by `pnpm`:
 
 ## Tech Stack
 
-The core framework and library stack includes (without version locks):
+The core framework and library stack includes:
 
-- **Framework**: Next.js (App Router, Server Components)
-- **UI Library**: React & Framer Motion
-- **Component Library**: HeroUI (using the compound component dot-notation pattern)
-- **Styling**: Tailwind CSS & PostCSS
-- **Validation**: Zod (environment configuration and schemas)
+- **Framework**: Next.js 16 (App Router, Server Components, Turbopack) & React 19
+- **AI Interface**: assistant-ui (`@assistant-ui/react`), `@assistant-ui/react-ai-sdk` & Vercel AI SDK (`ai`)
+- **Component Library**: HeroUI v3 (using the compound component dot-notation pattern)
+- **Styling**: Tailwind CSS v4 & `@heroui/styles`
+- **Validation**: Zod (environment configuration and tool schemas)
 - **Icons**: Lucide React
 - **Unit Testing**: Vitest with React Testing Library & jsdom
 - **E2E & A11y Testing**: Playwright & `@axe-core/playwright`
-- **Documentation**: Nextra & Markdown (MDX)
+- **Documentation**: Nextra v4 & Markdown (MDX)
 - **Deployments**: Vercel CLI, Render Blueprint & Deploy Hook, and Firebase CLI
 
 ## Quick Start
@@ -117,4 +120,3 @@ Full documentation is available at [https://cur8d.dev/typescript](https://cur8d.
 ## License
 
 MIT
-
