@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { Button } from "@heroui/react";
-import { AlertCircle, RefreshCcw } from "lucide-react";
+import { AlertCircle, RefreshCcw, RotateCcw } from "lucide-react";
 import { reportError } from "@/lib/error-reporting";
 
 export default function Error({
@@ -34,6 +34,7 @@ export default function Error({
           onClick={() => window.location.reload()}
           className="focus-ring rounded-xl px-8"
         >
+          <RotateCcw className="h-4 w-4 mr-2" aria-hidden="true" />
           Reload Page
         </Button>
         <Button
