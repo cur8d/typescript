@@ -6,18 +6,22 @@
 flowchart TD
     User["Developer Prompt / Issue"] --> Agent["AI Agent (Claude Code, Cursor, Antigravity)"]
     Agent --> Registry[".agents/skills/ Index"]
-    
+
     subgraph Skills [".agents/skills/"]
-        R["add-route"]
-        C["add-component"]
-        V["verify-and-fix"]
+        Init["init-project"]
+        Route["add-route"]
+        Comp["add-component"]
+        Deploy["deploy"]
+        Verify["verify-and-fix"]
     end
-    
-    Registry --> R & C & V
-    
-    R -->|"Scaffolds"| Route["app/api/<route>/route.ts<br/>tests/unit/api/<route>.test.ts"]
-    C -->|"Scaffolds"| Comp["app/components/<Component>/<br/>tests/unit/components/<Component>.test.tsx"]
-    V -->|"Executes"| Tasks["mise run verify (eslint + tsc + vitest)"]
+
+    Registry --> Init & Route & Comp & Deploy & Verify
+
+    Init -->|"Executes"| InitScript["scripts/init.ts<br/>package.json, .env.local"]
+    Route -->|"Scaffolds"| RouteCode["app/api/<route>/route.ts<br/>tests/unit/api/<route>.test.ts"]
+    Comp -->|"Scaffolds"| CompCode["app/components/<Comp>/<br/>tests/unit/components/<Comp>.test.tsx"]
+    Deploy -->|"Deploys via"| Host["Firebase / Vercel / Render"]
+    Verify -->|"Executes"| Tasks["mise run verify (eslint + tsc + vitest)"]
 ```
 
 ## Directory Structure
@@ -28,21 +32,41 @@ Skills will be placed in `.agents/skills/` to ensure immediate compatibility wit
 typescript/
 ├── .agents/
 │   └── skills/
+│       ├── init-project/
+│       │   └── SKILL.md
 │       ├── add-route/
 │       │   └── SKILL.md
 │       ├── add-component/
+│       │   └── SKILL.md
+│       ├── deploy/
 │       │   └── SKILL.md
 │       └── verify-and-fix/
 │           └── SKILL.md
 ├── app/
 ├── tests/
+├── scripts/
 ├── package.json
 └── mise.toml
 ```
 
 ## Skill Definitions
 
-### 1. `add-route`
+### 1. `init-project`
+- **Frontmatter**:
+  ```yaml
+  ---
+  name: init-project
+  description: Initializes and customizes a new Next.js project repository from the cur8d/typescript template. Use whenever asked to initialize, bootstrap, or fork this template into a new project.
+  category: system
+  tags: [scaffolding, template, init, nextjs, cur8d]
+  ---
+  ```
+- **Rules**:
+  - Leverages `pnpm tsx scripts/init.ts` or updates `package.json`, `app/layout.tsx`, `render.yaml`.
+  - Copies `.env.example` to `.env.local`.
+  - Runs `pnpm install` and verifies baseline build.
+
+### 2. `add-route`
 - **Frontmatter**:
   ```yaml
   ---
@@ -57,7 +81,7 @@ typescript/
   - Returns structured `NextResponse.json(...)` with consistent status codes.
   - Adds unit/integration test in `tests/unit/api/`.
 
-### 2. `add-component`
+### 3. `add-component`
 - **Frontmatter**:
   ```yaml
   ---
@@ -72,7 +96,21 @@ typescript/
   - Adheres to WCAG 2.1 AA accessibility guidelines (semantic HTML, keyboard focus, ARIA labels).
   - Includes component test in `tests/unit/components/` using `@testing-library/react`.
 
-### 3. `verify-and-fix`
+### 4. `deploy`
+- **Frontmatter**:
+  ```yaml
+  ---
+  name: deploy
+  description: Verifies build and deploys the Next.js application to Firebase Hosting, Vercel, or Render. Use whenever asked to deploy, release, or publish the web application.
+  category: coding
+  tags: [typescript, nextjs, firebase, vercel, deploy, cur8d]
+  ---
+  ```
+- **Rules**:
+  - Mandates running `mise run verify` and `pnpm build` first.
+  - Guides deployment to configured target (`firebase deploy --only hosting`, `vercel deploy --prod`, etc.).
+
+### 5. `verify-and-fix`
 - **Frontmatter**:
   ```yaml
   ---

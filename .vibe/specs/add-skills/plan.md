@@ -1,19 +1,25 @@
 # Implementation Plan: Agent Skills for cur8d TypeScript
 
-Establish structured Agent Skills in `cur8d/typescript` so AI coding agents can reliably build, extend, test, and maintain Next.js 15+ / React 19 / TypeScript applications.
+Establish structured Agent Skills in `cur8d/typescript` so AI coding agents can reliably initialize projects from the template, build App Router routes and components, deploy to hosting providers, and verify code quality.
 
 ## Proposed Changes
 
 ### Skills Scaffolding
 
+#### [NEW] `.agents/skills/init-project/SKILL.md`
+- Instructions for customizing the template into a standalone Next.js project using `scripts/init.ts`.
+
 #### [NEW] `.agents/skills/add-route/SKILL.md`
-- Provide actionable instructions for creating new Next.js App Router API routes and pages with Zod validation, error handling, and unit tests.
+- Instructions for creating new Next.js App Router API routes and pages with Zod validation, error handling, and unit tests.
 
 #### [NEW] `.agents/skills/add-component/SKILL.md`
-- Provide instructions for scaffolding accessible, responsive React components with Tailwind CSS and `@testing-library/react` tests.
+- Instructions for scaffolding accessible, responsive React components with Tailwind CSS and `@testing-library/react` tests.
+
+#### [NEW] `.agents/skills/deploy/SKILL.md`
+- Instructions for pre-deploy verification and deployment to Firebase Hosting, Vercel, or Render.
 
 #### [NEW] `.agents/skills/verify-and-fix/SKILL.md`
-- Provide automated diagnostic and remediation steps for linting (ESLint), type checking (TypeScript), and testing (Vitest, Playwright).
+- Automated diagnostic and remediation steps for linting (ESLint), type checking (TypeScript), and testing (Vitest, Playwright).
 
 ---
 
