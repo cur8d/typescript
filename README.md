@@ -15,6 +15,7 @@ cur8d is an opinionated, production-ready Next.js starter template optimized for
 - **Static Documentation Project**: An integrated documentation workspace powered by Nextra, generating a static site ready for GitHub Pages or Firebase hosting.
 - **Zero-Friction Dev Environment**: Fully managed local development tasks and toolchains via `mise`, including custom alias shortcuts for common git and npm tasks.
 - **Flexible Deployment Targets**: Configured for Serverless deployments on Vercel, Node.js web service on Render, and static site deployment on Firebase Hosting.
+- **Agent Skills**: Built-in modular AI agent skills under `.agents/skills/` compatible with [skills.sh](https://skills.sh), Claude Code, Cursor, and Google Antigravity.
 
 ## Project Structure
 

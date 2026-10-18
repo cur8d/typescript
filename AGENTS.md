@@ -73,3 +73,23 @@ Named imports with Tailwind `size-*` or `h-* w-*` utilities.
 ## 17. Logic & Data layer
 Logic, Zod schemas, structured metadata (`json-ld.ts`), and centralized error reporting (`error-reporting.ts`) in `app/lib/`.
 
+## 18. Agent Skills
+This repository provides built-in modular skills following the open Agent Skills standard under `.agents/skills/`:
+
+| Skill | Purpose | Trigger / Usage |
+| :--- | :--- | :--- |
+| [`init-project`](.agents/skills/init-project/SKILL.md) | Initialize template into a standalone Next.js project | Initializing, bootstrapping, or configuring a new project from this repo |
+| [`add-route`](.agents/skills/add-route/SKILL.md) | Scaffold App Router API route or page with Zod and Vitest | Adding or implementing an API route or page |
+| [`add-component`](.agents/skills/add-component/SKILL.md) | Scaffold accessible UI component with Tailwind and tests | Creating or building a React UI component |
+| [`deploy`](.agents/skills/deploy/SKILL.md) | Verify build and deploy to Firebase, Vercel, or Render | Deploying, releasing, or publishing the web application |
+| [`verify-and-fix`](.agents/skills/verify-and-fix/SKILL.md) | Automated verification (lint, typecheck, test) and error fixing | Verifying, testing, linting, or fixing code quality issues |
+
+To discover or use skills with the `skills` CLI:
+```bash
+# List available skills
+npx skills add cur8d/typescript --list
+
+# Install skills to current project
+npx skills add cur8d/typescript
+```
+
