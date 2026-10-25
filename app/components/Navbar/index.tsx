@@ -39,7 +39,7 @@ export function Navbar() {
             size="sm"
             onClick={toggle}
             className="focus-ring flex items-center gap-1.5 rounded-lg border border-border/80 px-2.5 py-1.5 text-xs font-medium text-foreground hover:bg-secondary"
-            aria-label="Open AI Assistant"
+            aria-label="Ask AI"
           >
             <Bot className="size-3.5 text-primary" />
             <span>Ask AI</span>

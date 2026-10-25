@@ -145,7 +145,7 @@ describe("AIAssistant Components", () => {
           <AIAssistant />
         </AIAssistantProvider>
       );
-      const trigger = screen.getByRole("button", { name: /open ai assistant/i });
+      const trigger = screen.getByRole("button", { name: /ask ai/i });
       expect(trigger).toBeInTheDocument();
       expect(screen.getByText("Ask AI")).toBeInTheDocument();
     });
@@ -166,7 +166,7 @@ describe("AIAssistant Components", () => {
 
         expect(screen.getByText("Ctrl+J")).toBeInTheDocument();
 
-        fireEvent.click(screen.getByRole("button", { name: /open ai assistant/i }));
+        fireEvent.click(screen.getByRole("button", { name: /ask ai/i }));
         expect(screen.getAllByText("Ctrl+J").length).toBeGreaterThan(0);
       } finally {
         Object.defineProperty(navigator, "platform", {
@@ -184,7 +184,7 @@ describe("AIAssistant Components", () => {
         </AIAssistantProvider>
       );
 
-      const trigger = screen.getByRole("button", { name: /open ai assistant/i });
+      const trigger = screen.getByRole("button", { name: /ask ai/i });
       await user.click(trigger);
 
       expect(screen.getByRole("dialog", { name: /ai assistant chat/i })).toBeInTheDocument();
@@ -242,7 +242,7 @@ describe("AIAssistant Components", () => {
         </AssistantTestWrapper>
       );
 
-      const trigger = screen.getByRole("button", { name: /open ai assistant/i });
+      const trigger = screen.getByRole("button", { name: /ask ai/i });
       fireEvent.click(trigger);
       expect(screen.getByRole("dialog")).toBeInTheDocument();
 

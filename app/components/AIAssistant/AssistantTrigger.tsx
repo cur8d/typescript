@@ -135,7 +135,6 @@ export function AssistantTrigger() {
         <button
           type="button"
           onClick={toggle}
-          aria-label="Open AI Assistant"
           aria-expanded={isOpen}
           className="ai-trigger__button"
         >
