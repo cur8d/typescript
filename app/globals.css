@@ -114,6 +114,7 @@
 
   .btn-secondary {
     @apply focus-ring inline-flex items-center justify-center gap-2 rounded-xl border border-border bg-background px-8 py-3 text-sm font-medium transition-colors hover:bg-secondary;
+  }
   /* AI Assistant Components */
   .ai-trigger {
     @apply fixed bottom-6 right-6 z-40;
