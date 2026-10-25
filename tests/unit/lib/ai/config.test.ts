@@ -114,9 +114,11 @@ describe("Mock Provider", () => {
   it.each([
     { prompt: "please switch to dark mode", expectedTool: "setTheme", expectedInput: '{"theme":"dark"}' },
     { prompt: "please switch to light mode", expectedTool: "setTheme", expectedInput: '{"theme":"light"}' },
+    { prompt: "switch theme to system", expectedTool: "setTheme", expectedInput: '{"theme":"system"}' },
     { prompt: "show system info and stack details", expectedTool: "getSystemInfo", expectedInput: "{}" },
     { prompt: "search documentation for testing", expectedTool: "searchDocumentation", expectedInput: '{"query":"documentation for testing"}' },
     { prompt: "show documentation guide", expectedTool: "searchDocumentation", expectedInput: '{"query":"overview"}' },
+    { prompt: "navigate to docs page", expectedTool: "navigatePage", expectedInput: '{"route":"/docs"}' },
   ])(
     "should simulate $expectedTool tool call when prompt is '$prompt'",
     async ({ prompt, expectedTool, expectedInput }) => {
@@ -136,6 +138,23 @@ describe("Mock Provider", () => {
       expect(chunk2.value?.type).toBe("finish");
     }
   );
+
+  it("should ignore system prompt instructions and honor user intent for dark mode", async () => {
+    const model = createMockModel({ simulateTools: true }) as unknown as LanguageModelV3;
+    const res = await model.doStream({
+      prompt: [
+        { role: "system", content: "You are an assistant. setTheme: Use when user requests switching theme (light, dark, or system)." },
+        { role: "user", content: [{ type: "text", text: "Switch theme to dark mode" }] },
+      ],
+    } as unknown as LanguageModelV3CallOptions);
+
+    const reader = res.stream.getReader();
+    const chunk1 = await reader.read();
+    expect(chunk1.value?.type).toBe("tool-call");
+    const toolCall = chunk1.value as Extract<LanguageModelV3StreamPart, { type: "tool-call" }>;
+    expect(toolCall.toolName).toBe("setTheme");
+    expect(toolCall.input).toBe('{"theme":"dark"}');
+  });
 
   it("should stream default welcome chunks for general prompts", async () => {
     const model = createMockModel({ simulateTools: false }) as unknown as LanguageModelV3;

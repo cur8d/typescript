@@ -73,11 +73,22 @@ export const searchDocumentation = tool({
   }),
   execute: async ({ query }: { query: string }) => {
     const q = query.toLowerCase();
+    const keywords = q
+      .split(/\s+/)
+      .filter((w) => w.length > 2 && !["for", "and", "the", "documentation", "guide"].includes(w));
+
     const results = DOCS_CATALOG.filter(
       (item) =>
         item.title.toLowerCase().includes(q) ||
         item.description.toLowerCase().includes(q) ||
-        item.category.toLowerCase().includes(q)
+        item.category.toLowerCase().includes(q) ||
+        (keywords.length > 0 &&
+          keywords.some(
+            (k) =>
+              item.title.toLowerCase().includes(k) ||
+              item.description.toLowerCase().includes(k) ||
+              item.category.toLowerCase().includes(k)
+          ))
     );
 
     return {

@@ -9,7 +9,14 @@ export interface MockModelOptions {
 function extractPromptText(prompt: unknown): string {
   if (typeof prompt === "string") return prompt.toLowerCase();
   if (Array.isArray(prompt)) {
-    return prompt
+    // Filter out non-user messages (e.g. system instructions, tool outputs, previous assistant responses)
+    // to prevent instructions in the system prompt from hijacking user intent detection.
+    const userPrompts = prompt.filter(
+      (msg) => !(typeof msg === "object" && msg !== null && "role" in msg && (msg as { role: unknown }).role !== "user")
+    );
+    const targetPrompts = userPrompts.length > 0 ? userPrompts : prompt;
+
+    return targetPrompts
       .map((msg) => {
         if (typeof msg === "string") return msg;
         if (typeof msg === "object" && msg !== null) {
@@ -53,9 +60,61 @@ export function createMockModel(options: MockModelOptions = {}): LanguageModel {
     doStream: async ({ prompt }) => {
       const text = extractPromptText(prompt);
 
-      // Check for tool triggers if simulateTools is true
-      if (simulateTools && (text.includes("theme") || text.includes("dark") || text.includes("light"))) {
-        const theme = text.includes("light") ? "light" : "dark";
+      // System information tool
+      if (
+        simulateTools &&
+        (text.includes("system info") ||
+          text.includes("system stack") ||
+          text.includes("system specs") ||
+          text.includes("cur8d stack") ||
+          text.includes("tech stack") ||
+          text.includes("getsysteminfo") ||
+          (text.includes("info") && !text.includes("theme")))
+      ) {
+        return {
+          stream: new ReadableStream({
+            start(controller) {
+              controller.enqueue({
+                type: "tool-call",
+                toolCallId: "call_sysinfo_1",
+                toolName: "getSystemInfo",
+                input: JSON.stringify({}),
+              });
+              controller.enqueue({
+                type: "finish",
+                finishReason: { unified: "tool-calls", raw: "tool-calls" },
+                usage: {
+                  inputTokens: { total: 10, noCache: 10, cacheRead: 0, cacheWrite: 0 },
+                  outputTokens: { total: 15, text: 15, reasoning: 0 },
+                },
+              });
+              controller.close();
+            },
+          }),
+          rawCall: { rawPrompt: prompt, rawSettings: {} },
+        };
+      }
+
+      // Theme toggle tool
+      const isThemeRequest =
+        text.includes("dark") ||
+        text.includes("light") ||
+        text.includes("system theme") ||
+        text.includes("system mode") ||
+        (text.includes("theme") && !text.includes("test"));
+
+      if (simulateTools && isThemeRequest) {
+        let theme: "light" | "dark" | "system" = "dark";
+        if (text.includes("system theme") || text.includes("system mode") || (text.includes("theme") && text.includes("system"))) {
+          theme = "system";
+        } else if (text.includes("dark") && text.includes("light")) {
+          theme = text.lastIndexOf("dark") > text.lastIndexOf("light") ? "dark" : "light";
+        } else if (text.includes("light")) {
+          theme = "light";
+        } else {
+          theme = "dark";
+        }
+
         return {
           stream: new ReadableStream({
             start(controller) {
@@ -80,15 +139,16 @@ export function createMockModel(options: MockModelOptions = {}): LanguageModel {
         };
       }
 
-      if (simulateTools && (text.includes("system") || text.includes("info") || text.includes("stack"))) {
+      if (simulateTools && (text.includes("navigate") || text.includes("go to") || text.includes("open page"))) {
+        const route = text.includes("ai") ? "/docs/features/ai-assistant" : text.includes("doc") ? "/docs" : "/";
         return {
           stream: new ReadableStream({
             start(controller) {
               controller.enqueue({
                 type: "tool-call",
-                toolCallId: "call_sysinfo_1",
-                toolName: "getSystemInfo",
-                input: JSON.stringify({}),
+                toolCallId: "call_nav_1",
+                toolName: "navigatePage",
+                input: JSON.stringify({ route }),
               });
               controller.enqueue({
                 type: "finish",

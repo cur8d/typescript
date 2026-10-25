@@ -9,7 +9,7 @@ import {
   AuiIf,
 } from "@assistant-ui/react";
 import { MarkdownTextPrimitive } from "@assistant-ui/react-markdown";
-import { Bot, User, Copy, Check, RotateCcw, ChevronLeft, ChevronRight, Sparkles, BookOpen, Sun, Cpu } from "lucide-react";
+import { Bot, User, Copy, Check, RotateCcw, ChevronLeft, ChevronRight, Sparkles, BookOpen, Moon, Cpu } from "lucide-react";
 import { Composer } from "@/components/AIAssistant/Composer";
 
 export interface CodeBlockProps {
@@ -70,7 +70,7 @@ export function SuggestedPrompts() {
     {
       label: "Switch to dark mode",
       prompt: "Switch theme to dark mode",
-      icon: Sun,
+      icon: Moon,
     },
     {
       label: "Show system info",
