@@ -7,6 +7,7 @@ allowBuilds:
   re2: true
   sharp: true
   unrs-resolver: true
+  workerd: true
 minimumReleaseAgeExclude:
   - '@vercel/backends@2.0.0'
   - '@vercel/build-utils@14.4.0'

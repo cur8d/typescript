@@ -93,6 +93,7 @@ async function main() {
       'app/page.tsx',
       '.firebaserc',
       'render.yaml',
+      'wrangler.json',
       'docs/app/[[...mdxPath]]/layout.tsx',
       'docs/theme.config.jsx',
       'docs/next.config.mjs',
@@ -160,7 +161,7 @@ async function main() {
             content = content.replace(/"name": "docs"/, `"name": "${slug}-docs"`);
           }
 
-          // 4. Firebase & Render project configs
+          // 4. Firebase, Render & Cloudflare project configs
           if (file === '.firebaserc') {
             content = content.replace(/cur8d-vibe/g, `${slug}`);
             content = content.replace(/cur8d-site/g, `${slug}-site`);
@@ -168,6 +169,9 @@ async function main() {
           }
           if (file === 'render.yaml') {
             content = content.replace(/name: cur8d/g, `name: ${slug}`);
+          }
+          if (file === 'wrangler.json') {
+            content = content.replace(/"name": "cur8d"/g, `"name": "${slug}"`);
           }
 
           // 5. Descriptions (must happen before general cur8d replacement)

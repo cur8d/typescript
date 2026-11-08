@@ -59,6 +59,7 @@ Validated via Zod in `app/lib/env.ts`.
 - Vercel: Primary target for SSR site (`mise run deploy:vercel` / `deploy.yml`).
 - Render: Web service target for SSR site (`mise run deploy:render` / `render.yaml` / `deploy.yml`).
 - Firebase Hosting: Alternative target for site and docs (`mise run deploy:firebase`).
+- Cloudflare Pages: Edge static hosting target for site and docs (`mise run deploy:cloudflare` / `wrangler.json` / `deploy.yml`).
 - GitHub Pages: Static documentation hosting (`docs.yml`).
 
 ## 14. HeroUI v3 usage

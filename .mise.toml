@@ -98,6 +98,16 @@ description = "Serve the documentation"
 depends = ["docs:build"]
 run = "pnpm --filter docs start"
 
+[tasks."deploy:cloudflare"]
+description = "Deploy the site to Cloudflare Pages"
+run = """
+if [ "$CLOUDFLARE_ENV" = "production" ]; then
+  pnpm exec wrangler pages deploy out --branch=main
+else
+  pnpm exec wrangler pages deploy out --branch=preview
+fi
+"""
+
 [tasks."deploy:firebase"]
 description = "Deploy the site to Firebase"
 run = """

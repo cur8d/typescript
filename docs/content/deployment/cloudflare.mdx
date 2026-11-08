@@ -1,0 +1,46 @@
+# Cloudflare Pages Deployment
+
+Cloudflare Pages provides fast, secure edge hosting for your application and documentation with global distribution on Cloudflare's network.
+
+## Configuration
+
+Cloudflare Pages project settings and build output configurations are maintained in:
+
+- [`wrangler.json`](file:///Users/amrabed/Library/CloudStorage/OneDrive-Personal/code/cur8d.tsx/wrangler.json): Configures the Pages project name, compatibility date, and build output directory (`out`).
+
+## Automated CI/CD Deployment
+
+Cloudflare deployment is configured in `.github/workflows/deploy.yml`:
+
+- Can be triggered on-demand via `workflow_dispatch` selecting the `cloudflare` provider.
+- Deploys preview or production environments to Cloudflare Pages based on the specified environment.
+
+### Setting up Secrets in GitHub
+
+To enable automated deployments via GitHub Actions:
+1. Log in to the [Cloudflare Dashboard](https://dash.cloudflare.com).
+2. Retrieve your Account ID from the **Workers & Pages** overview or the dashboard sidebar.
+3. Generate an API token with **Cloudflare Pages Edit** permissions under **My Profile** > **API Tokens**.
+4. Add the following repository secrets under `Settings > Secrets and variables > Actions`:
+   - `CLOUDFLARE_API_TOKEN`: Your Cloudflare API token.
+   - `CLOUDFLARE_ACCOUNT_ID`: Your Cloudflare account ID.
+
+## Local Deployment via mise
+
+You can trigger a build and deployment to Cloudflare Pages directly from your terminal using `mise` or `pnpm`:
+
+```bash
+# Deploy to Cloudflare Pages (preview)
+export CLOUDFLARE_API_TOKEN="your_token"
+export CLOUDFLARE_ACCOUNT_ID="your_account_id"
+export CLOUDFLARE_ENV="preview"
+mise run deploy:cloudflare
+
+# Deploy to Cloudflare Pages (production)
+export CLOUDFLARE_ENV="production"
+mise run deploy:cloudflare
+
+# Or using package.json scripts directly
+pnpm run deploy:cloudflare
+pnpm run deploy:cloudflare:docs
+```
