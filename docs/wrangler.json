@@ -1,0 +1,13 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "cur8d-docs",
+  "compatibility_date": "2026-11-09",
+  "assets": {
+    "directory": "out"
+  },
+  "env": {
+    "preview": {
+      "name": "cur8d-docs-preview"
+    }
+  }
+}

@@ -76,7 +76,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: jdx/mise-action@v5
-      - name: Deploy to Cloudflare
+      - name: Deploy to Cloudflare Workers
         run: mise run deploy:cloudflare
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

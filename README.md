@@ -14,7 +14,7 @@ cur8d is an opinionated, production-ready Next.js starter template optimized for
 - **Comprehensive Testing Rigor**: Robust test coverage enforcement (80%+ target) with Vitest for unit/component tests and Playwright for E2E, visual, and accessibility (Axe) audits.
 - **Static Documentation Project**: An integrated documentation workspace powered by Nextra, generating a static site ready for GitHub Pages or Firebase hosting.
 - **Zero-Friction Dev Environment**: Fully managed local development tasks and toolchains via `mise`, including custom alias shortcuts for common git and npm tasks.
-- **Flexible Deployment Targets**: Configured for Serverless deployments on Vercel, Node.js web service on Render, static site deployment on Firebase Hosting, and edge hosting on Cloudflare Pages.
+- **Flexible Deployment Targets**: Configured for Serverless deployments on Vercel, Node.js web service on Render, static site deployment on Firebase Hosting, and edge hosting on Cloudflare Workers.
 - **Agent Skills**: Built-in modular AI agent skills under `.agents/skills/` compatible with [skills.sh](https://skills.sh), Claude Code, Cursor, and Google Antigravity.
 
 ## Project Structure
@@ -35,7 +35,7 @@ This project is organized as a monorepo workspace managed by `pnpm`:
 │   └── e2e/              # E2E and accessibility audits (Playwright)
 ├── .mise.toml            # Toolchain, task definitions, and run shortcuts
 ├── render.yaml           # Render Blueprint specification
-├── wrangler.json         # Cloudflare Pages configuration
+├── wrangler.json         # Cloudflare Workers configuration
 └── pnpm-workspace.yaml   # Monorepo workspaces definition
 ```
 
@@ -52,7 +52,7 @@ The core framework and library stack includes (without version locks):
 - **Unit Testing**: Vitest with React Testing Library & jsdom
 - **E2E & A11y Testing**: Playwright & `@axe-core/playwright`
 - **Documentation**: Nextra & Markdown (MDX)
-- **Deployments**: Vercel CLI, Render Blueprint & Deploy Hook, Firebase CLI, and Cloudflare Wrangler
+- **Deployments**: Vercel CLI, Render Blueprint & Deploy Hook, Firebase CLI, and Cloudflare Workers (Wrangler & OpenNext)
 
 ## Quick Start
 

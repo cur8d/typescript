@@ -94,6 +94,8 @@ async function main() {
       '.firebaserc',
       'render.yaml',
       'wrangler.json',
+      'docs/wrangler.json',
+      'open-next.config.ts',
       'docs/app/[[...mdxPath]]/layout.tsx',
       'docs/theme.config.jsx',
       'docs/next.config.mjs',
@@ -172,6 +174,11 @@ async function main() {
           }
           if (file === 'wrangler.json') {
             content = content.replace(/"name": "cur8d"/g, `"name": "${slug}"`);
+            content = content.replace(/"name": "cur8d-preview"/g, `"name": "${slug}-preview"`);
+          }
+          if (file === 'docs/wrangler.json') {
+            content = content.replace(/"name": "cur8d-docs"/g, `"name": "${slug}-docs"`);
+            content = content.replace(/"name": "cur8d-docs-preview"/g, `"name": "${slug}-docs-preview"`);
           }
 
           // 5. Descriptions (must happen before general cur8d replacement)

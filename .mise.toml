@@ -99,13 +99,10 @@ depends = ["docs:build"]
 run = "pnpm --filter docs start"
 
 [tasks."deploy:cloudflare"]
-description = "Deploy the site to Cloudflare Pages"
+description = "Deploy the site to Cloudflare Workers"
 run = """
-if [ "$CLOUDFLARE_ENV" = "production" ]; then
-  pnpm exec wrangler pages deploy out --branch=main
-else
-  pnpm exec wrangler pages deploy out --branch=preview
-fi
+pnpm exec opennextjs-cloudflare build
+pnpm exec wrangler deploy $([ "$CLOUDFLARE_ENV" = "production" ] || echo "--env preview")
 """
 
 [tasks."deploy:firebase"]
