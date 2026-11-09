@@ -5,6 +5,7 @@
   "assets": {
     "directory": "out"
   },
+  "previews": {},
   "env": {
     "preview": {
       "name": "cur8d-docs-preview"
