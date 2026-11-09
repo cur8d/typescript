@@ -13,10 +13,5 @@
   "build": {
     "command": "opennextjs-cloudflare build"
   },
-  "previews": {},
-  "env": {
-    "preview": {
-      "name": "cur8d-preview"
-    }
-  }
+  "previews": {}
 }
