@@ -41,6 +41,10 @@ description = "Build the project"
 run = "pnpm run build"
 alias = "b"
 
+[tasks."build:worker"]
+description = "Build the Cloudflare Worker"
+run = "pnpm run build:worker"
+
 [tasks.start]
 description = "Start production server"
 run = "pnpm run start"
