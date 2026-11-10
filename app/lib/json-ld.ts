@@ -7,5 +7,5 @@
  * @returns A safe JSON string
  */
 export function safeJsonLdStringify(data: unknown): string {
-  return JSON.stringify(data)?.replace(/</g, "\\u003c") ?? "";
+  return JSON.stringify(data)?.replaceAll("<", String.raw`\u003c`) ?? "";
 }

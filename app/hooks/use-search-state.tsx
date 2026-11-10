@@ -15,7 +15,7 @@ interface SearchContextValue {
 
 const SearchContext = createContext<SearchContextValue | undefined>(undefined);
 
-export function SearchProvider({ children }: { children: ReactNode }) {
+export function SearchProvider({ children }: Readonly<{ children: ReactNode }>) {
   const [isOpen, setIsOpen] = useState(false);
 
   const onOpen = useCallback(() => setIsOpen(true), []);

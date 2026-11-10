@@ -26,10 +26,10 @@ export const metadata: Metadata = {
 };
 
 interface RootLayoutProps {
-  children: React.ReactNode;
+  readonly children: React.ReactNode;
 }
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-background font-sans antialiased`}>
