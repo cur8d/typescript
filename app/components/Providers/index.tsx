@@ -6,10 +6,10 @@ import { useRouter } from "next/navigation";
 import { SearchProvider } from "@/hooks/use-search-state";
 
 interface ProvidersProps {
-  children: React.ReactNode;
+  readonly children: React.ReactNode;
 }
 
-export function Providers({ children }: ProvidersProps) {
+export function Providers({ children }: Readonly<ProvidersProps>) {
   const router = useRouter();
 
   return (

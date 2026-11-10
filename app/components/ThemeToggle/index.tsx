@@ -17,6 +17,14 @@ export function ThemeToggle() {
   const targetTheme = resolvedTheme === "dark" ? "light" : "dark";
   const label = mounted ? `Switch to ${targetTheme} theme` : "Toggle theme";
 
+  const getThemeIcon = () => {
+    if (!mounted) return null;
+    if (resolvedTheme === "dark") {
+      return <Sun className="h-5 w-5" aria-hidden="true" />;
+    }
+    return <Moon className="h-5 w-5" aria-hidden="true" />;
+  };
+
   return (
     <Tooltip delay={200} closeDelay={0}>
       <Tooltip.Trigger
@@ -32,11 +40,7 @@ export function ThemeToggle() {
               if (mounted) setTheme(targetTheme);
             }}
           >
-            {!mounted ? null : resolvedTheme === "dark" ? (
-              <Sun className="h-5 w-5" aria-hidden="true" />
-            ) : (
-              <Moon className="h-5 w-5" aria-hidden="true" />
-            )}
+            {getThemeIcon()}
           </Button>
         )}
       />

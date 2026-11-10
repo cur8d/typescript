@@ -6,10 +6,10 @@ import { Button, Tooltip } from "@heroui/react";
 import { reportError } from "@/lib/error-reporting";
 
 interface CodeSnippetProps {
-  code: string;
+  readonly code: string;
 }
 
-export const CodeSnippet = ({ code }: CodeSnippetProps) => {
+export const CodeSnippet = ({ code }: Readonly<CodeSnippetProps>) => {
   const [copied, setCopied] = useState(false);
   const [hasError, setHasError] = useState(false);
 
@@ -63,7 +63,7 @@ export const CodeSnippet = ({ code }: CodeSnippetProps) => {
               size="sm"
               onClick={(e: React.MouseEvent<Element>) => {
                 props.onClick?.(e);
-                copyToClipboard();
+                void copyToClipboard();
               }}
               className="code-block__button focus-visible:ring-2 focus-visible:ring-primary"
               aria-label={label}

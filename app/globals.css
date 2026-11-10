@@ -93,7 +93,7 @@
   .breadcrumbs__link,
   [cmdk-empty],
   [cmdk-empty=""] {
-    color: hsl(var(--muted-foreground)) !important;
+    color: hsl(var(--muted-foreground));
   }
 
   .code-block {

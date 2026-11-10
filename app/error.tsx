@@ -5,13 +5,13 @@ import { Button } from "@heroui/react";
 import { AlertCircle, RefreshCcw, RotateCcw } from "lucide-react";
 import { reportError } from "@/lib/error-reporting";
 
-export default function Error({
+export default function ErrorPage({
   error,
   reset,
-}: {
+}: Readonly<{
   error: Error & { digest?: string };
   reset: () => void;
-}) {
+}>) {
   useEffect(() => {
     // Log the error to an error reporting service
     reportError(error);
