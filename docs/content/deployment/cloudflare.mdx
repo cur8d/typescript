@@ -14,9 +14,16 @@ Cur8d uses **OpenNext for Cloudflare** (`@opennextjs/cloudflare`) to compile the
 
 Cloudflare Workers settings and bindings are maintained in:
 
-- [`wrangler.json`](../../../wrangler.json): Configures the main application Worker, entry point (`.open-next/worker.js`), build command (`opennextjs-cloudflare build`), Worker previews (`previews`), compatibility date and flags (`nodejs_compat`), static assets directory (`.open-next/assets`), and environment configurations.
+- [`wrangler.json`](../../../wrangler.json): Configures the main application Worker, entry point (`.open-next/worker.js`), build command (`opennextjs-cloudflare build`), Worker previews (`previews`), compatibility date and flags (`nodejs_compat`), and static assets directory (`.open-next/assets`).
 - [`open-next.config.ts`](../../../open-next.config.ts): OpenNext build configuration for Cloudflare adapter optimizations.
 - [`docs/wrangler.json`](../../../docs/wrangler.json): Configures the documentation Worker using native static assets (`docs/out`).
+
+### Cloudflare Workers Builds (Git Integration)
+
+When connecting your GitHub repository to Cloudflare Workers Builds for automated continuous deployment on push/PR:
+
+- **Build command**: `pnpm run build:worker` (or `mise run build:worker`)
+- **Deploy command**: `npx wrangler deploy` (production) / `npx wrangler preview` (previews)
 
 ## Automated CI/CD Deployment
 

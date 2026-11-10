@@ -41,6 +41,10 @@ description = "Build the project"
 run = "pnpm run build"
 alias = "b"
 
+[tasks."build:worker"]
+description = "Build the Cloudflare Worker"
+run = "pnpm run build:worker"
+
 [tasks.start]
 description = "Start production server"
 run = "pnpm run start"
@@ -101,8 +105,11 @@ run = "pnpm --filter docs start"
 [tasks."deploy:cloudflare"]
 description = "Deploy the site to Cloudflare Workers"
 run = """
-pnpm exec opennextjs-cloudflare build
-pnpm exec wrangler deploy $([ "$CLOUDFLARE_ENV" = "production" ] || echo "--env preview")
+if [ "$CLOUDFLARE_ENV" = "preview" ]; then
+  pnpm exec wrangler preview
+else
+  pnpm exec wrangler deploy
+fi
 """
 
 [tasks."deploy:firebase"]
