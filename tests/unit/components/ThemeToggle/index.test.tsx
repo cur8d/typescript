@@ -14,7 +14,7 @@ describe("ThemeToggle", () => {
     vi.clearAllMocks();
   });
 
-  it("renders correctly with target theme label", () => {
+  it("renders correctly with target theme label when theme is light", () => {
     (useTheme as Mock).mockReturnValue({
       resolvedTheme: "light",
       setTheme,
@@ -41,7 +41,7 @@ describe("ThemeToggle", () => {
     expect(setTheme).toHaveBeenCalledWith("dark");
   });
 
-  it("shows correct label when theme is dark", () => {
+  it("shows correct label and icon when theme is dark", () => {
     (useTheme as Mock).mockReturnValue({
       resolvedTheme: "dark",
       setTheme,
@@ -52,5 +52,8 @@ describe("ThemeToggle", () => {
     // When dark, it should suggest switching to light
     const button = screen.getByLabelText("Switch to light theme");
     expect(button).toBeInTheDocument();
+
+    fireEvent.click(button);
+    expect(setTheme).toHaveBeenCalledWith("light");
   });
 });
